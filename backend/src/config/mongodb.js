@@ -1,17 +1,16 @@
 // db connection
 require("dotenv").config({path: "env/local.env"});
 
-const {MongoClient} = require("mongodb");
+const mongoose = require("mongoose");
 
-// Create Instance of MongoClient for mongodb
-const client = new MongoClient(process.env.MONGODB_URI);
-
-// Connect to database
-client
-    .connect()
-    .then(()=>{
-        console.log("DB Connected Successfully")
+mongoose
+    .connect(process.env.MONGODB_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
     })
-    .catch((err)=>{
-        console.log("Failed to connect",err);
-    });
+    .then(() => {
+        console.log('Database connection successful')
+    })
+    .catch(err => {
+       console.error('Database connection error')
+    })
