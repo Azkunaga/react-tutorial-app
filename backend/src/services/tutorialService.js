@@ -10,12 +10,12 @@ const partPuntuatu = () => {
     
 }
 
-const postPart = () => {
+const addPart = () => {
 
 }
 
 module.exports = {
     getPart,
     partPuntuatu,
-    postPart,
+    addPart,
 }
