@@ -1,15 +1,16 @@
 //require("./config/mongodb");
 
-const app = require("express");
+const express = require('express');
+const server = express();
 
 const loginRoute = require("./routes/loginRoute");
-const registerRoute = require("./routes/registerRoute");
-const chatGPTRoute = require("./routes/chatGPTRoute");
+//const registerRoute = require("./routes/registerRoute");
+//const chatGPTRoute = require("./routes/chatGPTRoute");
 
-app.use(express.json())
+server.use(express.json())
 
-app.use('/login', loginRoute);
-app.use('/register', registerRoute);
-app.use('/chatGPT', chatGPTRoute);
+server.use('/api/login', loginRoute);
+server.use('/api/register', registerRoute);
+//server.use('/api/chatGPT', chatGPTRoute); 
 
-module.exports = app;
+module.exports = server;

@@ -3,7 +3,8 @@ require("dotenv").config({path: "env/local.env"});
 
 const mongoose = require("mongoose");
 
-mongoose
+const connection = () => {
+    mongoose
     .connect(process.env.MONGODB_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -14,5 +15,6 @@ mongoose
     .catch(err => {
        console.error('Database connection error')
     })
+}
 
-module.exports = mongoose;
+module.exports = connection;

@@ -1,4 +1,4 @@
-const loginValidator = (req,res, next) =>{
+const loginValidator = (req, res, next) =>{
 
     //user
     let user = req.body.user;
