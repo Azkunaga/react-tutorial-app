@@ -6,17 +6,17 @@ let userSchema = new mongoose.Schema({
     unique: true,
     required: true,
   },
+  password: {
+    type: String,
+    minlength: 6,
+    required: true,
+  },
   firstName: {
     type: String,
     required: true,
   },
   lastName: {
     type: String,
-    required: true,
-  },
-  password: {
-    type: String,
-    minlength: 6,
     required: true,
   },
   email: {

@@ -9,8 +9,8 @@ const loginRoute = require("./routes/loginRoute");
 
 server.use(express.json())
 
-server.use('/api/login', loginRoute);
-server.use('/api/register', registerRoute);
+server.use('/api/auth/login', loginRoute);
+server.use('/api/auth/register', registerRoute);
 //server.use('/api/chatGPT', chatGPTRoute); 
 
 module.exports = server;
