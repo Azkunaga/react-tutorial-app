@@ -1,16 +1,15 @@
-require('dotenv').config({path: "env/local.env"})
-
 const express = require('express');
 
-const getPart = () => {
+//app
+const getPart = async (req,res) => {
 
 }
-
-const partPuntuatu = () => {
+//app
+const partPuntuatu = async (req,res) => {
     
 }
-
-const addPart = () => {
+//admin galdera berriak sartzeko
+const addPart = async (req,res) => {
 
 }
 
