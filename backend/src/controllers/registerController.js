@@ -17,7 +17,7 @@ const register = async (req, res, next) => {
             user
           })
       }
-    } catch (err) {
+    } catch (error) {
       res.status(500).send({
         error: error.mesage,
       })

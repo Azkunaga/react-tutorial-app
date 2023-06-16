@@ -1,7 +1,7 @@
 let mongoose = require('mongoose');
 
 let questionSchema = new mongoose.Schema({
-  tutorialPart:String,
+  topic:String,
   question:String,
   valid:Boolean,
 });

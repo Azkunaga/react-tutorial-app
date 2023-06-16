@@ -1,7 +1,6 @@
 const express = require('express');
 
 const tutorialPart = require('../models/tutorialPart');
-const valoration = require('../models/valoration');
 
 const mongodbConnection = require('../config/mongodb');
 
@@ -15,25 +14,32 @@ const getPart = (topic,part) => {
     }
 }
 
-const galderaPuntutatu = (question,stars) => {
+const addPart = (topic,part,question,) => {
     try{
         mongodbConnection();
-        valoration.create({
-            questionId:question,
-            value:stars,
+        tutorialPart.create({
+            topic:topic,
+            part:part,
+            text:question,
         })
-        return valoration;
     }catch(error){
         console.log(error.message)
     }
 }
 
-const addPart = (question,topic) => {
-    
+const deletePart = (partId) => {
+    try{
+        mongodbConnection();
+        tutorialPart.deleteOne({
+            id:partId,
+        })
+    }catch(error){
+        console.log(error.message)
+    }
 }
 
 module.exports = {
     getPart,
-    galderaPuntutatu,
     addPart,
+    deletePart,
 }
