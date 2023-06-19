@@ -15,14 +15,16 @@ const valueQuestion = async (question,stars) => {
     }
 }
 
-const getQuestions = async (topic,part) => {
+//TODO
+const getQuestion = async (topic,part,user) => {
     try{
         mongodbConnection();
-        question.create({
+        const quest = question.find({
             topic:topic,
-            question:question,
+            part:part,
             valid:false,
         })  
+        return quest;
     }catch(error){
         console.log(error.message)
     }
@@ -65,7 +67,7 @@ const deleteQuestion = async (questionID) => {
 
 module.exports = {
     valueQuestion,
-    getQuestions,
+    getQuestion,
     addQuestion,
     validQuestion,
     deleteQuestion,
