@@ -33,11 +33,12 @@ const getQuestion = async (topic,part,user) => {
 const addQuestion = async (topic,question) => {
     try{
         mongodbConnection();
-        question.create({
+        const quest = question.create({
             topic:topic,
             question:question,
             valid:false,
-        })  
+        }) 
+        return quest; 
     }catch(error){
         console.log(error.message)
     }
