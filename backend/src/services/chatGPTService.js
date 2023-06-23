@@ -20,7 +20,29 @@ const getAnswerToQuestion = async (question) => {
 const createQuestion = async (topic,type) => {
     try{
         const system = prompts.systemRole;
-        const question = prompts.type + topic;
+        let question = "";
+        switch (topic) {
+            case "fillGaps1":
+                question = prompts.fillEx + topic + prompts.fillSameOptionsEx;
+                break;
+            case "fillGaps2":
+                question = prompts.fillEx + topic + prompts.fillMoreOptionsEx;
+                break;
+            case "code":
+                question = prompts.codeEx + topic;
+                break;
+            case "test1":
+                question = prompts.testEx + topic + prompts.testExTrueFalse;
+                break;
+            case "test2":
+                question = prompts.testEx + topic + prompts.testOneEx;
+                break;
+            case "test3":
+                question = prompts.testEx + topic + prompts.testMultipleEx;
+                break;
+            default:
+                break;
+        }
         const completion = await openai.createChatCompletion({
             model: "gpt-3.5-turbo",
             messages: [
