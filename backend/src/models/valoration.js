@@ -1,7 +1,7 @@
 let mongoose = require('mongoose');
 
 let valorationSchema = new mongoose.Schema({
-  questionId:String,
+  question:{type: mongoose.Types.ObjectId, ref: "Question"},
   value:Number,
 });
 
