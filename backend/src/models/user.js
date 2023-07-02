@@ -23,6 +23,10 @@ let userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  code: {
+    type: String,
+    required: false,
+  },
   role: {
     type: String,
     required: true,

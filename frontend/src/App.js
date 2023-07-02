@@ -1,13 +1,13 @@
 import './App.css';
-import routes from './routes';
+import Register from './pages/register';
+import {appRoutes} from './routes/index';
 
 const App = () => {
   return (
-    <div className="App">
-      <main className="App">
-        {routes}
+    <main className="App">
+        <Register/>
+        <appRoutes/>
 		</main>
-    </div>
   );
 }
 
