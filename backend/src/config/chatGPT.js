@@ -7,4 +7,4 @@ const configuration = new Configuration({
 
 const openai = new OpenAIApi(configuration);
 
-model.export = openai
+module.export = openai;

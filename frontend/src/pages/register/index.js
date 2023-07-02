@@ -82,8 +82,8 @@ const Register = () => {
             return;
         }
         try {
-            const response = await axios.post('/register',
-                JSON.stringify({ firstName, lastName, user, email, pwd, code }),
+            const response = await axios.post('/api/auth/register',
+                JSON.stringify({ firstName, lastName, username:user, email, pwd, code }),
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
@@ -95,13 +95,19 @@ const Register = () => {
 
             setPwd('');
             setMatchPwd('');
+            setUser('');
+            setFirstName('');
+            setLastName('');
+            setEmail('');
+
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');
             } else if (err.response?.status === 409) {
-                setErrMsg('Username Taken');
+                console.log(err);
+                setErrMsg(err.response.data.message);
             } else {
-                setErrMsg('Registration Failed')
+                setErrMsg(err.response.data.message);
             }
             errRef.current.focus();
         }

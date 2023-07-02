@@ -5,6 +5,6 @@ const registerValidator = require('../validators/registerValidator');
 
 const router = express.Router();
 
-router.post("/", registerValidator, register);
+router.post("/", registerValidator.checkDuplicateUsernameOrEmail, register);
 
 module.exports = router;
