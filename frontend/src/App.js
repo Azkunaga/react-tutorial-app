@@ -1,13 +1,10 @@
 import './App.css';
-import Register from './pages/register';
-import {appRoutes} from './routes/index';
-
+import AppRoutes from './routes';
 const App = () => {
   return (
     <main className="App">
-        <Register/>
-        <appRoutes/>
-		</main>
+      <AppRoutes></AppRoutes>
+    </main>
   );
 }
 

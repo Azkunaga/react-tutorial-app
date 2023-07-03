@@ -2,17 +2,16 @@ const {registerUser} = require('../services/registerService');
 
 const register = async (req, res, next) => {
   try {
-    const {username, pwd, firstName, lastName, email, role, startedAt} = req.body;
-    const user = await registerUser(username, pwd, firstName, lastName, email, role, startedAt);
+    const {username, pwd, firstName, lastName, email, role} = req.body;
+    const user = await registerUser(username, pwd, firstName, lastName, email, role);
     if(!user){
       res.status(401).send({
           message: "User not registered",
-          error: error.mesage,
         })
     }else{
       res.status(200).send({
           message: "User registered succesfully",
-          user
+          user,
         })
     }
   } catch (error) {

@@ -1,8 +1,6 @@
-body {
+  body {
     align-items: center;
-    margin-top: 100px;
-    margin-bottom: 100px;
-    background-color: #9d9494;
+    background-color: #232741;
     display: flex;
     justify-content: center;
     height: 100vh;
@@ -12,12 +10,17 @@ body {
     border-radius: 20px;
     box-sizing: border-box;
     width: 400px;
-    height: auto;
     min-height: 400px;
     flex-direction: column;
-    padding: 1rem;
+    padding: 2rem;
     background-color: #15172b;
 }
+
+.regForm{
+    margin-top: 13rem;
+    margin-bottom: 2rem;
+}
+
 
 form {
     display: flex;

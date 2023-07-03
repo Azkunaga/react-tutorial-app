@@ -1,22 +1,24 @@
 import './style.css';
 import axios from '../../api/axios'
+import { useNavigate } from "react-router-dom";
 import {useRef,useState,useEffect} from 'react';
 import {faInfoCircle} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'  
+import regex from '../../utils/regex';
 
 
-const USER_REG = /^[A-z][A-z0-9-_]{3,23}$/;
-const PWD_REG = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-const NAME_REG = /^[A-Z][a-z]*$/;
-const EMAIL_REG = /^[A-z0-9-_][A-z0-9-_]*\@[a-z][a-z]*\.[a-z]{2,3}$/;
+//const USER_REG = /^[A-z][A-z0-9-_]{3,23}$/;
+//const PWD_REG = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+//const NAME_REG = /^[A-Z][a-z]*$/;
+//const EMAIL_REG = /^[A-z0-9-_][A-z0-9-_]*\@[a-z][a-z]*\.[a-z]{2,3}$/;
 
 const Register = () => {
-    const userRef = useRef(); 
+    const usernameRef = useRef(); 
     const errRef = useRef();
 
-    const [user, setUser] = useState("");
-    const [validUser, setValidUser] = useState(false);
-    const [userFocus, setUserFocus] = useState(false);
+    const [username, setUsername] = useState("");
+    const [validUsername, setValidUsername] = useState(false);
+    const [usernameFocus, setUsernameFocus] = useState(false);
 
     const [pwd, setPwd] = useState("");
     const [validPwd, setValidPwd] = useState(false);
@@ -44,61 +46,62 @@ const Register = () => {
     const [errMsg, setErrMsg] = useState('');
 
     useEffect(() => {
-        userRef.current.focus();
+        usernameRef.current.focus();
     }, [])
 
     useEffect(() => {
-        setValidFirstName(NAME_REG.test(firstName));
+        setValidFirstName(regex.NAME_REG.test(firstName));
     }, [firstName])
 
     useEffect(() => {
-        setValidLastName(NAME_REG.test(lastName));
+        setValidLastName(regex.NAME_REG.test(lastName));
     }, [lastName])
 
     useEffect(() => {
-        setValidEmail(EMAIL_REG.test(email));
+        setValidEmail(regex.EMAIL_REG.test(email));
     }, [email])
 
     useEffect(() => {
-        setValidUser(USER_REG.test(user));
-    }, [user])
+        setValidUsername(regex.USER_REG.test(username));
+    }, [username])
 
     useEffect(() => {
-        setValidPwd(PWD_REG.test(pwd));
+        setValidPwd(regex.PWD_REG.test(pwd));
         setValidMatch(pwd === matchPwd);
     }, [pwd, matchPwd])
 
     useEffect(() => {
         setErrMsg('');
-    }, [firstName, lastName, user, pwd, matchPwd, email])
+    }, [firstName, lastName, username, pwd, matchPwd, email])
+
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // if button enabled with JS hack
-        const v1 = USER_REG.test(user);
-        const v2 = PWD_REG.test(pwd);
+        const v1 = regex.USER_REG.test(username);
+        const v2 = regex.PWD_REG.test(pwd);
         if (!v1 || !v2) {
             setErrMsg("Invalid Entry");
             return;
         }
         try {
             const response = await axios.post('/api/auth/register',
-                JSON.stringify({ firstName, lastName, username:user, email, pwd, code }),
+                JSON.stringify({ firstName, lastName, username, email, pwd, code }),
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
                 }
             );
             console.log(response?.data);
-            console.log(response?.accessToken);
-            console.log(JSON.stringify(response))
 
             setPwd('');
             setMatchPwd('');
-            setUser('');
+            setUsername('');
             setFirstName('');
             setLastName('');
             setEmail('');
+
+            navigate('/login');
 
         } catch (err) {
             if (!err?.response) {
@@ -114,9 +117,9 @@ const Register = () => {
     }
 
     return (
-        <section>
+        <section className='regForm'>
             <form onSubmit={handleSubmit}>
-                <div class="title">Register</div>
+                <div className="title">Register</div>
                 <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
 
                 <div className='input-container ic1'>
@@ -124,20 +127,20 @@ const Register = () => {
                         placeholder="   "
                         type="text"
                         id="username"
-                        ref={userRef}
+                        ref={usernameRef}
                         autoComplete="off"
-                        value={user}
+                        value={username}
                         required
-                        aria-invalid={validUser ? "false" : "true"}
+                        aria-invalid={validUsername ? "false" : "true"}
                         aria-describedby="nameNote"
-                        onChange={(e) => setUser(e.target.value)}
-                        onFocus={() => setUserFocus(true)}
-                        onBlur={() => setUserFocus(false)} 
+                        onChange={(e) => setUsername(e.target.value)}
+                        onFocus={() => setUsernameFocus(true)}
+                        onBlur={() => setUsernameFocus(false)} 
                     />
-                    <div class="cut"></div>
-                    <label htmlFor='username' className={ (user && validUser ? "placeholder valid" : "placeholder") }>Username*</label>
+                    <div className="cut"></div>
+                    <label htmlFor='username' className={ (username && validUsername ? "placeholder valid" : "placeholder") }>Username*</label>
                 </div>
-                <p id="nameNote" className={userFocus && user && !validUser ? "instructions" : "offscreen"}>
+                <p id="nameNote" className={usernameFocus && username && !validUsername ? "instructions" : "offscreen"}>
                         <FontAwesomeIcon icon={faInfoCircle} />
                             4 to 24 characters.<br />
                             Must begin with a letter.<br />
@@ -158,7 +161,7 @@ const Register = () => {
                         onFocus={() => setFirstNameFocus(true)}
                         onBlur={() => setFirstNameFocus(false)}
                     />
-                    <div class="cut"></div>
+                    <div className="cut"></div>
                     <label htmlFor="firstName" className={ (firstName && validFirstName ? "placeholder valid" : "placeholder") }>First Name*</label>
                 </div>
                 <p id="firstNote" className={firstNameFocus && firstName && !validFirstName ? "instructions" : "offscreen"}>
@@ -180,7 +183,7 @@ const Register = () => {
                     onFocus={() => setLastNameFocus(true)}
                     onBlur={() => setLastNameFocus(false)}
                 />
-                <div class="cut"></div>
+                <div className="cut"></div>
                 <label htmlFor="lastName" className={ (lastName && validLastName ? "placeholder valid" : "placeholder") } >Last Name*</label>
                 </div>
                 <p id="lastNote" className={lastNameFocus && lastName && !validLastName ? "instructions" : "offscreen"}>
@@ -201,7 +204,7 @@ const Register = () => {
                         onFocus={() => setEmailFocus(true)}
                         onBlur={() => setEmailFocus(false)}
                     />
-                    <div class="cut cut-short"></div>
+                    <div className="cut cut-short"></div>
                     <label htmlFor='email'  className={ (email && validEmail ? "placeholder valid" : "placeholder") }>
                         Email*
                     </label>
@@ -220,7 +223,7 @@ const Register = () => {
                         onFocus={() => setPwdFocus(true)}
                         onBlur={() => setPwdFocus(false)}
                     />
-                    <div class="cut"></div>
+                    <div className="cut"></div>
                      <label htmlFor="password" className={ (pwd && validPwd ? "placeholder valid" : "placeholder") }>
                         Password*
                     </label>
@@ -246,7 +249,7 @@ const Register = () => {
                         onFocus={() => setMatchFocus(true)}
                         onBlur={() => setMatchFocus(false)}
                     />
-                     <div class="cut cut-long"></div>
+                     <div className="cut cut-long"></div>
                     <label htmlFor="confirm_pwd"  className={ (matchPwd && validMatch ? "placeholder valid" : "placeholder") }>
                         Confirm Password*
                     </label>
@@ -267,7 +270,7 @@ const Register = () => {
                         onFocus={() => setCodeFocus(true)}
                         onBlur={() => setCodeFocus(false)}
                     />
-                    <div class="cut"></div> 
+                    <div className="cut"></div> 
                      <label htmlFor="classCode" className='placeholder normal'>
                         Class Code
                     </label>
@@ -276,7 +279,7 @@ const Register = () => {
                         <FontAwesomeIcon icon={faInfoCircle} />
                         In case you have a class code to be monitored.
                 </p>
-                <button disabled={(!validUser || !validPwd || !validMatch || !validFirstName || !validLastName || !validEmail) ? true : false}>Register</button>
+                <button disabled={(!validUsername || !validPwd || !validMatch || !validFirstName || !validLastName || !validEmail) ? true : false}>Register</button>
                 <br/>
                 <p className='login'>
                     Already have an account?&nbsp;

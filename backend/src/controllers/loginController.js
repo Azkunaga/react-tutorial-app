@@ -3,18 +3,21 @@ require('dotenv').config({path: "env/local.env"})
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 
-const searchUser = require('../services/loginService');
+const { searchUser } = require('../services/loginService');
 
-const login = async (req,res) => {
+const login = async (req,res,next) => {
     //db comprobation
     try{
-        const user = await searchUser(req.body.username);
+        console.log("LoginController");
+        const {username} = req.body;
+        const user = await searchUser(username);
+
         if(!user){
-            res.status(404).send({ message: "User Not found." });
+            res.status(409).send({ message: "User Not found." });
         }else{
             //compare password
             var passwordIsValid = bcrypt.compareSync(
-                req.body.password,
+                req.body.pwd,
                 user.password
               );
         
@@ -25,22 +28,21 @@ const login = async (req,res) => {
                 });
               }
         
-              var token = jwt.sign({ id: user.id },  process.env.SECRET, {
-                expiresIn: 86400 // 24 hours
-              });
+              //var token = jwt.sign({ id: user.id },  process.env.SECRET, {
+              //  expiresIn: 86400 // 24 hours
+              //});
 
               res.status(200).send({
                 id: user.id,
                 username: user.username,
-                email: user.email,
                 roles: user.role, //TODO
-                accessToken: token
+                //accessToken: token //TODO
               });
 
         }
     }catch(error){
         res.status(500).send({
-            error: error.mesage,
+            message: error.mesage,
           })
     }
 }

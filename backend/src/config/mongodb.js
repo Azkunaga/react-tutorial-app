@@ -3,7 +3,7 @@ require("dotenv").config({path: "env/local.env"});
 
 const mongoose = require("mongoose");
 
-const connection = () => {
+const connection = async () => {
     mongoose
     .connect(process.env.MONGODB_URI, {
         useNewUrlParser: true,

@@ -1,21 +1,17 @@
 const loginValidator = (req, res, next) =>{
 
     //user
-    let user = req.body.user;
+    let user = req.body.username;
     if(!user){
-       return res.json({
-        successful:false,
-        error: {text: ['User/Email is required']}
-       })
+      res.status(404).send({ message: "User is required." });
+      return;
     }
 
     //password
-    let password = req.body.password;
+    let password = req.body.pwd;
     if(!password){
-       return res.json({
-        successful:false,
-        error: {text: ['Password is required']}
-       })
+      res.status(404).send({ message: "Password is required." });
+      return;
     }
 
     //controller

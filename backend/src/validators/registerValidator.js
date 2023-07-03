@@ -1,11 +1,10 @@
 const user = require('../models/user');
 const mongodbConnection = require('../config/mongodb');
+const {registerUser} = require('../services/registerService');
 
 checkDuplicateUsernameOrEmail = (req, res, next) => {
     // Username
     mongodbConnection();
-    console.log(user.find({username:req.body.username}));
-    return;
     user.findOne({
       username: req.body.username
     }).then((u) => {
@@ -16,8 +15,8 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
       // Email
       user.findOne({
         email: req.body.email
-      }).then((us) => {
-        if (us) {
+      }).then((u) => {
+        if (u) {
           res.status(409).send({ message: "Failed! Email is already in use!" });
           return;
         }
