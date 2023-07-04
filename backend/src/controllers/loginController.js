@@ -21,22 +21,27 @@ const login = async (req,res,next) => {
                 user.password
               );
         
-              if (!passwordIsValid) {
-                return res.status(401).send({
-                  accessToken: null,
-                  message: "Invalid Password!"
+            if (!passwordIsValid) {
+              return res.status(401).send({
+                accessToken: null,
+                message: "Invalid Password!"
                 });
               }
         
-              //var token = jwt.sign({ id: user.id },  process.env.SECRET, {
-              //  expiresIn: 86400 // 24 hours
-              //});
+            const token = jwt.sign(
+                { id: user._id, username, role: user.role },
+                jwtSecret,
+                {
+                  expiresIn: maxAge, // 3hrs in sec
+                }
+              );
+            res.cookie("jwt", token, {
+              httpOnly: true,
+              maxAge: maxAge * 1000, // 3hrs in ms
+              });
 
-              res.status(200).send({
-                id: user.id,
-                username: user.username,
-                roles: user.role, //TODO
-                //accessToken: token //TODO
+            res.status(200).send({
+              user: user.id,
               });
 
         }

@@ -6,6 +6,8 @@ const server = express();
 const cors = require('cors');
 const corsOptions = require('./config/corsOptions');
 
+const {adminAuth, studentAuth, teacherAuth} = require('../src/validators/authValidator')
+
 const loginRoute = require("./routes/loginRoute");
 const registerRoute = require("./routes/registerRoute");
 const tutorialRoute = require('./routes/tutorialRoute');
