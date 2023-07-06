@@ -1,3 +1,4 @@
+require('dotenv').config({path: "env/.env.local"})
 const server = require("./server");
 
 const port = process.env.DEV_PORT || 3000;
