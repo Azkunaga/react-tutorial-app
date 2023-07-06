@@ -107,7 +107,6 @@ const Register = () => {
             if (!err?.response) {
                 setErrMsg('No Server Response');
             } else if (err.response?.status === 409) {
-                console.log(err);
                 setErrMsg(err.response.data.message);
             } else {
                 setErrMsg(err.response.data.message);

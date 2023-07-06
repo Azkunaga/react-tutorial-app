@@ -27,7 +27,7 @@ const login = async (req,res,next) => {
                 message: "Invalid Password!"
                 });
               }
-        
+
             const token = jwt.sign(
                 { id: user._id, username, role: user.role },
                 jwtSecret,
@@ -42,6 +42,9 @@ const login = async (req,res,next) => {
 
             res.status(200).send({
               user: user.id,
+              username:username,
+              role: user.role,
+              accessToken: token,
               });
 
         }

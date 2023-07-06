@@ -1,10 +1,18 @@
 import React from 'react'
+import {useRef,useState,useEffect} from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import axios from '../../api/axios'
-import {useRef,useState,useEffect} from 'react';
 import regex from '../../utils/regex';
+import useAuth from '../../hooks/useAuth';
 
 const Login = () => {
+    const { setAuth } = useAuth();
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
+
     const usernameRef = useRef();
     const errRef = useRef();
 
@@ -38,16 +46,23 @@ const Login = () => {
             );
             console.log(response?.data);
 
+            const role = response?.data?.role;
+            const accesToken = response?.data?.accesToken;
+            setAuth({username,pwd,role,accesToken})
+
             setPwd('');
             setUsername('');
 
-
+            navigate(from, {replace:true});
 
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');
             } else if (err.response?.status === 409) {
-                console.log(err);
+                setErrMsg(err.response.data.message);
+            } else if (err.response?.status === 401) {
+                setErrMsg(err.response.data.message);
+            } else if (err.response?.status === 401) {
                 setErrMsg(err.response.data.message);
             } else {
                 setErrMsg(err.response.data.message);

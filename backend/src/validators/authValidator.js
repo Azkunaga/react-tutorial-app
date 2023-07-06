@@ -19,7 +19,7 @@ const adminAuth = (req, res, next) => {
         }
       })
     } else {
-      return res.status(401)
+      return res.status(403)
         .send({ message: "Not authorized, token not available" })
     }
   }
@@ -39,7 +39,7 @@ const adminAuth = (req, res, next) => {
           }
         })
       } else {
-        return res.status(401)
+        return res.status(403)
           .send({ message: "Not authorized, token not available" })
       }
     }
@@ -59,7 +59,7 @@ const adminAuth = (req, res, next) => {
             }
           })
         } else {
-          return res.status(401)
+          return res.status(403)
             .send({ message: "Not authorized, token not available" })
         }
       }
