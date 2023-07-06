@@ -9,7 +9,7 @@ const adminAuth = (req, res, next) => {
     if (token) {
       jwt.verify(token, jwtSecret, (err, decodedToken) => {
         if (err) {
-          return res.status(401).send({ message: "Not authorized" })
+          return res.status(403).send({ message: "Not authorized" })
         } else {
           if (decodedToken.role !== "admin") {
             return res.status(401).send({ message: "Not authorized" })
@@ -29,7 +29,7 @@ const adminAuth = (req, res, next) => {
       if (token) {
         jwt.verify(token, jwtSecret, (err, decodedToken) => {
           if (err) {
-            return res.status(401).send({ message: "Not authorized" })
+            return res.status(403).send({ message: "Not authorized" })
           } else {
             if (decodedToken.role !== "student") {
               return res.status(401).send({ message: "Not authorized" })
@@ -49,7 +49,7 @@ const adminAuth = (req, res, next) => {
         if (token) {
           jwt.verify(token, jwtSecret, (err, decodedToken) => {
             if (err) {
-              return res.status(401).send({ message: "Not authorized" })
+              return res.status(403).send({ message: "Not authorized" })
             } else {
               if (decodedToken.role !== "teacher") {
                 return res.status(401).send({ message: "Not authorized" })

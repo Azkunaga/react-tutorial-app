@@ -16,12 +16,12 @@ const login = async (req,res,next) => {
             res.status(409).send({ message: "User Not found." });
         }else{
             //compare password
-            var passwordIsValid = bcrypt.compareSync(
+            var validPassword = bcrypt.compareSync(
                 req.body.pwd,
                 user.password
               );
         
-            if (!passwordIsValid) {
+            if (!validPassword) {
               return res.status(401).send({
                 accessToken: null,
                 message: "Invalid Password!"
@@ -29,15 +29,23 @@ const login = async (req,res,next) => {
               }
 
             const token = jwt.sign(
-                { id: user._id, username, role: user.role },
-                jwtSecret,
+                { username: user.username, role: user.role },
+                process.env.JWT_SECRET,
                 {
-                  expiresIn: maxAge, // 3hrs in sec
+                  expiresIn: '30min', 
                 }
               );
-            res.cookie("jwt", token, {
+            const refreshToken = jwt.sign(
+                { username: user.username, role: user.role },
+                process.env.JWT_R_SECRET,
+                {
+                  expiresIn: '1d',
+                }
+              );
+
+            res.cookie("jwt", refreshToken, {
               httpOnly: true,
-              maxAge: maxAge * 1000, // 3hrs in ms
+              maxAge: 24 * 60 * 60 * 1000, // 24h
               });
 
             res.status(200).send({

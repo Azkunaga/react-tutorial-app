@@ -5,8 +5,8 @@ const { getTutorialPart, addTutorialPart, deleteTutorialPart } = require('../con
 
 const router = express.Router();
 
-router.post("/get/:id", getTutorialPart);
-router.post("/add", addTutorialPart);
-router.post("/delete/:id", deleteTutorialPart);
+router.get("/:id", getTutorialPart);
+router.post("/:id", addTutorialPart);
+router.delete("/:id", deleteTutorialPart);
 
 module.exports = router;

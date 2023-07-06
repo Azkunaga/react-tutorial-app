@@ -1,13 +1,13 @@
 const express = require('express');
 
-const   { valueQuest, getQuest, addQuest, validQuest, deleteQuest } = require('../controllers/questionController');
+const { valueQuest, getQuest, addQuest, validQuest, deleteQuest } = require('../controllers/questionController');
 
 const router = express.Router();
 
 router.post("/valueQuestion/:id", valueQuest);
-router.post("/getQuestion", getQuest);
-router.post("/addQuestion", addQuest);
+router.get("/:id", getQuest);
+router.post("/:id", addQuest);
 router.post("/validQuestion/:id", validQuest);
-router.post("/deleteQuestion/:id", deleteQuest);
+router.delete("/:id", deleteQuest);
 
 module.exports = router;
