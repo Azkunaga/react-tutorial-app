@@ -1,5 +1,4 @@
-// db connection
-require("dotenv").config({path: "env/local.env"});
+require("dotenv").config({path: "env/.env.local"});
 
 const mongoose = require("mongoose");
 

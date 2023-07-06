@@ -1,4 +1,3 @@
-const express = require('express');
 const { getPart, addPart, deletePart} = require('../services/tutorialService')
 
 //app

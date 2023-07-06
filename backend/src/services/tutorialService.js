@@ -1,5 +1,3 @@
-const express = require('express');
-
 const tutorialPart = require('../models/tutorialPart');
 
 const mongodbConnection = require('../config/mongodb');

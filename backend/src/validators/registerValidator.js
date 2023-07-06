@@ -1,6 +1,5 @@
 const user = require('../models/user');
 const mongodbConnection = require('../config/mongodb');
-const {registerUser} = require('../services/registerService');
 
 checkDuplicateUsernameOrEmail = (req, res, next) => {
     // Username
