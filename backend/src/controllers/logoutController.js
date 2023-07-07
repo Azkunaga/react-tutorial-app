@@ -2,7 +2,7 @@ require('dotenv').config({path: "env/.env.local"})
 
 const jwt = require("jsonwebtoken");
 
-const { searchUserWithToken, deleteTokenFromUser } = require('../services/userService');
+const { searchUserWithToken, updateTokenFromUser } = require('../services/userService');
 
 const logout = async (req,res,next) => {
     const cookie = req.cookie;
@@ -13,7 +13,7 @@ const logout = async (req,res,next) => {
         }else{
             const user = searchUserWithToken(refToken);
             if(user){
-                deleteTokenFromUser(user.username);
+                updateTokenFromUser(user.username,null);
             }
             res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
             res.sendStatus(204);

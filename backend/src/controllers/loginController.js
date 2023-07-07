@@ -3,7 +3,7 @@ require('dotenv').config({path: "env/.env.local"})
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 
-const { searchUser } = require('../services/loginService');
+const { searchUser, updateTokenFromUser } = require('../services/userService');
 
 const login = async (req,res,next) => {
     //db comprobation
@@ -43,16 +43,17 @@ const login = async (req,res,next) => {
                 }
               );
 
+              updateTokenFromUser(username,refreshToken);
+
             res.cookie("jwt", refreshToken, {
               httpOnly: true,
               maxAge: 24 * 60 * 60 * 1000, // 24h
               });
 
             res.status(200).send({
-              user: user.id,
-              username:username,
-              role: user.role,
-              accessToken: token,
+                username:username,
+                role: user.role,
+                accessToken: token,
               });
 
         }

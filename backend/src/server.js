@@ -8,9 +8,10 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const corsOptions = require('./config/corsOptions');
 
+const JwtValidator = require('./validators/JwtValidator');
 const credentials = require('./validators/credentials');
 
-const {adminAuth, studentAuth, teacherAuth} = require('../src/validators/authValidator')
+//const roleValidator = require('../src/validators/roleValidator');
 
 const loginRoute = require("./routes/loginRoute");
 const registerRoute = require("./routes/registerRoute");
@@ -38,6 +39,7 @@ server.use('/api/auth/register', registerRoute);
 server.use('/api/auth/logout', logoutRoute);
 server.use('/api/auth/refresh', refreshRoute);
 
+server.use(JwtValidator);
 //private routes JWT-Roles
 server.use('/api/tutorial/', tutorialRoute);
 server.use('/api/tutorial/question', questionRoute);
