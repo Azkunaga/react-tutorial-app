@@ -44,7 +44,6 @@ const Login = () => {
                     withCredentials: true
                 }
             );
-            console.log(response?.data);
 
             const role = response?.data?.role;
             const accesToken = response?.data?.accesToken;
@@ -58,13 +57,11 @@ const Login = () => {
         } catch (err) {
             if (!err?.response) {
                 setErrMsg('No Server Response');
-            } else if (err.response?.status === 409) {
+            } else if (err.response?.status === 400) {
                 setErrMsg(err.response.data.message);
             } else if (err.response?.status === 401) {
                 setErrMsg(err.response.data.message);
-            } else if (err.response?.status === 401) {
-                setErrMsg(err.response.data.message);
-            } else {
+            }else{
                 setErrMsg(err.response.data.message);
             }
             errRef.current.focus();

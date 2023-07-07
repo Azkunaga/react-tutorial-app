@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 
 const { searchUser, updateTokenFromUser } = require('../services/userService');
 
-const login = async (req,res,next) => {
+const login = async (req,res) => {
     //db comprobation
     try{
         console.log("LoginController");
@@ -13,7 +13,7 @@ const login = async (req,res,next) => {
         const user = await searchUser(username);
 
         if(!user){
-            res.status(409).send({ message: "User Not found." });
+            res.status(400).send({ message: "User Not found." });
         }else{
             //compare password
             var validPassword = bcrypt.compareSync(
