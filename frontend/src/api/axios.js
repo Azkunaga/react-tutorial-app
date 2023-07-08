@@ -1,5 +1,5 @@
 import axios from "axios";
-import { refresh } from "../hooks/refresh";
+import refresh from "../hooks/refresh";
 const SERVER_URL = "http://localhost:3001"
 
 const normalAxios = axios.create({
@@ -29,10 +29,10 @@ authAxios.interceptors.response.use(
   async (error) => {
       const previousReq = error?.config;
       if (error?.response?.status === 403 && !previousReq?.sent) {
-          prevRequest.sent = true;
+          previousReq.sent = true;
           const accessToken = await refresh();
           previousReq.headers['Authorization'] = `Bearer ${accessToken}`;
-          return authAxios(prevRequest);
+          return authAxios(previousReq);
       }
       return Promise.reject(error);
   }

@@ -1,4 +1,4 @@
-import normalAxios from '../api/axios';
+import {normalAxios} from '../api/axios';
 
 const refresh = async() => {
     let user = localStorage.getItem('userData');

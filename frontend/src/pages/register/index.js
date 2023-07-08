@@ -1,5 +1,5 @@
 import './style.css';
-import axios from '../../api/axios'
+import {normalAxios} from '../../api/axios'
 import { useNavigate } from "react-router-dom";
 import {useRef,useState,useEffect} from 'react';
 import {faInfoCircle} from '@fortawesome/free-solid-svg-icons'
@@ -74,7 +74,7 @@ const Register = () => {
         e.preventDefault();
 
         try {
-            await axios.post('/api/auth/register',
+            await normalAxios.post('/api/auth/register',
                 JSON.stringify({ firstName, lastName, username, email, pwd, code }),
                 {
                     headers: { 'Content-Type': 'application/json' },

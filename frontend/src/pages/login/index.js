@@ -2,10 +2,9 @@ import React from 'react'
 import {useRef,useState,useEffect} from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-import normalAxios from '../../api/axios'
+import {normalAxios} from '../../api/axios'
 
 const Login = () => {
-    const { setAuth } = useAuth();
 
     const navigate = useNavigate();
     const location = useLocation();
