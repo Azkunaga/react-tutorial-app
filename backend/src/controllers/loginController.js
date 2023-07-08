@@ -8,10 +8,7 @@ const { searchUser, updateTokenFromUser } = require('../services/userService');
 const login = async (req,res) => {
     //db comprobation
     try{
-        console.log("LoginController");
-        const {username} = req.body;
-        const user = await searchUser(username);
-
+        const user = await searchUser(req.body.username);
         if(!user){
             res.status(400).send({ message: "User Not found." });
         }else{
@@ -23,7 +20,6 @@ const login = async (req,res) => {
         
             if (!validPassword) {
               return res.status(401).send({
-                accessToken: null,
                 message: "Invalid Password!"
                 });
               }
@@ -43,7 +39,7 @@ const login = async (req,res) => {
                 }
               );
 
-              updateTokenFromUser(username,refreshToken);
+              await updateTokenFromUser(user.username,refreshToken);
 
             res.cookie("jwt", refreshToken, {
               httpOnly: true,
@@ -51,11 +47,10 @@ const login = async (req,res) => {
               });
 
             res.status(200).send({
-                username:username,
+                username:user.username,
                 role: user.role,
                 accessToken: token,
               });
-
         }
     }catch(error){
         res.status(500).send({

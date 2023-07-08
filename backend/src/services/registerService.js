@@ -2,7 +2,7 @@ const user = require('../models/user');
 const mongodbConnection = require('../config/mongodb');
 const bcrypt = require('bcryptjs');
 
-const registerUser = async (username, password, firstName, lastName, email, role) =>{
+const registerUser = async (username, password, firstName, lastName, email, role, refreshToken) =>{
     try{
         mongodbConnection(); 
         const encodePass = bcrypt.hashSync(password,8);
@@ -13,6 +13,7 @@ const registerUser = async (username, password, firstName, lastName, email, role
             lastName: lastName, 
             email: email, 
             role:role,
+            refreshToken:refreshToken
           })
         console.log(newUser);
         newUser.save();

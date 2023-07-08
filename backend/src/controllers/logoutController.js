@@ -1,12 +1,9 @@
 require('dotenv').config({path: "env/.env.local"})
 
-const jwt = require("jsonwebtoken");
-
 const { searchUserWithToken, updateTokenFromUser } = require('../services/userService');
 
-const logout = async (req,res,next) => {
-    const cookie = req.cookie;
-    const refToken = cookie?.jwt;
+const logout = async (req,res) => {
+    const refToken = req.cookie?.jwt;
     try{
         if(!refToken){
             return res.sendStatus(204); //no content

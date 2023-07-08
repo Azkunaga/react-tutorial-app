@@ -72,21 +72,15 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const v1 = regex.USER_REG.test(username);
-        const v2 = regex.PWD_REG.test(pwd);
-        if (!v1 || !v2) {
-            setErrMsg("Invalid Entry");
-            return;
-        }
+
         try {
-            const response = await axios.post('/api/auth/register',
+            await axios.post('/api/auth/register',
                 JSON.stringify({ firstName, lastName, username, email, pwd, code }),
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
                 }
             );
-            console.log(response?.data);
 
             setPwd('');
             setMatchPwd('');

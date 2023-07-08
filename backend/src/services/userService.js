@@ -1,5 +1,7 @@
 const mongodbConnection = require('../config/mongodb');
 
+const user = require('../models/user');
+
 //user comprobation in db
 const searchUser = async (name) => {
     //find in db
@@ -24,11 +26,10 @@ const searchUserWithToken = async(rToken) => {
 
 }
 
-const updateTokenFromUser = async(user,token) => {
+const updateTokenFromUser = async(username,token) => {
     try{
         mongodbConnection();
-        const oneUser = await user.update({username:user},{refreshToken:token});
-        oneUser.save();
+        const oneUser = await user.findOneAndUpdate({username:username},{refreshToken:token},{new:true});
         return oneUser;
     }catch(e){
         console.log(e.error);

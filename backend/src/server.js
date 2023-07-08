@@ -8,8 +8,7 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const corsOptions = require('./config/corsOptions');
 
-const JwtValidator = require('./validators/JwtValidator');
-const credentials = require('./validators/credentials');
+const tokenValidator = require('./validators/tokenValidator');
 
 //const roleValidator = require('../src/validators/roleValidator');
 
@@ -20,9 +19,6 @@ const refreshRoute = require('./routes/refresRoute');
 const tutorialRoute = require('./routes/tutorialRoute');
 const questionRoute = require("./routes/questionRoute");
 const chatGPTRoute = require("./routes/chatGPTRoute");
-
-//Handles options credentials check
-server.use(credentials);
 
 //Cross Origin Resource Sharing
 server.use(cors(corsOptions));
@@ -39,7 +35,7 @@ server.use('/api/auth/register', registerRoute);
 server.use('/api/auth/logout', logoutRoute);
 server.use('/api/auth/refresh', refreshRoute);
 
-server.use(JwtValidator);
+server.use(tokenValidator);
 //private routes JWT-Roles
 server.use('/api/tutorial/', tutorialRoute);
 server.use('/api/tutorial/question', questionRoute);

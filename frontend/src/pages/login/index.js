@@ -2,9 +2,7 @@ import React from 'react'
 import {useRef,useState,useEffect} from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-import axios from '../../api/axios'
-import regex from '../../utils/regex';
-import useAuth from '../../hooks/useAuth';
+import normalAxios from '../../api/axios'
 
 const Login = () => {
     const { setAuth } = useAuth();
@@ -30,14 +28,8 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const v1 = regex.USER_REG.test(username);
-        const v2 = pwd!=="";
-        if (!v1 || !v2) {
-            setErrMsg("Invalid Entry");
-            return;
-        }
         try {
-            const response = await axios.post('/api/auth/login',
+            const response = await normalAxios.post('/api/auth/login',
                 JSON.stringify({ username, pwd }),
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -47,7 +39,8 @@ const Login = () => {
 
             const role = response?.data?.role;
             const accesToken = response?.data?.accesToken;
-            setAuth({username,role,accesToken})
+
+            localStorage.setItem('userData',{username,role,accesToken});
 
             setPwd('');
             setUsername('');

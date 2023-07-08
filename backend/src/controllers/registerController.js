@@ -3,7 +3,7 @@ const {registerUser} = require('../services/registerService');
 const register = async (req, res, next) => {
   try {
     const {username, pwd, firstName, lastName, email, role} = req.body;
-    const user = await registerUser(username, pwd, firstName, lastName, email, role);
+    const user = await registerUser(username, pwd, firstName, lastName, email, role, null);
     if(!user){
       res.status(401).send({
           message: "User not registered",

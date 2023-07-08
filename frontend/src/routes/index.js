@@ -26,15 +26,15 @@ const AppRoutes = () => {
             <Route path="/unauthorized" exact element={<Unauthorized/>} />
 
             {/* Protected routes */}
-            <Route element={<RequireAuth allowedRoles={[ROLES.STUDENT]} />}>
+            <Route element={<RequireAuth allowedRoles={ROLES.STUDENT} />}>
               <Route path="/student" exact element={<StudentPage/>} />
             </Route>
 
-            <Route element={<RequireAuth allowedRoles={[ROLES.TEACHER]} />}>
+            <Route element={<RequireAuth allowedRoles={ROLES.TEACHER} />}>
               <Route path="/teacher" exact element={<TeacherPage/>} />
             </Route>
 
-            <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
+            <Route element={<RequireAuth allowedRoles={ROLES.ADMIN} />}>
               <Route path="/amdin" exact element={<AdminPage/>} />  
             </Route>
 
