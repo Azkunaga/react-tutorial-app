@@ -6,7 +6,7 @@ const askChatGPT = async (req,res) => {
     try{
       const answer = getAnswerToQuestion(req.body.question);
       return res.status(200).send({
-        message: answer,
+        answer,
       });
     }catch (error) {
         res.status(500).send({
@@ -15,16 +15,38 @@ const askChatGPT = async (req,res) => {
     }
 }
 
-const createQuestionChatGPT = async (req,res) => {
+const recommendQuestionsChatGPT = async (req,res) => {
     try{
-        const newQuestion = createQuestion(req.body.topic, req.body.type);
+        const questionList = recommendQuestions(req.body.username);
+        console.log(questionList);
         return res.status(200).send({
-            message: newQuestion,
+            questionList,
           });
     }catch (error) {
         res.status(500).send({
         error: error.mesage, 
         })
+    }
+}
+
+const createExerciseChatGPT = async (req,res) => {
+    try{
+        const newExercise = createExercise(req.body.topic, req.body.type || null);
+        return res.status(200).send({
+            newExercise,
+          });
+    }catch (error) {
+        res.status(500).send({
+        error: error.mesage, 
+        })
+    }
+}
+
+const helpWithQuestion = async()=>{
+    try {
+        
+    } catch (error) {
+        
     }
 }
 
@@ -45,7 +67,8 @@ const evaluateAnswer = async (req,res) => {
 }
 
 module.exports = {
+    recommendQuestionsChatGPT,
     askChatGPT,
-    createQuestionChatGPT,
+    createExerciseChatGPT,
     evaluateAnswer
 }

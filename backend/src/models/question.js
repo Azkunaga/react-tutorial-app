@@ -1,7 +1,9 @@
 let mongoose = require('mongoose');
 
 let questionSchema = new mongoose.Schema({
-  topic:String,
+  topic:{
+    type: mongoose.Types.ObjectId, ref: "Topic"
+  },
   type:String,
   question:String,
   difficluty:Number, //1-3 easy,medium,difficult
