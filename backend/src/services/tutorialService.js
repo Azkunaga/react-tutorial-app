@@ -1,3 +1,4 @@
+const topic = require('../models/topic');
 const tutorialPart = require('../models/tutorialPart');
 
 const mongodbConnection = require('../config/mongodb');
@@ -12,13 +13,17 @@ const getPart = (topic,part) => {
     }
 }
 
-const addPart = (topic,part,question,) => {
+const addPart = (topic,name,part,text) => {
     try{
         mongodbConnection();
+        const t = topic.findOne({
+            name:topic
+        })
         tutorialPart.create({
-            topic:topic,
+            topic:t,
+            name:name,
             part:part,
-            text:question,
+            text:text,
         })
     }catch(error){
         console.log(error.message)
