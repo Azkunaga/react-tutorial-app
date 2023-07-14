@@ -1,10 +1,9 @@
-const { getAnswerToQuestion, createQuestion, evaluate } = require('../services/chatGPTService');
-const {createAnswer} = require('../services/answerService');
-const promps = require('../data/prePrompts');
+const chatGPTService = require('../services/chatGPTService');
+const answerService = require('../services/answerService');
 
 const askChatGPT = async (req,res) => {
     try{
-      const answer = getAnswerToQuestion(req.body.question);
+      const answer = chatGPTService.getAnswerToQuestion(req.body.question);
       return res.status(200).send({
         answer,
       });
@@ -17,7 +16,7 @@ const askChatGPT = async (req,res) => {
 
 const recommendQuestionsChatGPT = async (req,res) => {
     try{
-        const questionList = recommendQuestions(req.body.username);
+        const questionList = chatGPTService.recommendQuestions(req.body.username);
         console.log(questionList);
         return res.status(200).send({
             questionList,
@@ -31,7 +30,7 @@ const recommendQuestionsChatGPT = async (req,res) => {
 
 const createExerciseChatGPT = async (req,res) => {
     try{
-        const newExercise = createExercise(req.body.username,req.body.topic, req.body.type || null);
+        const newExercise = chatGPTService.createExercise(req.body.username,req.body.topic, req.body.type || null);
         return res.status(200).send({
             newExercise,
           });
@@ -42,18 +41,23 @@ const createExerciseChatGPT = async (req,res) => {
     }
 }
 
-const helpWithQuestion = async()=>{
+const helpWithQuestion = async(questionId)=>{
     try {
-        
+        const helpText = chatGPTService.getHelpWithQuestion(questionId);
+        return res.status(200).send({
+            helpText,
+          });
     } catch (error) {
-        
+        res.status(500).send({
+            error: error.mesage, 
+            })
     }
 }
 
 const evaluateAnswer = async (req,res) => {
     try{
-        const correct = evaluate(req.body.history,req.body.answer);
-        createAnswer(req.body.user,req.body.questionID,req.body.answer,correct);
+        const eval = evaluate(req.body.history,req.body.answer);
+        answerService.createAnswer(req.body.user, req.body.questionID, req.body.answer, req.body.help, eval);
 
         return res.status(200).send({
             answer: correct
@@ -70,5 +74,6 @@ module.exports = {
     recommendQuestionsChatGPT,
     askChatGPT,
     createExerciseChatGPT,
+    helpWithQuestion,
     evaluateAnswer
 }

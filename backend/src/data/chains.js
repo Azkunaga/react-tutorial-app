@@ -10,6 +10,7 @@ const topicChain = new LLMChain({ llm: model, prompt: prompts.topicPrompt });
 const typeChain = new LLMChain({ llm: model, prompt: prompts.typePrompt });
 const levelChain = new LLMChain({ llm: model, prompt: prompts.levelPrompt });
 const answerEvaluationChain = new LLMChain({ llm: model, prompt: prompts.answerEvaluationPrompt });
+const helpChain = new LLMChain({ llm: model, prompt: prompts.helpPrompt });
 
 module.exports = {
     recommendChain,
@@ -19,5 +20,6 @@ module.exports = {
     topicChain,
     typeChain,
     levelChain,
-    answerEvaluationChain
+    answerEvaluationChain,
+    helpChain
 }

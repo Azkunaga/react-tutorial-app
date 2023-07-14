@@ -4,11 +4,9 @@ const model = require("../config/llm");
 const user = require('../models/user');
 const topic = require('../models/topic');
 const answer = require('../models/answer');
-const question = require('../models/question')
+const question = require('../models/question');
 const tutorialPart = require('../models/tutorialPart');
 const partStats = require('../models/partStats');
-const { codeExChain, fillChain } = require("../data/chains");
-
 
 const recommendQuestions = async (username) => {
     try{
@@ -165,7 +163,15 @@ const createExercise = async (username,topic,type) => {
 const evaluate = async (quest,ans) => {
     try{
         const res = chains.answerEvaluationChain({question:quest, answer: ans})
-        createCorrection()
+        return res;
+    }catch(error){
+        console.log(error.message)
+    }
+}
+
+const getHelpWithQuestion = async(quest) => {
+    try{
+        const res = chains.helpChain({question:quest})
         return res;
     }catch(error){
         console.log(error.message)
@@ -177,4 +183,5 @@ module.exports = {
     getAnswerToQuestion,
     createExercise,
     evaluate,
+    getHelpWithQuestion
 };

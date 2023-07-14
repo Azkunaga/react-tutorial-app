@@ -1,4 +1,4 @@
-import { PromptTemplate } from "langchain/prompts";
+const { PromptTemplate } = require('langchain/prompts');
 
 const systemRole = "You are a computer science lecturer that handles students nicely but in a direct and helpfull maner," +
 "correcting their mistakes, and indicating ways to improve their learning. You are going to correct and create exercises for React.";
@@ -63,6 +63,15 @@ const answerEvaluationPrompt = PromptTemplate.fromTemplate(
   `
 );
 
+const helpPrompt = PromptTemplate.fromTemplate(
+  `You will receive a exercise about React.
+  
+  Exercise: {question}
+
+  Give some tips to solve this exercise divided by dots.
+  `
+);
+
 module.exports = {
   recommendPrompt,
   systemRole,
@@ -72,6 +81,7 @@ module.exports = {
   topicPrompt,
   typePrompt,
   levelPrompt,
+  helpPrompt,
   answerEvaluationPrompt,
 }
 

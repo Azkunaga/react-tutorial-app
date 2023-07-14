@@ -1,7 +1,7 @@
 const valoration = require('../models/valoration');
 const question = require('../models/question');
 const topicService = require('./topicService');
-const typeService = require('./typeService');
+const exTypeService = require('./exTypeService');
 const mongodbConnection = require('../config/mongodb');
 
 const valueQuestion = async (question,stars) => {
@@ -43,8 +43,8 @@ const addQuestion = async (topic,type,level,question) => {
         }else{
             dif=3
         }
-        const topicObj = topicService.getTopic(topic);
-        const typeObjt = typeService.getType(type);
+        const topicObj = exTypeService.getTopic(topic);
+        const typeObjt = exTypeService.getType(type);
         const quest = question.create({
             topic:topicObj,
             type:typeObjt,
