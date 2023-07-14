@@ -1,12 +1,15 @@
 const valoration = require('../models/valoration');
 const question = require('../models/question');
+const topicService = require('./topicService');
+const typeService = require('./typeService');
 const mongodbConnection = require('../config/mongodb');
 
 const valueQuestion = async (question,stars) => {
     try{
         mongodbConnection();
+        const quest = getQuestionById(question)
         valoration.create({
-            questionId:question,
+            question:quest,
             value:stars,
         })
         return valoration;
@@ -15,8 +18,7 @@ const valueQuestion = async (question,stars) => {
     }
 }
 
-//TODO
-const getQuestion = async (topic,part,user) => {
+const getQuestion = async (topic,part) => {
     try{
         mongodbConnection();
         const quest = question.find({
@@ -30,11 +32,23 @@ const getQuestion = async (topic,part,user) => {
     }
 }
 
-const addQuestion = async (topic,question) => {
+const addQuestion = async (topic,type,level,question) => {
     try{
         mongodbConnection();
+        let dif;
+        if (level==="easy") {
+            dif=1;
+        }else if(level==="medium"){
+            dif=2;
+        }else{
+            dif=3
+        }
+        const topicObj = topicService.getTopic(topic);
+        const typeObjt = typeService.getType(type);
         const quest = question.create({
-            topic:topic,
+            topic:topicObj,
+            type:typeObjt,
+            difficluty:dif,
             question:question,
             valid:false,
         }) 
@@ -66,10 +80,22 @@ const deleteQuestion = async (questionID) => {
     }
 }
 
+const getQuestionById = async (questionID) => {
+    try{
+        mongodbConnection();
+        return question.findOne({
+            id:questionID,
+        })
+    }catch(error){
+        console.log(error.message)
+    }
+}
+
 module.exports = {
     valueQuestion,
     getQuestion,
     addQuestion,
     validQuestion,
     deleteQuestion,
+    getQuestionById
 }

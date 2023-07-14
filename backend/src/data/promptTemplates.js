@@ -21,7 +21,7 @@ const testPrompt = PromptTemplate.fromTemplate(
   "4 answers. {options}."
 );
 
-const chatGPTPrompt = PromptTemplate.fromTemplate(`You will receive the user performance
+const topicPrompt = PromptTemplate.fromTemplate(`You will receive the user performance
 through the different tutorial parts, such as, correct and wrong answers, time on each part and how many
 times has the user return to that part.
 
@@ -29,13 +29,50 @@ times has the user return to that part.
 
 Decide which of the topics is where the user has more problems:`);
 
+const typePrompt = PromptTemplate.fromTemplate(
+  `You will receive the user performance through the exercises, such as, correct and wrong answers, time on each exercise and how many
+  times has the user return to that part.
+  
+  {data}
+
+  Decide which type of exercise should be the next one. 
+  Decide between the analized exercise types: 
+  `
+);
+
+const levelPrompt = PromptTemplate.fromTemplate(
+  `You will receive the user performance through the exercises, such as, correct and wrong answers, time on each exercise and how many
+  times has the user return to that part.
+  
+  {data}
+
+  Decide which level should have the next exercises. 
+  Decide: Easy, medium or difficult. 
+  `
+);
+
+const answerEvaluationPrompt = PromptTemplate.fromTemplate(
+  `You will receive the user answer to a exercise about React.
+  
+  Exercise: {question}
+
+  User answer: {answer}
+
+  Correct the user answer and give explanations or/and tips. 
+  Start the correction with Yes/No. 
+  `
+);
+
 module.exports = {
   recommendPrompt,
   systemRole,
   codeExPrompt,
   fillPrompt,
   testPrompt,
-  chatGPTPrompt
+  topicPrompt,
+  typePrompt,
+  levelPrompt,
+  answerEvaluationPrompt,
 }
 
 

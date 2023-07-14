@@ -31,7 +31,7 @@ const recommendQuestionsChatGPT = async (req,res) => {
 
 const createExerciseChatGPT = async (req,res) => {
     try{
-        const newExercise = createExercise(req.body.topic, req.body.type || null);
+        const newExercise = createExercise(req.body.username,req.body.topic, req.body.type || null);
         return res.status(200).send({
             newExercise,
           });

@@ -6,6 +6,8 @@ let answerSchema = new mongoose.Schema({
   duration: Number, //seconds
   answerToQuestion: {type: mongoose.Types.ObjectId, ref: "Question"},
   correct:Boolean,
+  help:Boolean,
+  correction: String,
 });
 
 module.exports = mongoose.model('Answer', answerSchema);
