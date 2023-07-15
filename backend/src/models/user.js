@@ -1,3 +1,4 @@
+const { Timestamp } = require('mongodb');
 let mongoose = require('mongoose');
 
 let userSchema = new mongoose.Schema({
@@ -37,7 +38,7 @@ let userSchema = new mongoose.Schema({
   createdAt: {
     type:Date,
     default: Date.now,
-  }
+  },
 });
 
 module.exports = mongoose.model('User', userSchema);

@@ -40,7 +40,7 @@ server.use('/api/auth/refresh', refreshRoute);
 //private routes JWT-Roles
 server.use('/api/tutorial/question', questionRoute);
 server.use('/api/tutorial/topic', topicRoute);
-server.use('/api/tutorial/', tutorialRoute);
+server.use('/api/tutorial', tutorialRoute);
 server.use('/api/chatGPT', chatGPTRoute);
 
 //no existing routes
