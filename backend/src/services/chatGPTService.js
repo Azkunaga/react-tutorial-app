@@ -1,6 +1,8 @@
 const chains = require("../data/chains");
 const model = require("../config/llm");
 
+const userService = require('./userService');
+
 const user = require('../models/user');
 const topic = require('../models/topic');
 const answer = require('../models/answer');
@@ -10,13 +12,10 @@ const partStats = require('../models/partStats');
 
 const recommendQuestions = async (username) => {
     try{
-        const topicData = getTutorialStats(username);
-        const res = await chains.chatGPTChain.call({ data: topicData });
-        console.log(res);
-        const topic = res.text;
+        const topicData = await getTutorialStats(username);
+        const topic = await chains.chatGPTChain.call({data: topicData});
         const res2 = await chains.recommendChain.call({component: topic})
-        console.log(res2);
-        return completion.data.choices[0].message;
+        return res2;
     }catch(error){
         console.log(error.message)
     }
@@ -24,7 +23,8 @@ const recommendQuestions = async (username) => {
 
 const getTutorialStats = async(username) =>{
     try {
-        const u = user.find({username:username});
+        const u = await userService.searchUser(username);
+        console.log("user",u);
         const topicNames = topic.find().distinct('name');
         const stats = [];
         topicNames.forEach(element => {
@@ -58,13 +58,12 @@ const getTutorialStats = async(username) =>{
 }
 
 const getAnswerToQuestion = async (question) => {
-    try{
-        //const system = prompts.systemRole;
+    try {
         const resA = await model.call(
             question
-          );
-        return resA.text;
-    }catch(error){
+            );
+        return resA;
+    } catch (error) {
         console.log(error.message)
     }
 }

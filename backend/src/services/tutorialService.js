@@ -1,24 +1,22 @@
-const topic = require('../models/topic');
+const topicService = require('./topicService');
 const tutorialPart = require('../models/tutorialPart');
 
 const mongodbConnection = require('../config/mongodb');
 
-const getPart = (topic,part) => {
+const getPart = async(topic,part) => {
     try{
         mongodbConnection();
-        tutorialPart.findOne({topic: topic, part:part})
-        return tutorialPart;
+        const tp = await tutorialPart.findOne({topic: topic, part:part})
+        return tp;
     }catch(error){
         console.log(error.message)
     }
 }
 
-const addPart = (topic,name,part,text) => {
+const addPart = async(topicName,name,part,text) => {
     try{
         mongodbConnection();
-        const t = topic.findOne({
-            name:topic
-        })
+        const t = await topicService.getTopic(topicName);
         tutorialPart.create({
             topic:t,
             name:name,
@@ -30,10 +28,10 @@ const addPart = (topic,name,part,text) => {
     }
 }
 
-const deletePart = (partId) => {
+const deletePart = async(partId) => {
     try{
         mongodbConnection();
-        tutorialPart.deleteOne({
+        await tutorialPart.deleteOne({
             id:partId,
         })
     }catch(error){

@@ -19,6 +19,7 @@ const refreshRoute = require('./routes/refresRoute');
 const tutorialRoute = require('./routes/tutorialRoute');
 const questionRoute = require("./routes/questionRoute");
 const chatGPTRoute = require("./routes/chatGPTRoute");
+const topicRoute = require("./routes/topicRoute");
 
 //Cross Origin Resource Sharing
 server.use(cors(corsOptions));
@@ -35,10 +36,11 @@ server.use('/api/auth/register', registerRoute);
 server.use('/api/auth/logout', logoutRoute);
 server.use('/api/auth/refresh', refreshRoute);
 
-server.use(tokenValidator);
+//server.use(tokenValidator);
 //private routes JWT-Roles
-server.use('/api/tutorial/', tutorialRoute);
 server.use('/api/tutorial/question', questionRoute);
+server.use('/api/tutorial/topic', topicRoute);
+server.use('/api/tutorial/', tutorialRoute);
 server.use('/api/chatGPT', chatGPTRoute);
 
 //no existing routes
