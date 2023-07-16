@@ -20,7 +20,6 @@ const getQuest = async (req,res) => {
         if(!quest){
             res.status(401).send({
                 message: "Questions not found for this topic",
-                error: error.mesage,
             })
         }else{
             res.status(200).send({

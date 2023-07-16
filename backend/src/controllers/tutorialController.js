@@ -26,9 +26,10 @@ const getTutorialPart = async (req,res) => {
 //admin galdera berriak sartzeko
 const addTutorialPart = async (req,res) => {
     try{
-        addPart(req.body.topic,req.body.name,req.body.part,req.body.text)
+        const part = addPart(req.body.topic,req.body.name,req.body.part,req.body.text)
         res.status(200).send({
             message: "Added Correctly",
+            part
           })
     }catch (error) {
         res.status(500).send({
