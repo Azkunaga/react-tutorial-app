@@ -2,6 +2,9 @@ const chains = require("../data/chains");
 const model = require("../config/llm");
 
 const userService = require('./userService');
+const exTypeService = require('./exTypeService');
+const topicService = require('./topicService');
+const questionService = require('./questionService');
 
 const user = require('../models/user');
 const topic = require('../models/topic');
@@ -68,39 +71,44 @@ const getAnswerToQuestion = async (question) => {
     }
 }
 const calculateType = async(username,topic) =>{
-    const types = exType.find();
-    const topicObj = topic.findOne({name:topic});
-    const u = user.findOne({username:username});
+    const types = await exTypeService.getAll();
+    const topicObj = await topicService.getTopic(topic);
+    const u = await userService.searchUser(username);
     const typeData = [];
-    types.forEach(element => {
-        const questions = question.find({topic: topicObj._id, type:element._id, valid:true}).select('_id');
-        const answers = answer.find({user:u._id, answerToQuestion: {$in:questions}});
-        const correct = answers.filter(function(a) {
+    types.forEach(async function (element) {
+        const questions = await question.find({topic: topicObj._id, type:element._id, valid:true});
+        const answers = await answer.find({user:u._id, answerToQuestion: {$in:questions}});
+        const correct = await answers.filter(function(a) {
             return a.correct == true
-        }).count();
+        });
         const incorrect = answers.filter(function(a) {
             return a.correct == false
-        }).count();
+        });
         typeData.push({
             ExerciseType: element.name,
             exercises:{
-                howManyQuestions: questions.count(),
-                answersCorrect: correct,
-                answersWrong: incorrect
+                howManyQuestions: questions.length,
+                answersCorrect: correct.length,
+                answersWrong: incorrect.length
             }
         });
     });
-    const type = chains.levelChain.call({data:typeData});
+    const type = await chains.levelChain.call({data:JSON.stringify(typeData)});
+    console.log(type.text);
+    return;
     return type;
 };
 
 const calculateLevel = async(username, topic, calculatedType) =>{
     const levelData = [];
-    const type = exType.findOne({name:calculatedType});
-    const topicObj = topic.findOne({name:topic});
-    const u = user.findOne({username:username});
-    const questions = question.find({topic: topicObj._id, type:type._id, valid:true}).select('_id');
-    const answers = answer.find({user:u._id, answerToQuestion: {$in:questions}}).populate('answerToQuestion');
+    const type = await exTypeService.getExType(calculatedType);
+    const topicObj = await topicService.getTopic(topic);
+    const u = await userService.searchUser(username);
+    const questions = await question.find({topic: topicObj._id, type:type._id, valid:true}).select('_id');
+    if(!questions.length){
+        return "easy";
+    }
+    const answers = await answer.find({user:u._id, answerToQuestion: {$in:questions}}).populate('answerToQuestion');
     for (let index = 1; index <= 3; index++) {
         const answersLevel = answers.filter(function(item) {
             return item.answerToQuestion.level===index;
@@ -128,9 +136,10 @@ const calculateLevel = async(username, topic, calculatedType) =>{
 
 const createExercise = async (username,topic,type) => {
     try{
-        const system = prompts.systemRole;
+        //const system = prompts.systemRole;
         let question = "";
         let calculatedType = type || calculateType(username,topic); 
+        return;
         const level = calculateLevel(username, topic, calculatedType);
         switch (calculatedType) {
             case "fillGaps1":
@@ -152,7 +161,7 @@ const createExercise = async (username,topic,type) => {
             default:
                 break;
         }
-        const quest = addQuestion(topic,calculatedType,level,question);
+        const quest = questionService.addQuestion(topic,calculatedType,level,question);
         return quest;
     }catch(error){
         console.log(error.message)

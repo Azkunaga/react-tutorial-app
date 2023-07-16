@@ -30,13 +30,12 @@ times has the user return to that part.
 Decide which of the topics is where the user has more problems:`);
 
 const typePrompt = PromptTemplate.fromTemplate(
-  `You will receive the user performance through the exercises, such as, correct and wrong answers, time on each exercise and how many
-  times has the user return to that part.
+  `You are a user modeling system in a React tutorial. You will receive the user performance through the exercises types, such as, correct and wrong answers.
   
   {data}
 
-  Decide which type of exercise should be the next one. 
-  Decide between the analized exercise types: 
+  You have to decide which type of exercise should be the next one. 
+  Which ExerciseType should be the next? Just tell me the name:
   `
 );
 

@@ -26,6 +26,16 @@ const getExType = async (name) => {
     }
 }
 
+const getAll = async () => {
+    try{
+        mongodbConnection();
+        const all = exType.find();
+        return all;
+    }catch(error){
+        console.log(error.message)
+    }
+}
+
 const deleteExType = async (name) => {
     try{
         mongodbConnection();
@@ -41,5 +51,6 @@ const deleteExType = async (name) => {
 module.exports = {
     addExType,
     getExType,
+    getAll,
     deleteExType
 }
