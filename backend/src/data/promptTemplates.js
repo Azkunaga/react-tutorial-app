@@ -31,10 +31,10 @@ Decide which of the topics is where the user has more problems:`);
 
 const typePrompt = PromptTemplate.fromTemplate(
   `You are a user modeling system in a React tutorial. You will receive the user performance through the exercises types, such as, correct and wrong answers.
+  With this information you have to decide which of the exercise types is the best for the user progress.
   
-  {data}
+  Data:{data}
 
-  You have to decide which type of exercise should be the next one. 
   Which ExerciseType should be the next? Just tell me the name:
   `
 );

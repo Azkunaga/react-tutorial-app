@@ -8,6 +8,7 @@ let questionSchema = new mongoose.Schema({
     type: mongoose.Types.ObjectId, ref: "ExType"
   },
   question:String,
+  correctAnswer:String, //TODO
   difficluty:Number, //1-3 easy,medium,difficult
   valid:Boolean,
 });

@@ -6,7 +6,6 @@ const exTypeService = require('./exTypeService');
 const topicService = require('./topicService');
 const questionService = require('./questionService');
 
-const user = require('../models/user');
 const topic = require('../models/topic');
 const answer = require('../models/answer');
 const question = require('../models/question');
