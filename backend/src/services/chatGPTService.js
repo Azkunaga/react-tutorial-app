@@ -52,7 +52,8 @@ const getTutorialStats = async(username) =>{
                 incorrectNum: incorrect,
             });
         });
-        return stats;
+        const topic = await chains.topicChain.call({data:JSON.stringify(stats)});
+        return topic;
          
     } catch (error) {
         console.log(error.message)
@@ -133,13 +134,13 @@ const calculateLevel = async(username, topic, calculatedType) =>{
     return level;
 }
 
-const createExercise = async (username,topic,type) => {
+const createExercise = async (username,topic,type,level) => {
     try{
         //const system = prompts.systemRole;
         let question = "";
         let calculatedType = type || calculateType(username,topic); 
         return;
-        const level = calculateLevel(username, topic, calculatedType);
+        const level = level || calculateLevel(username, topic, calculatedType);
         switch (calculatedType) {
             case "fillGaps1":
                 question = chains.fillChain.call({level: level, component: topic, options: "Give options for those gaps. One answer per gap. Give the list disordered."});
