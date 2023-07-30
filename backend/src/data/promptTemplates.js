@@ -38,11 +38,11 @@ Decide which of the topics is where the user has more problems. Just mention the
 const typePrompt = PromptTemplate.fromTemplate(
   `You will perform as a tutorial system in a React Environment. Now with some user information you will have to modulate the user. 
 
-  The user is right now in part {tutorialPart} and has this stats in the exercises of that part:
+  The user is right now in part "{tutorialPart}" and has this stats in the exercises of that part:
   
   {data}
 
-  Decide which type of exercise should suit best the user to improve.  Just mention the type, dont give extra explanations.
+  Decide which type of exercise(exerciseType) should suit best the user to improve.  Just mention the exerciseType, dont give extra explanations.
   `
 );
 

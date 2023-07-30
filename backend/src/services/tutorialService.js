@@ -3,10 +3,10 @@ const tutorialPart = require('../models/tutorialPart');
 
 const mongodbConnection = require('../config/mongodb');
 
-const getPart = async(topic,part) => {
+const getPart = async(partName) => {
     try{
         mongodbConnection();
-        const tp = await tutorialPart.findOne({topic: topic, part:part})
+        const tp = await tutorialPart.findOne({name: partName})
         return tp;
     }catch(error){
         console.log(error.message)
@@ -17,12 +17,13 @@ const addPart = async(topicName,name,part,text) => {
     try{
         mongodbConnection();
         const t = await topicService.getTopic(topicName);
-        tutorialPart.create({
+        const tp = tutorialPart.create({
             topic:t,
             name:name,
             part:part,
             text:text,
         })
+        return tp;
     }catch(error){
         console.log(error.message)
     }

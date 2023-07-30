@@ -3,10 +3,9 @@ const model = require("../config/llm");
 
 const userService = require('./userService');
 const exTypeService = require('./exTypeService');
-const topicService = require('./topicService');
 const questionService = require('./questionService');
+const tutorialService = require('./tutorialService');
 
-const topic = require('../models/topic');
 const answer = require('../models/answer');
 const question = require('../models/question');
 const tutorialPart = require('../models/tutorialPart');
@@ -26,7 +25,6 @@ const recommendQuestions = async (username) => {
 const getTutorialStats = async(username) =>{
     try {
         const u = await userService.searchUser(username);
-        console.log("user",u);
         const topicNames = topic.find().distinct('name');
         const stats = [];
         topicNames.forEach(element => {
@@ -70,41 +68,52 @@ const getAnswerToQuestion = async (question) => {
         console.log(error.message)
     }
 }
-const calculateType = async(username,topic) =>{
+const calculateType = async(username,tutPart) =>{
     const types = await exTypeService.getAll();
-    const topicObj = await topicService.getTopic(topic);
+    const tutorialObj = await tutorialService.getPart(tutPart);
     const u = await userService.searchUser(username);
-    const typeData = [];
-    types.forEach(async function (element) {
-        const questions = await question.find({topic: topicObj._id, type:element._id, valid:true});
-        const answers = await answer.find({user:u._id, answerToQuestion: {$in:questions}});
-        const correct = await answers.filter(function(a) {
-            return a.correct == true
-        });
-        const incorrect = answers.filter(function(a) {
-            return a.correct == false
-        });
-        typeData.push({
-            ExerciseType: element.name,
-            exercises:{
-                howManyQuestions: questions.length,
-                answersCorrect: correct.length,
-                answersWrong: incorrect.length
-            }
+    let typeData = [];
+    var bar = new Promise((resolve, reject) => {
+        types.forEach(async (value, index, array) => {
+            const questions = await question.find({tutorialPart: tutorialObj._id, type:value._id, valid:true});
+            const answers = await answer.find({user:u._id, answerToQuestion: {$in:questions}});
+            const correct = await answers.filter(function(a) {
+                return a.correct == true
+            });
+            const incorrect = answers.filter(function(a) {
+                return a.correct == false
+            });
+            typeData.push({
+                ExerciseType: value.name,
+                exercises:{
+                    howManyQuestions: questions.length,
+                    answersCorrect: correct.length,
+                    answersWrong: incorrect.length
+                }
+            });
+            if (index === array.length -1) resolve();
         });
     });
-    const type = await chains.levelChain.call({data:JSON.stringify(typeData)});
-    console.log(type.text);
-    return;
+    let typeResponse = "";
+    let type = "";
+    bar.then(async ()=>{
+        typeResponse = await chains.typeChain.call({tutorialPart: tutorialPart ,data:JSON.stringify(typeData)});
+        types.forEach(async function(element){
+            if(typeResponse.text.includes(element.name)){
+                type = element.name;
+                console.log(type);
+            } 
+        })
+    })
     return type;
 };
 
-const calculateLevel = async(username, topic, calculatedType) =>{
+const calculateLevel = async(username, tutorialPart, calculatedType) =>{
     const levelData = [];
     const type = await exTypeService.getExType(calculatedType);
-    const topicObj = await topicService.getTopic(topic);
+    const tutorialObj = await tutorialService.getPart(tutorialPart);
     const u = await userService.searchUser(username);
-    const questions = await question.find({topic: topicObj._id, type:type._id, valid:true}).select('_id');
+    const questions = await question.find({topic: tutorialObj._id, type:type._id, valid:true}).select('_id');
     if(!questions.length){
         return "easy";
     }
@@ -134,34 +143,32 @@ const calculateLevel = async(username, topic, calculatedType) =>{
     return level;
 }
 
-const createExercise = async (username,topic,type,level) => {
+const createExercise = async (username,tutorialPart,type,level) => {
     try{
-        //const system = prompts.systemRole;
         let question = "";
-        let calculatedType = type || calculateType(username,topic); 
-        return;
-        const level = level || calculateLevel(username, topic, calculatedType);
+        const calculatedType = type || calculateType(username,tutorialPart);
+        const calculatedLevel = level || calculateLevel(username, tutorialPart, calculatedType);
         switch (calculatedType) {
             case "fillGaps1":
-                question = chains.fillChain.call({level: level, component: topic, options: "Give options for those gaps. One answer per gap. Give the list disordered."});
+                question = chains.fillChain.call({level: calculatedLevel, component: tutorialPart, options: "Give options for those gaps. One answer per gap. Give the list disordered."});
                 break;
             case "fillGaps2":
-                question = chainsfillChain.call({level: level, component: topic, options: "Give more option than gaps.  Give the list disordered."});
+                question = chainsfillChain.call({level: calculatedLevel, component: tutorialPart, options: "Give more option than gaps.  Give the list disordered."});
                 break;
             case "code":
-                question = chains.codeExChain.call({level: level, component: topic});
+                question = chains.codeExChain.call({level: calculatedLevel, component: tutorialPart});
                 break;
             case "test1":
-                question = chains.testChain.call({level: level, component: topic, options:"True/False question."});
+                question = chains.testChain.call({level: calculatedLevel, component: tutorialPart, options:"True/False question."});
                 break;
             case "test2":
-                question = chains.testChain.call({level: level, component: topic, options:"Just one answer has to be correct. It can't be a true/false question."});                break;
+                question = chains.testChain.call({level: calculatedLevel, component: tutorialPart, options:"Just one answer has to be correct. It can't be a true/false question."});                break;
             case "test3":
-                question = chains.testChain.call({level: level, component: topic, options:"More than one correct answer. It can't be a true/false question."});                break;
+                question = chains.testChain.call({level: calculatedLevel, component: tutorialPart, options:"More than one correct answer. It can't be a true/false question."});                break;
             default:
                 break;
         }
-        const quest = questionService.addQuestion(topic,calculatedType,level,question);
+        const quest = questionService.addQuestion(tutorialPart,calculatedType,calculatedLevel,question);
         return quest;
     }catch(error){
         console.log(error.message)

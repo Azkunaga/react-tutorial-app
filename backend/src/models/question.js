@@ -1,15 +1,17 @@
 let mongoose = require('mongoose');
 
 let questionSchema = new mongoose.Schema({
-  topic:{
-    type: mongoose.Types.ObjectId, ref: "Topic"
+  tutorialPart:{
+    type: mongoose.Types.ObjectId, ref: "TutorialPart"
   },
   type:{
     type: mongoose.Types.ObjectId, ref: "ExType"
   },
   question:String,
   correctAnswer:String, //TODO
-  difficluty:Number, //1-3 easy,medium,difficult
+  difficluty:{
+    type: mongoose.Types.ObjectId, ref: "ExLevel"
+  },
   valid:Boolean,
 });
 
