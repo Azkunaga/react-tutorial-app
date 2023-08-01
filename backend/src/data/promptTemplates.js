@@ -4,25 +4,30 @@ const systemRole = "You are a computer science lecturer that handles students ni
 "correcting their mistakes, and indicating ways to improve their learning. You are going to correct and create exercises for React.";
 
 const recommendPrompt = PromptTemplate.fromTemplate(
-  "Which are the common questions about React {component}?"
+  `Which are the common questions about React {component}?`
 );
 
 const codeExPrompt = PromptTemplate.fromTemplate(
   `Create a {level} exercise statement that ask the student to crate something using React {component}?
-  Give the statement starting with “Exercise:”. Give the possible answer starting with “Answer:”
+  Give the exercise starting with "Exercise:". 
+  Give the correct answer of the exercise starting with "Correct answer:"
   `
 );
 
 const fillPrompt = PromptTemplate.fromTemplate(
-  `Create a {level} fill in the gap exercise about React {component}.
-  Give {options}. Give the list disordered.
-  Give the statement starting with “Exercise:”. Give the possible answer starting with “Answer:”`
+  `Create a {level} fill in the gap exercise, just one, about React {component}.
+  Give {opt}. Give the list disordered.
+
+  Give the exercise starting with "Exercise:". 
+  Give the correct answer of the exercise starting with "Correct answer:"
+  `
 );
 
 const testPrompt = PromptTemplate.fromTemplate(
-  `Create a {level} quiz question about React {component}
-  4 answers. {options}.
-  Give the statement starting with “Exercise:”. Give the possible answer starting with “Answer:”`
+  `Create a {level} TEST question about React {component}
+  {opt}.
+  Start with "Exercise:". 
+  Give the correct answer/answers of the exercise starting with "Correct answer:"`
 );
 
 const topicPrompt = PromptTemplate.fromTemplate(`
@@ -49,7 +54,7 @@ const typePrompt = PromptTemplate.fromTemplate(
 const levelPrompt = PromptTemplate.fromTemplate(
   `You will perform as a tutorial system in a React Environment. Now with some user information you will have to modulate the user. 
 
-  The user is right now in part {tutorialPart} and has this stats in the {exerciseType} exercises of that part:
+  The user is right now in part "{tutorialPart}" and has this stats in the "{exerciseType}" exercises of that part:
   
   {data}
 
@@ -73,9 +78,12 @@ const answerEvaluationPrompt = PromptTemplate.fromTemplate(
 );
 
 const helpPrompt = PromptTemplate.fromTemplate(
-  `You will receive a exercise about React.
+  `You will perform as a React tutoring system.
+  You will receive a exercise about React.
   
   Exercise: {question}
+
+  Possible answer: {pAnswer}
 
   Give some tips to solve this exercise divided by dots.
   `

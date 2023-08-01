@@ -9,7 +9,7 @@ let questionSchema = new mongoose.Schema({
   },
   question:String,
   correctAnswer:String, //TODO
-  difficluty:{
+  difficulty:{
     type: mongoose.Types.ObjectId, ref: "ExLevel"
   },
   valid:Boolean,
