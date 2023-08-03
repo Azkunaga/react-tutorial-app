@@ -15,9 +15,10 @@ const partStats = require('../models/partStats');
 
 const recommendQuestions = async (username) => {
     try{
-        const topicData = await getTutorialStats(username);
-        const topic = await chains.chatGPTChain.call({data: topicData});
-        const res2 = await chains.recommendChain.call({component: topic})
+        const data = await getTutorialStats(username);
+        return;
+        const topics = await chains.topicChain.call({data: data});
+        const res2 = await chains.recommendChain.call({component: topics})
         return res2;
     }catch(error){
         console.log(error.message)
@@ -27,33 +28,52 @@ const recommendQuestions = async (username) => {
 const getTutorialStats = async(username) =>{
     try {
         const u = await userService.searchUser(username);
-        const topicNames = topic.find().distinct('name');
+        const topicNames = await topic.find();
         const stats = [];
-        topicNames.forEach(element => {
-            const questions = question.find({topic: element._id, valid:true}).select('_id');
-            const answers = answer.find({user:u._id, answerToQuestion: {$in:questions}});
-            const correct = answers.filter(function(a) {
-                return a.correct == true
-            }).count();
-            const incorrect = answers.filter(function(a) {
-                return a.correct == false
-            }).count();
-            const parts = tutorialPart.find({topic:element._id}).select('_id');
-            const pStats = partStats.find({ tutorialPart: {$in:parts}});
-            let allDuration = 0;
-            pStats.forEach(s => {
-                allDuration+=s.duration;
-            });
-
-            stats.push({
-                topicName:element.name,
-                duration: allDuration + " seconds",
-                correctNum: correct,
-                incorrectNum: incorrect,
+        var bar = new Promise((resolve, reject) => {
+            topicNames.forEach(async (value, index, array) => {
+                const parts = await tutorialPart.find({topic:value._id});
+                const partInfoArray = []; 
+                var bar1 = new Promise((resolve, reject) => { 
+                    parts.forEach(async (value, index, array)=>{
+                        console.log(value._id);
+                        const questions = await question.find({tutorialPart: value._id}).select('_id');
+                        const answers = await answer.find({user:u._id, answerToQuestion: {$in:questions}});
+                        console.log(answers);
+                        const correct = answers.filter(function(a) {
+                            return a.correct == true
+                        }).length;
+                        const incorrect = answers.filter(function(a) {
+                            return a.correct == false
+                        }).length;
+                        partInfoArray.push({
+                            partName: value.name,
+                            correctNum: correct,
+                            incorrectNum: incorrect,
+                        });
+                    });
+                });
+                const pStats = partStats.find({ tutorialPart: {$in:parts}});
+                let allDuration = 0;
+                if((await pStats).length){
+                    await pStats.forEach(s => {
+                        allDuration+=s.duration;
+                    });
+                }
+                bar1.then(()=>{
+                    stats.push({
+                        topicName:element.name,
+                        partsInfo: partInfoArray,
+                        duration: allDuration + "seconds",
+                    });
+                });
             });
         });
-        const topicAnswer = await chains.topicChain.call({data:JSON.stringify(stats)});
-        return topicAnswer.text;
+
+        return bar.then(async ()=>{
+            console.log(stats);
+            return stats;
+        });
          
     } catch (error) {
         console.log(error.message)
@@ -155,7 +175,6 @@ let calculateLevel = async(username, tutPart, calculatedType) =>{
         console.log(JSON.stringify(levelData));
         levelResponse = await chains.levelChain.call({tutorialPart: tutPart, exerciseType: calculatedType, data:JSON.stringify(levelData)});
         let l = "";
-        console.log(levelResponse.text)
         levels.forEach(async function(element){
             if(levelResponse.text.includes(element.name)){
                 l = element.name;

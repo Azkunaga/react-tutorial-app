@@ -4,7 +4,9 @@ const systemRole = "You are a computer science lecturer that handles students ni
 "correcting their mistakes, and indicating ways to improve their learning. You are going to correct and create exercises for React.";
 
 const recommendPrompt = PromptTemplate.fromTemplate(
-  `Which are the common questions about React {component}?`
+  `You are a React tutoring system. The tutorial is separated in this parts:
+  
+  Which are the common questions about React {component}?`
 );
 
 const codeExPrompt = PromptTemplate.fromTemplate(
@@ -38,7 +40,9 @@ times has the user return to that part.
 
 {data}
 
-Decide which of the topics is where the user has more problems. Just mention the topic. Dont give extra explanations.`);
+Decide which of the parts are the most problematics for the user.
+Give the answer starting with "Parts:".
+Separate the parts by dots.`);
 
 const typePrompt = PromptTemplate.fromTemplate(
   `You will perform as a tutorial system in a React Environment. Now with some user information you will have to modulate the user. 
