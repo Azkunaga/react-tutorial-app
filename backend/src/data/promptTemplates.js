@@ -5,9 +5,15 @@ const systemRole = "You are a computer science lecturer that handles students ni
 
 const recommendPrompt = PromptTemplate.fromTemplate(
   `You are a React tutoring system.
+
+  The user has problems in the following parts of the React tutorial:
+
+  {component}
+
+  Which are the common 10 questions you are made about those topics that can help a user in their learning progress? 
   
-   Which are the common questions your are made about React {component} that can help a user in their learning progress?
-   Separate them by dots.`
+  Just give the questions.
+  `
 );
 
 const codeExPrompt = PromptTemplate.fromTemplate(
@@ -36,14 +42,14 @@ const testPrompt = PromptTemplate.fromTemplate(
 const topicPrompt = PromptTemplate.fromTemplate(`
 You will perform as a tutorial system in a React Environment. Now with some user information you will have to modulate the user. 
 
-You will receive the user performance through the different tutorial parts, such as, correct and wrong answers, time on each part and how many
+You will receive the user performance through the different tutorial principal parts, such as, correct and wrong answers, time on each part and how many
 times has the user return to that part.
 
 {data}
 
-Decide which of the parts are the most problematics for the user.
+Decide which of the parts are the most problematics for the user. Just give the "topicName".
 Give the answer starting with "Parts:".
-Separate the parts by dots.`);
+`);
 
 const typePrompt = PromptTemplate.fromTemplate(
   `You will perform as a tutorial system in a React Environment. Now with some user information you will have to modulate the user. 

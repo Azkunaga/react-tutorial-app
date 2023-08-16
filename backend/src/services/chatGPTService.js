@@ -6,6 +6,7 @@ const exTypeService = require('./exTypeService');
 const questionService = require('./questionService');
 const tutorialService = require('./tutorialService');
 const exLevelService = require('./exLevelService');
+const partStatsService = require("./partStatsService");
 
 const answer = require('../models/answer');
 const topic = require('../models/topic');
@@ -16,15 +17,10 @@ const partStats = require('../models/partStats');
 const recommendQuestions = async (username) => {
     try{
         const data = await getTutorialStats(username);
-        // console.log(JSON.stringify(data));
-        return;
-        if(!data){
-            const res = await chains.recommendChain.call({component: " "}); 
-            return res;
-        }
-        const topics = await chains.topicChain.call({data: data});
-        const res2 = await chains.recommendChain.call({component: topics})
-        return res2;
+        const topics = await chains.topicChain.call({data: JSON.stringify(data)});
+        const pTopcis = topics.text.split("Parts:")[1];
+        const res2 = await chains.recommendChain.call({component: pTopcis})
+        return res2.text;
     }catch(error){
         console.log(error.message)
     }
@@ -35,63 +31,45 @@ const getTutorialStats = async(username) =>{
         const u = await userService.searchUser(username);
         const topicNames = await topic.find();
         let stats = [];
-        const bar = new Promise((resolve, reject) => {
-            topicNames.forEach(async (value, index, array) => {
-                let parts = await tutorialPart.find({topic:value._id});
-                let partInfoArray = []; 
-                var bar1 = new Promise((resolve, reject) => { 
-                    parts.forEach(async (value, index, array) => {
-                        const questions = await question.find({ tutorialPart: value._id }).select('_id');
-                        const answers = await answer.find({ user: u._id, answerToQuestion: { $in: questions } });
-                        const correct = answers.filter(function (a) {
-                            return a.correct == true;
-                        }).length;
-                        const incorrect = answers.filter(function (a) {
-                            return a.correct == false;
-                        }).length;
-                        partInfoArray.push({
-                            partName: value.name,
-                            correctNum: correct,
-                            incorrectNum: incorrect,
-                        });
-                        if (index === array.length - 1) resolve();
-                    });
+        await Promise.all(topicNames.map(async (value)=>{
+            let parts = await tutorialPart.find({topic:value._id});
+            let partInfoArray = [];
+            let allDuration, allReturn = 0;
+            await Promise.all(parts.map(async (value2)=>{
+                const questions = await question.find({ tutorialPart: value2._id }).select('_id');
+                const answers = await answer.find({ user: u._id, answerToQuestion: { $in: questions } });
+                const correct = answers.filter(function (a) {
+                    return a.correct == true;
+                }).length;
+                const incorrect = answers.filter(function (a) {
+                    return a.correct == false;
+                }).length;
+                const pStats = await partStatsService.getPartStats(value2.name,username);
+                if(pStats){
+                    allDuration += pStats.duration;
+                    allReturn += pStats.return;
+                }
+                partInfoArray.push({
+                    partName: value.name,
+                    correctNum: correct,
+                    incorrectNum: incorrect,
                 });
-               
-                bar1.then(async()=>{
-                    let partsIds = await tutorialPart.find({topic:value._id}).select('_id');
-                    console.log(partsIds);
-                    let pStats = await partStats.find({ tutorialPart: {$in:partsIds}});
-                    let allDuration = 0;
-                    var bar2 = new Promise((resolve, reject) => {     
-                        console.log("bar2");  
-                        if(pStats.length > 0){
-                            pStats.forEach(async (value, index, array) => {
-                                allDuration+=value.duration;
-                                if (index === array.length - 1) resolve();
-                            });
-                        }
-                    });
-                    bar2.then(()=>{
-                        console.log("bar2 then");
-                        stats.push({
-                            topicName: value.name,
-                            partsInfo: partInfoArray || "no information",
-                            duration: allDuration + "seconds",
-                        });
-                        
-                        //console.log(stats);
-                    })
-                });
-                if (index === array.length -1) resolve();
+            }))
+            let info = "no information";
+            if(partInfoArray.length>0){
+                info = partInfoArray
+            }
+            stats.push({
+                topicName: value.name,
+                topicOrder: value.order,
+                partsInfo: info,
+                duration: allDuration + " seconds",
+                returns: allReturn + " returns"
             });
-        });
+        }))
 
-        bar.then(()=>{
-            console.log(stats); //problems here, no content
-            console.log("return");
-        });
-         
+        return stats;
+
     } catch (error) {
         console.log(error.message)
     }
