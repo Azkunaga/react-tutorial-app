@@ -3,9 +3,7 @@ const answerService = require('../services/answerService');
 
 const askChatGPT = async (req,res) => {
     try{
-      console.log("controller");
       const answer = await chatGPTService.getAnswerToQuestion(req.body.question);
-      console.log(answer);
       return res.status(200).send({
         answer,
       });
@@ -19,7 +17,6 @@ const askChatGPT = async (req,res) => {
 const recommendQuestionsChatGPT = async (req,res) => {
     try{
         const questionList = await chatGPTService.recommendQuestions(req.body.username);
-        console.log(questionList);
         if(!questionList){
             return res.status(500).send({
                 error: "Something went wrong",

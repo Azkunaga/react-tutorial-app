@@ -1,15 +1,14 @@
-const valoration = require('../models/valoration');
+const mongodbConnection = require('../config/mongodb');
 const question = require('../models/question');
-const tutorialService = require('./tutorialService');
+const tutorialPartService = require('./tutorialService');
 const exTypeService = require('./exTypeService');
 const exLevelService = require('./exLevelService');
-const mongodbConnection = require('../config/mongodb');
 
 const valueQuestion = async (question,stars) => {
     try{
         mongodbConnection();
-        const quest = getQuestionById(question)
-        valoration.create({
+        const quest = await getQuestionById(question)
+        const valoration = await valoration.create({
             question:quest,
             value:stars,
         })
@@ -19,12 +18,16 @@ const valueQuestion = async (question,stars) => {
     }
 }
 
-const getQuestion = async (topic,part) => {
+const getQuestions = async (tutPart,type, difficulty) => {
     try{
         mongodbConnection();
-        const quest = question.find({
-            topic:topic,
-            part:part,
+        const tp = await tutorialPartService.getPart(tutPart);
+        const ty = await exTypeService.getExType(type);
+        const l = await exLevel.getExLevel(difficulty);
+        const quest = await question.find({
+            tutorialPart:tp,
+            type:ty,
+            difficulty: l,
             valid:false,
         })  
         return quest;
@@ -56,7 +59,7 @@ const addQuestion = async (tutPart,type,level,questionStatement, questionAnswer)
 const validQuestion = async (questionID) => {
     try{
         mongodbConnection();
-        await question.findOneAndUpdate({id:questionID}, {valid:true}, {
+        await question.findOneAndUpdate({id:questionID}, {valid:false}, {
             new: true
           });
     }catch(error){
@@ -88,7 +91,7 @@ const getQuestionById = async (questionID) => {
 
 module.exports = {
     valueQuestion,
-    getQuestion,
+    getQuestions,
     addQuestion,
     validQuestion,
     deleteQuestion,

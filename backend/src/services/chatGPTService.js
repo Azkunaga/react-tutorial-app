@@ -16,7 +16,12 @@ const partStats = require('../models/partStats');
 const recommendQuestions = async (username) => {
     try{
         const data = await getTutorialStats(username);
+        // console.log(JSON.stringify(data));
         return;
+        if(!data){
+            const res = await chains.recommendChain.call({component: " "}); 
+            return res;
+        }
         const topics = await chains.topicChain.call({data: data});
         const res2 = await chains.recommendChain.call({component: topics})
         return res2;
@@ -29,50 +34,62 @@ const getTutorialStats = async(username) =>{
     try {
         const u = await userService.searchUser(username);
         const topicNames = await topic.find();
-        const stats = [];
-        var bar = new Promise((resolve, reject) => {
+        let stats = [];
+        const bar = new Promise((resolve, reject) => {
             topicNames.forEach(async (value, index, array) => {
-                const parts = await tutorialPart.find({topic:value._id});
-                const partInfoArray = []; 
+                let parts = await tutorialPart.find({topic:value._id});
+                let partInfoArray = []; 
                 var bar1 = new Promise((resolve, reject) => { 
-                    parts.forEach(async (value, index, array)=>{
-                        console.log(value._id);
-                        const questions = await question.find({tutorialPart: value._id}).select('_id');
-                        const answers = await answer.find({user:u._id, answerToQuestion: {$in:questions}});
-                        console.log(answers);
-                        const correct = answers.filter(function(a) {
-                            return a.correct == true
+                    parts.forEach(async (value, index, array) => {
+                        const questions = await question.find({ tutorialPart: value._id }).select('_id');
+                        const answers = await answer.find({ user: u._id, answerToQuestion: { $in: questions } });
+                        const correct = answers.filter(function (a) {
+                            return a.correct == true;
                         }).length;
-                        const incorrect = answers.filter(function(a) {
-                            return a.correct == false
+                        const incorrect = answers.filter(function (a) {
+                            return a.correct == false;
                         }).length;
                         partInfoArray.push({
                             partName: value.name,
                             correctNum: correct,
                             incorrectNum: incorrect,
                         });
+                        if (index === array.length - 1) resolve();
                     });
                 });
-                const pStats = partStats.find({ tutorialPart: {$in:parts}});
-                let allDuration = 0;
-                if((await pStats).length){
-                    await pStats.forEach(s => {
-                        allDuration+=s.duration;
+               
+                bar1.then(async()=>{
+                    let partsIds = await tutorialPart.find({topic:value._id}).select('_id');
+                    console.log(partsIds);
+                    let pStats = await partStats.find({ tutorialPart: {$in:partsIds}});
+                    let allDuration = 0;
+                    var bar2 = new Promise((resolve, reject) => {     
+                        console.log("bar2");  
+                        if(pStats.length > 0){
+                            pStats.forEach(async (value, index, array) => {
+                                allDuration+=value.duration;
+                                if (index === array.length - 1) resolve();
+                            });
+                        }
                     });
-                }
-                bar1.then(()=>{
-                    stats.push({
-                        topicName:element.name,
-                        partsInfo: partInfoArray,
-                        duration: allDuration + "seconds",
-                    });
+                    bar2.then(()=>{
+                        console.log("bar2 then");
+                        stats.push({
+                            topicName: value.name,
+                            partsInfo: partInfoArray || "no information",
+                            duration: allDuration + "seconds",
+                        });
+                        
+                        //console.log(stats);
+                    })
                 });
+                if (index === array.length -1) resolve();
             });
         });
 
-        return bar.then(async ()=>{
-            console.log(stats);
-            return stats;
+        bar.then(()=>{
+            console.log(stats); //problems here, no content
+            console.log("return");
         });
          
     } catch (error) {

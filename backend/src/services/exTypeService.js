@@ -4,7 +4,7 @@ const exType = require('../models/exType');
 const addExType = async (name,description) => {
     try{
         mongodbConnection();
-        const t = exType.create({
+        const t = await exType.create({
             name:name,
             description: description
         })
@@ -17,7 +17,7 @@ const addExType = async (name,description) => {
 const getExType = async (name) => {
     try{
         mongodbConnection();
-        const t = exType.findOne({
+        const t = await exType.findOne({
             name:name,
         })
         return t;
@@ -29,7 +29,7 @@ const getExType = async (name) => {
 const getAll = async () => {
     try{
         mongodbConnection();
-        const all = exType.find();
+        const all = await exType.find();
         return all;
     }catch(error){
         console.log(error.message)
@@ -39,7 +39,7 @@ const getAll = async () => {
 const deleteExType = async (name) => {
     try{
         mongodbConnection();
-        const t = exType.deleteOne({
+        const t = await exType.deleteOne({
             name:name,
         })
         return t;

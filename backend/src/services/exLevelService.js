@@ -4,7 +4,7 @@ const exLevel = require('../models/exLevel');
 const addExLevel = async (name) => {
     try{
         mongodbConnection();
-        const t = exLevel.create({
+        const t = await exLevel.create({
             name:name,
         })
         return t;
@@ -16,7 +16,7 @@ const addExLevel = async (name) => {
 const getExLevel = async (name) => {
     try{
         mongodbConnection();
-        const t = exLevel.findOne({
+        const t = await exLevel.findOne({
             name:name,
         })
         return t;
@@ -28,7 +28,7 @@ const getExLevel = async (name) => {
 const getAll = async () => {
     try{
         mongodbConnection();
-        const all = exLevel.find();
+        const all = await exLevel.find();
         return all;
     }catch(error){
         console.log(error.message)
@@ -38,7 +38,7 @@ const getAll = async () => {
 const deleteExLevel = async (name) => {
     try{
         mongodbConnection();
-        const t = exLevel.deleteOne({
+        const t = await exLevel.deleteOne({
             name:name,
         })
         return t;

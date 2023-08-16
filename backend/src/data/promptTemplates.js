@@ -4,9 +4,10 @@ const systemRole = "You are a computer science lecturer that handles students ni
 "correcting their mistakes, and indicating ways to improve their learning. You are going to correct and create exercises for React.";
 
 const recommendPrompt = PromptTemplate.fromTemplate(
-  `You are a React tutoring system. The tutorial is separated in this parts:
+  `You are a React tutoring system.
   
-  Which are the common questions about React {component}?`
+   Which are the common questions your are made about React {component} that can help a user in their learning progress?
+   Separate them by dots.`
 );
 
 const codeExPrompt = PromptTemplate.fromTemplate(

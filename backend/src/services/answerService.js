@@ -6,8 +6,8 @@ const mongodbConnection = require('../config/mongodb');
 const createAnswer = async (user, questionId, answerText, help, eval) => {
     try{
         mongodbConnection();
-        const u = userService.searchUser(user);
-        const q = questionService.getQuestionById(questionId);
+        const u = await userService.searchUser(user);
+        const q = await questionService.getQuestionById(questionId);
         let helpBool = false;
         let answerBool = false;
         if(help){
@@ -16,7 +16,7 @@ const createAnswer = async (user, questionId, answerText, help, eval) => {
         if(eval.startsWith('Yes')){
             answerBool = true;
         }
-        answer.create({
+        await answer.create({
             user:u,
             answer:answerText,
             answerToQuestion:q,
