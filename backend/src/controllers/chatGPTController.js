@@ -60,11 +60,11 @@ const helpWithQuestion = async(questionId)=>{
 
 const evaluateAnswer = async (req,res) => {
     try{
-        const eval = evaluate(req.body.history,req.body.answer);
-        answerService.createAnswer(req.body.user, req.body.questionID, req.body.answer, req.body.help, eval);
+        const eval = evaluate(req.body.questionId,req.body.answer);
+        answerService.createAnswer(req.body.user, req.body.questionID, req.body.answer, req.body.help, req.body.duration, eval);
 
         return res.status(200).send({
-            answer: correct
+            answer: eval
           });
 
     }catch (error) {

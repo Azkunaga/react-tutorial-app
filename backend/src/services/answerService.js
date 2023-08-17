@@ -3,7 +3,7 @@ const userService = require('../services/userService');
 const questionService = require('../services/questionService');
 const mongodbConnection = require('../config/mongodb');
 
-const createAnswer = async (user, questionId, answerText, help, eval) => {
+const createAnswer = async (user, questionId, answerText, help, dur, eval) => {
     try{
         mongodbConnection();
         const u = await userService.searchUser(user);
@@ -18,11 +18,12 @@ const createAnswer = async (user, questionId, answerText, help, eval) => {
         }
         await answer.create({
             user:u,
-            answer:answerText,
             answerToQuestion:q,
+            answer:answerText,
             correct:anwserBool,
             help: helpBool,
-            correction:eval
+            correction:eval,
+            duration: dur
         })
     }catch(error){
         console.log(error.message)

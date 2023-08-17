@@ -12,7 +12,6 @@ const answer = require('../models/answer');
 const topic = require('../models/topic');
 const question = require('../models/question');
 const tutorialPart = require('../models/tutorialPart');
-const partStats = require('../models/partStats');
 
 const recommendQuestions = async (username) => {
     try{
@@ -219,7 +218,7 @@ const createExercise = async (username,tutPart,type,level) => {
         const ex = split2[0].trim(" ");
         const pA = split2[1].trim(" ");
         const quest = await questionService.addQuestion(tutPart,calculatedType,calculatedLevel, ex, pA);
-        return quest;
+        return quest.text;
     }catch(error){
         console.log(`Error message: ${error.message}`)
     }
@@ -227,8 +226,9 @@ const createExercise = async (username,tutPart,type,level) => {
 
 const evaluate = async (quest,ans) => {
     try{
-        const res = chains.answerEvaluationChain({question:quest, answer: ans})
-        return res;
+        const question = await questionService.getQuestionById(quest);
+        const res = await chains.answerEvaluationChain({question:question.question, pAnswer: question.correctAnswer, answer: ans})
+        return res.text;
     }catch(error){
         console.log(error.message)
     }
@@ -236,8 +236,9 @@ const evaluate = async (quest,ans) => {
 
 const getHelpWithQuestion = async(quest) => {
     try{
-        const res = chains.helpChain({question:quest})
-        return res;
+        const question = await questionService.getQuestionById(quest);
+        const res = chains.helpChain({question:question.question})
+        return res.text;
     }catch(error){
         console.log(error.message)
     }

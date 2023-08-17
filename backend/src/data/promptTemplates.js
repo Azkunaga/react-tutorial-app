@@ -81,7 +81,7 @@ const answerEvaluationPrompt = PromptTemplate.fromTemplate(
 
   Possible answer: {pAnswer}
 
-  User answer: {answer}
+  Answer given by the user: {answer}
 
   Correct the user answer and give explanations or/and tips. 
   Start the correction with Yes/No. 
