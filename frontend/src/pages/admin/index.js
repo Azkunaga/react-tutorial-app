@@ -1,11 +1,12 @@
 import React from 'react'
+import {Container} from 'react-bootstrap';
 
 const AdminPage = () => {
 
     return (
-        <div>
-           <p>Admin page</p>
-        </div>
+        <Container>
+           <h1>Admin page</h1>
+        </Container>
     )
 }
 

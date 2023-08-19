@@ -1,4 +1,4 @@
-import './style.css';
+// import './style.css';
 import {normalAxios} from '../../api/axios'
 import { useNavigate } from "react-router-dom";
 import {useRef,useState,useEffect} from 'react';

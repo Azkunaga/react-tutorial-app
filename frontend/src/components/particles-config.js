@@ -1,7 +1,7 @@
 const particlesConfig = {
       background: {
         color: {
-            value: "#232741",
+            value: "#f0ede2",
         },
     },
     fpsLimit: 120,
@@ -14,7 +14,7 @@ const particlesConfig = {
         }
       },
       color: {
-        value: "#ffffff"
+        value: "#707070"
       },
       shape: {
         type: "circle",

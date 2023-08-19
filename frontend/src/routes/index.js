@@ -17,16 +17,17 @@ import Unauthorized from '../pages/unauthorized';
 
 const AppRoutes = () => {
     return (
-        <BrowserRouter>
+        
           <Routes>
             {/* Public routes */}
             <Route path="/" exact element={<Home/>} />
             <Route path="/register" exact element={<Register/>} />
             <Route path="/login" exact element={<Login/>} />
             <Route path="/unauthorized" exact element={<Unauthorized/>} />
+            <Route path="/admin" exact element={<AdminPage/>} />
 
             {/* Protected routes */}
-            <Route element={<RequireAuth allowedRoles={ROLES.STUDENT} />}>
+            {/* <Route element={<RequireAuth allowedRoles={ROLES.STUDENT} />}>
               <Route path="/student" exact element={<StudentPage/>} />
             </Route>
 
@@ -35,14 +36,13 @@ const AppRoutes = () => {
             </Route>
 
             <Route element={<RequireAuth allowedRoles={ROLES.ADMIN} />}>
-              <Route path="/amdin" exact element={<AdminPage/>} />  
-            </Route>
+              <Route path="/admin" exact element={<AdminPage/>} />  
+            </Route> */}
 
             {/* Catch all */}
             <Route path="*" exact element={<NoExists/>} />
 
           </Routes>
-        </BrowserRouter>
     )
 }
 

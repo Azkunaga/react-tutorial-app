@@ -1,3 +1,8 @@
+main {
+  min-height: 90vh;
+  background-color: #f0ede2;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
