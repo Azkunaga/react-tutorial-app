@@ -23,9 +23,12 @@ checkDuplicateUsernameOrEmail = async(req, res, next) => {
         next();
       });
 
-      const codeObj = await codeService.getCode(req.body.code);
-      if(!codeObj){
-        res.status(409).send({ message: "Failed! Class Code does not exist!" });
+      
+      if(ereq.body.code){
+        const codeObj = await codeService.getCode(req.body.code);
+        if(!codeObj){
+          res.status(409).send({ message: "Failed! Class Code does not exist!" });
+        }
       }
 
 
