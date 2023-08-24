@@ -16,9 +16,9 @@ const HomeText = () => {
                 </Row>
                 <Row>
                     <Col>
-                        <div class="button" id="gs_button">
-                            <div id="slide"></div>
-                            <a id="gs_a" href="/register">Get started</a>
+                        <div className="gs_button" id="gs_button">
+                            <div className="slide"></div>
+                            <a className="gs_a" href="/login">Get started</a>
                         </div>
                     </Col>
                 </Row>

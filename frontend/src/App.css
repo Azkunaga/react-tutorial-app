@@ -1,24 +1,24 @@
 .App {
-  text-align: center;
+  /* text-align: center; */
 }
 
-#gs_a {
+.gs_a {
   color: #5b5b5b;
   text-decoration: none;
   letter-spacing: 1px;
 }
-#gs_button{
+.gs_button{
   position: relative;
   overflow: hidden;
   cursor: pointer;
 }
 
-#gs_button a {
+.gs_button a {
   position: relative;
   transition: all .35s ease-Out;
 }
 
-.button {
+.gs_button {
   display: inline-flex;
   height: 40px;
   width: 150px;
@@ -34,18 +34,18 @@
   overflow: hidden;
 }
 
-#gs_button {
+.gs_button {
   position: relative;
   overflow: hidden;
   cursor: pointer;
 }
 
-#gs_button a {
+.gs_button a {
   position: relative;
   transition: all .35s ease-Out;
 }
 
-#slide {
+.slide {
   width: 100%;
   height: 100%;
   left: -200px;
@@ -55,10 +55,10 @@
   bottom: 0;
 }
 
-#gs_button:hover #slide {
+.gs_button:hover .slide {
   left: 0;
 }
 
-#gs_button:hover a {
+.gs_button:hover a {
   color: #ffffff;
 }

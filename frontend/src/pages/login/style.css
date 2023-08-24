@@ -1,3 +1,65 @@
-body{
-    
+.form-section{
+    min-width: 200px;
+    font-family: sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
 }
+
+.center-cont{
+    margin: 0;
+}
+
+.reg{
+    margin-top: 20px;
+    font-size: 13px;
+    text-align: right;
+}
+
+.gs_button.login {
+   left: 10px;
+}
+
+.gs_button.register {
+    left: 30%;
+ }
+
+.auth-form {
+    background-color: white;
+    padding: 2rem;
+    max-width: 40rem;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.log-button{
+    display: flex;
+    justify-content: center;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 10px;
+  }
+
+.title {
+    font-size: 25px;
+    margin-bottom: 20px;
+  }
+
+.errmsg{
+    color: red;
+    font-size:12px;
+}
+
+.auth-form input[type="text"],
+.auth-form input[type="email"],
+.auth-form select,
+.auth-form input[type="password"] {
+  height: 25px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+

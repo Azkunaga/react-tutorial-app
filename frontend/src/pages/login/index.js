@@ -1,7 +1,7 @@
 import React from 'react'
+import './style.css'
 import {useRef,useState,useEffect} from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-
 import {normalAxios} from '../../api/axios'
 
 const Login = () => {
@@ -61,12 +61,13 @@ const Login = () => {
     }
 
     return (
-        <section>
-            <form onSubmit={handleSubmit}>
-                <div className="title">Log In</div>
+        <section className='form-section'>
+            <form className='auth-form' onSubmit={handleSubmit}>
+                <div className="title">Sign In</div>
                 <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-
-                <div className='input-container ic1'>
+                <div className='center-cont'>
+                <div className='input-container'>
+                    <label htmlFor='username'>Username</label>
                     <input 
                         placeholder="   "
                         type="text"
@@ -77,11 +78,10 @@ const Login = () => {
                         required
                         onChange={(e) => setUsername(e.target.value)}
                     />
-                    <div className="cut"></div>
-                    <label htmlFor='username' className="placeholder">Username</label>
                 </div>
 
-                <div className='input-container ic2'>
+                <div className='input-container'>
+                    <label htmlFor="password">Password</label>
                     <input
                        placeholder=" "
                         type="password"
@@ -90,18 +90,21 @@ const Login = () => {
                         value={pwd}
                         required
                     />
-                    <div className="cut"></div>
-                     <label htmlFor="password" className="placeholder" >Password</label>
                 </div>
 
-                <button disabled={(!username || !pwd) ? true : false}>Log In</button>
-                <br/>
-                <p className='login'>
+                <div class={(username && pwd) ? "gs_button login": "gs_button login notSelectable"} onClick={handleSubmit} disabled={(!username || !pwd) ? true : false}>
+                    <div className="slide"></div>
+                    <a className="gs_a" href="/register">Sign In</a>
+                </div>
+                
+                <p className='reg'>
                     Need an account?&nbsp;
                     <span className="line">
                         <a href="/register">Register</a>
                     </span>
                 </p>
+                </div>
+                
             </form>
         </section>
     )
