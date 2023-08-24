@@ -2,12 +2,12 @@ const user = require('../models/user');
 const mongodbConnection = require('../config/mongodb');
 const codeService = require('../services/codeService');
 
-checkDuplicateUsernameOrEmail = (req, res, next) => {
+checkDuplicateUsernameOrEmail = async(req, res, next) => {
     // Username
     mongodbConnection();
     user.findOne({
       username: req.body.username
-    }).then((u) => {
+    }).then(async (u) => {
       //username
       if (u) {
         return res.status(409).send({ message: "Failed! Username is already in use!" });
@@ -22,6 +22,13 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
         }
         next();
       });
+
+      const codeObj = await codeService.getCode(req.body.code);
+      if(!codeObj){
+        res.status(409).send({ message: "Failed! Class Code does not exist!" });
+      }
+
+
     }).catch((err) =>{
         res.status(500).send({ message: err });
         return;
