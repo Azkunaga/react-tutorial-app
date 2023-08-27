@@ -1,17 +1,19 @@
 import React from "react";
-import tutImage from '../img/tutorial-icon.jpg'
+import {Card} from 'react-bootstrap'
 
-const Card = () => {
+const MenuCard = (props) => {
 
     return (  
-       <div className="card">
-            <img src={tutImage} />
-            <div className="card-content">
-                <h3>Edit Tutorial</h3>
-                <p>You will be able to edit tutorial parts and exercises</p>
-            </div>
-       </div>
+        <a href={props.element.redirect}><Card style={{ width: '18rem' }}>
+            <Card.Img variant="top" src={props.element.img} />
+            <Card.Body>
+                <Card.Title>{props.element.title}</Card.Title>
+                <Card.Text>
+                    {props.element.text}
+                </Card.Text>
+            </Card.Body>
+        </Card></a>
     );
 }
  
-export default Card;
+export default MenuCard;

@@ -4,4 +4,10 @@
     justify-content: center;
     flex-direction: column;
     display: flex;
+    padding-top: 10vh;
+    padding-bottom: 10vh;
+}
+
+.center-content .row{
+    column-gap: 8vh;
 }

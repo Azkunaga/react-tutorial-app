@@ -1,13 +1,13 @@
 import React from "react";
-import {Container,Row,Col,Button } from 'react-bootstrap';
-
+import {Container,Row,Col} from 'react-bootstrap';
+import logo from "../img/logo_large_gris.png"
 const HomeText = () => {
     return(
         <Container>
             <div className='home-text'>
                 <Row>
                     <Col><img
-                        src = "logo_large_gris.png"
+                        src = {logo}
                         width="auto"
                         height="60"
                         className="d-inline-block align-top"

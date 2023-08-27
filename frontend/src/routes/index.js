@@ -8,8 +8,12 @@ import Login from '../pages/login';
 import Home from '../pages/home';
 
 import TeacherPage from '../pages/teacher';
+
 import StudentPage from '../pages/student';
+
 import AdminPage from '../pages/admin';
+import TutorialEditPage from '../pages/admin/tutorialEdit';
+import UsersEditPage from '../pages/admin/usersEdit'
 
 import NoExists from '../pages/noExists';
 import Unauthorized from '../pages/unauthorized';
@@ -25,6 +29,8 @@ const AppRoutes = () => {
             <Route path="/login" exact element={<Login/>} />
             <Route path="/unauthorized" exact element={<Unauthorized/>} />
             <Route path="/admin" exact element={<AdminPage/>} />
+            <Route path="/admin/tutorial" exact element={<TutorialEditPage/>} /> 
+            <Route path="/admin/users" exact element={<UsersEditPage/>} />
 
             {/* Protected routes */}
             {/* <Route element={<RequireAuth allowedRoles={ROLES.STUDENT} />}>
@@ -36,7 +42,9 @@ const AppRoutes = () => {
             </Route>
 
             <Route element={<RequireAuth allowedRoles={ROLES.ADMIN} />}>
-              <Route path="/admin" exact element={<AdminPage/>} />  
+              <Route path="/admin" exact element={<AdminPage/>} /> 
+              <Route path="/admin/tutorial" exact element={<TutorialEditPage/>} /> 
+              <Route path="/admin/users" exact element={<UsersEditPage/>} />
             </Route> */}
 
             {/* Catch all */}
