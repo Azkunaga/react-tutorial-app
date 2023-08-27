@@ -3,7 +3,7 @@ import {Container,Row,Col,Button } from 'react-bootstrap';
 
 const HomeText = () => {
     return(
-        <Container flex>
+        <Container>
             <div className='home-text'>
                 <Row>
                     <Col><img

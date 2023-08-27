@@ -5,13 +5,13 @@ import './style.css';
 const Footer = () => {
 
     return (  
-        <div className="color-footer">
+        <footer>
             <Row>
                 <Col className="text-center py-3">
                     Copyright &copy; ReactLearn 
                 </Col>
             </Row>
-        </div>
+        </footer>
        
     );
 }

@@ -5,6 +5,7 @@ import './style.css';
 const Header = () => {
 
     return (  
+        <header>
          <Navbar className="color-nav" expand="lg" variant="light">
             <Container>
                 <Navbar.Brand href="/">
@@ -25,6 +26,7 @@ const Header = () => {
                 </Navbar.Collapse>
             </Container>
         </Navbar>
+        </header>
     );
 }
  

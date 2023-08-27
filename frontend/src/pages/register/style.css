@@ -6,8 +6,8 @@
 .reg-section{
     margin: 0 auto;  
     display: flex;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+    padding-top: 6vh;
+    padding-bottom: 5vh;
     font-family: sans-serif;
     align-items: center;
     justify-content: center;
