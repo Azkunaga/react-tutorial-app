@@ -15,8 +15,7 @@ body{
 
 footer{
   background-color: #f0ede2;
-  position: fixed;
-  bottom: 0;
+  position:static;
   width: 100%;
   height: 70px; /* replace with actual footer height */
 }

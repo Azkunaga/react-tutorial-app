@@ -15,11 +15,11 @@ const addTopic = async (name,order) => {
     }
 }
 
-const getTopic = async (name) => {
+const getTopic = async (topicId) => {
     try{
         mongodbConnection();
-        const t = await topic.findOne({
-            name:name,
+        const t = await topic.findById({
+            _id:topicId,
         })
         return t;
     }catch(error){
@@ -39,8 +39,30 @@ const deleteTopic = async (name) => {
     }
 }
 
+const getAllTopics = async()=>{
+    try{
+        mongodbConnection();
+        const t = await topic.find();
+        return t;
+    }catch(error){
+        console.log(error.message)
+    }
+}
+
+const editTopic = async(id,newOrder,newName)=>{
+    try{
+        mongodbConnection();
+        const t = await topic.findOneAndUpdate({_id:id},{order:newOrder,name:newName},{ new: true });
+        return t;
+    }catch(error){
+        console.log(error.message)
+    }
+}
+
 module.exports = {
     addTopic,
     getTopic,
-    deleteTopic
+    getAllTopics,
+    deleteTopic,
+    editTopic
 }

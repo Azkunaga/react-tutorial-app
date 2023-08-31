@@ -1,12 +1,12 @@
 const express = require('express');
 
-
-const { getTutorialPart, addTutorialPart, deleteTutorialPart } = require('../controllers/tutorialController');
+const tutorialController = require('../controllers/tutorialController');
 
 const router = express.Router();
 
-router.get("/:id", getTutorialPart);
-router.post("/", addTutorialPart);
-router.delete("/:id", deleteTutorialPart);
+router.post("/:id", tutorialController.getTutorialPartById);
+router.post('/edit/:id', tutorialController.editTutorialPart);
+router.post("/", tutorialController.addTutorialPart);
+router.delete("/:id", tutorialController.deleteTutorialPart);
 
 module.exports = router;

@@ -36,6 +36,10 @@ const getQuestions = async (tutPart,type, difficulty) => {
     }
 }
 
+const getQuestion = async()=>{
+
+}
+
 const addQuestion = async (tutPart,type,level,questionStatement, questionAnswer) => {
     try{
         mongodbConnection();
@@ -89,11 +93,25 @@ const getQuestionById = async (questionID) => {
     }
 }
 
+const getQuestionByPart = async(partiId) => {
+    try{
+        mongodbConnection();
+        const questions = await question.find({
+            tutorialPart:partiId,
+        }).populate('difficulty').populate('type');
+        return questions;
+    }catch(error){
+        console.log(error.message)
+    }
+}
+
 module.exports = {
     valueQuestion,
     getQuestions,
+    getQuestion,
     addQuestion,
     validQuestion,
     deleteQuestion,
-    getQuestionById
+    getQuestionById,
+    getQuestionByPart
 }

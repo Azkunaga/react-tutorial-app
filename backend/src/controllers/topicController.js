@@ -1,4 +1,5 @@
 const topicService = require('../services/topicService');
+const tutorialService = require('../services/tutorialService');
 
 const addTopic = async (req,res) => {
     try{
@@ -16,23 +17,22 @@ const addTopic = async (req,res) => {
 
 const getTopic = async (req,res) => {
     try{
-        console.log('controller');
-        const topic = await topicService.getTopic(req.body.topic)
-        if(!topic){
+        const topic = await topicService.getTopic(req.params.id);
+        if(topic){
+            res.status(200).send({
+                message: "Topic found",
+                topic,
+              })
+        }else{
             res.status(401).send({
                 message: "Topic not found",
                 error: error.mesage,
             })
-        }else{
-            res.status(200).send({
-                message: "Topic found",
-                topic
-              })
         }
         
     }catch (error) {
         res.status(500).send({
-        error: error.mesage, 
+            error: error.mesage, 
         })
     }
 }
@@ -50,8 +50,53 @@ const deleteTopic = async (req,res) => {
     }
 }
 
+const getAllTopics = async(req,res) =>{
+    try{
+        console.log("topicContr1")
+        const topics = await topicService.getAllTopics();
+        res.status(200).send({
+            topics,
+          })
+    }catch (error) {
+        res.status(500).send({
+        error: error.mesage, 
+        })
+    }
+}
+
+const getTopicParts = async(req,res) =>{
+    try{
+        const parts = await tutorialService.getPartsByTopic(req.body.topicId);
+        res.status(200).send({
+            parts,
+          })
+    }catch (error) {
+        res.status(500).send({
+            error: error.mesage, 
+        })
+    }
+}
+
+const editTopic = async(req,res) => {
+    try{
+        
+        const updatedTopic = await topicService.editTopic(req.params.id, req.body.order, req.body.name);
+        res.status(200).send({
+            message: "Edited Correctly",
+            topic:updatedTopic,
+          })
+    }catch (error) {
+        res.status(500).send({
+            error: error.mesage, 
+        })
+    }
+}
+
 module.exports = {
     addTopic,
     getTopic,
+    getAllTopics,
     deleteTopic,
+    getTopicParts,
+    editTopic,
 }

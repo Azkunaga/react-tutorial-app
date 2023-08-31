@@ -3,8 +3,6 @@ import {normalAxios} from '../../api/axios'
 import { useNavigate } from "react-router-dom";
 import {Container, Row, Col} from 'react-bootstrap';
 import {useRef,useState,useEffect} from 'react';
-import {faInfoCircle} from '@fortawesome/free-solid-svg-icons'
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'  
 import regex from '../../utils/regex';
 
 const Register = () => {
@@ -148,7 +146,7 @@ const Register = () => {
                                 onBlur={() => setUsernameFocus(false)} 
                             />
                             { username && !validUsername ? <p id="nameNote" className="instructions">
-                            <FontAwesomeIcon icon={faInfoCircle} />&nbsp;
+                            <i className="fa-solid fa-circle-info"></i>&nbsp;
                                 4 to 24 characters. Must begin with a letter. Letters, numbers, underscores, hyphens allowed.
                             </p> : null}
                         </div>
@@ -175,7 +173,7 @@ const Register = () => {
                             onBlur={() => setFirstNameFocus(false)}
                         />
                         { firstName && !validFirstName ? <p id="firstNote" className="instructions">
-                        <FontAwesomeIcon icon={faInfoCircle} />&nbsp;
+                        <i className="fa-solid fa-circle-info"></i>&nbsp;
                         Must start with uppercase.
                     </p> : null }
                     </div>
@@ -198,7 +196,7 @@ const Register = () => {
                         onBlur={() => setLastNameFocus(false)}
                     />
                     { lastName && !validLastName ? <p id="lastNote" className="instructions">
-                        <FontAwesomeIcon icon={faInfoCircle} />&nbsp;
+                    <i className="fa-solid fa-circle-info"></i>&nbsp;
                         Must start with uppercase.
                     </p> : null}
                     </div>
@@ -244,7 +242,7 @@ const Register = () => {
                                 onBlur={() => setPwdFocus(false)}
                             />
                             { pwd && !validPwd  ? <p id="pwdnote" className="instructions">
-                                <FontAwesomeIcon icon={faInfoCircle} />&nbsp;
+                            <i className="fa-solid fa-circle-info"></i>&nbsp;
                                 8 to 24 characters. Must include uppercase and lowercase letters, a number and a special character. Allowed special characters: ! @ # $ %
                         </p> : null }
                         </div>
@@ -266,7 +264,7 @@ const Register = () => {
                                 onBlur={() => setMatchFocus(false)}
                         />
                          { matchPwd && !validMatch ? <p id="confirmnote" className="instructions">
-                                <FontAwesomeIcon icon={faInfoCircle} />&nbsp;
+                         <i className="fa-solid fa-circle-info"></i>&nbsp;
                                 It has to be the same as the first one.
                         </p> : null }
                         </div>
@@ -305,7 +303,7 @@ const Register = () => {
                             onBlur={() => setCodeFocus(false)}
                         />
                         <p id="codeNote" className="notRequired">
-                            <FontAwesomeIcon icon={faInfoCircle} />&nbsp;
+                        <i className="fa-solid fa-circle-info"></i>&nbsp;
                             In case you have a class code to be monitored.
                         </p>
                     </div> 

@@ -82,3 +82,10 @@
   background-color: #f5f5f5;
   opacity: 0.9;
 }
+
+/* Back button */
+
+.backButton{
+  float: right;
+  cursor: pointer;
+}

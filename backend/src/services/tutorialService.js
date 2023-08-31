@@ -13,6 +13,17 @@ const getPart = async(partName) => {
     }
 }
 
+const getPartById = async(id) =>{
+    try{
+        mongodbConnection();
+        console.log(id);
+        const tp = await tutorialPart.findOne({_id: id})
+        return tp;
+    }catch(error){
+        console.log(error.message)
+    }
+}
+
 const addPart = async(topicName,name,part,text) => {
     try{
         mongodbConnection();
@@ -40,8 +51,33 @@ const deletePart = async(partId) => {
     }
 }
 
+const editPart = async(id,part,name,text) =>{
+    try{
+        mongodbConnection();
+        const t = await tutorialPart.findOneAndUpdate({_id:id},{part:part,name:name,text:text},{ new: true });
+        return t;
+    }catch(error){
+        console.log(error.message)
+    }
+}
+
+const getPartsByTopic = async(topicId) =>{
+    try{
+        mongodbConnection();
+        const parts = await tutorialPart.find({
+            topic:topicId,
+        })
+        return parts;
+    }catch(error){
+        console.log(error.message)
+    }
+}
+
 module.exports = {
+    getPartById,
     getPart,
     addPart,
     deletePart,
+    editPart,
+    getPartsByTopic,
 }

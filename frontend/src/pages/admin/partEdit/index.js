@@ -6,37 +6,38 @@ import './style.css'
 import {normalAxios} from '../../../api/axios'
 import BackButton from '../../../components/backButton';
 
-const TutorialEditPage = () => {
+const PartEditPage = () => {
 
     let [data, setData] = useState("");
-    let [partData, setPartData] = useState([]);
+    let [exerciseData, setExerciseData] = useState([]);
 
     let [name,setName] = useState("");
-    let [order,setOrder] = useState("");
+    let [part,setPart] = useState("");
+    let [text,setText] = useState("");
 
-    const { id } = useParams();
+
+    const { topicId, partId } = useParams();
   
     useEffect(() => {
-        getData(id);
-        getPartData(id);
-    }, [id]);
+        getData();
+        getExercises();
+    }, [partId]);
 
-    const getData = async (id) => {
+    const getData = async () => {
         try {
             const role = localStorage.getItem('userData')?.role || null;
-            const path = String("/api/tutorial/topic/" + id);
-            const response = await normalAxios.post(path,
+            const response = await normalAxios.post("/api/tutorial/" + partId,
                 JSON.stringify({"role":role}),
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
                 }
-            );            
-            setData(response?.data?.topic);
+            );   
+            setData(response?.data?.part);
 
-            setName(response?.data?.topic.name);
-            setOrder(response?.data?.topic.order)
-            
+            setName(response?.data?.part.name);
+            setPart(response?.data?.part.part);
+            setText(response?.data?.part.text);
 
         } catch (err) {
             if (!err?.response) {
@@ -47,18 +48,18 @@ const TutorialEditPage = () => {
         }
     }
 
-    const getPartData = async (id) => {
+    const getExercises = async (id) => {
         try {
             const role = localStorage.getItem('userData')?.role || null;
-            const response = await normalAxios.post("/api/tutorial/topic/parts",
-                JSON.stringify({"topicId":id, "role": role}),
+            const response = await normalAxios.post("/api/tutorial/question/part",
+                JSON.stringify({"partId":partId, "role": role}),
                 {   
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
                 }
             );
-            
-            setPartData(response?.data?.parts);
+           
+            setExerciseData(response?.data?.questions);
         } catch (err) {
             if (!err?.response) {
                 console.log("not response")
@@ -69,19 +70,17 @@ const TutorialEditPage = () => {
         }
     }
 
-    const saveTopic = async () =>{
+    const savePart = async () =>{
         try {
             const role = localStorage.getItem('userData')?.role || null;
-            const response = await normalAxios.post("/api/tutorial/topic/edit/"+id,
-            JSON.stringify({"order":order, "name":name, "role": role}),
+            const response = await normalAxios.post("/api/tutorial/edit/"+partId,
+            JSON.stringify({"part":part, "name":name, "text":text, "role": role}),
             {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true
             }
             );
-
             console.log(response);
-
         }catch(err){
             if (!err?.response) {
                 console.log("not response")
@@ -94,22 +93,22 @@ const TutorialEditPage = () => {
 
     return (
         <Container>
-           <h2>Edit Tutorial Topic</h2>
+           <h2>Edit Tutorial Part</h2>
            { data &&
            <div>
             <div className='edit'>
-            <form onSubmit={saveTopic}>
+            <form onSubmit={savePart}>
                     <Row>
                         <Col>
                         <div className='input-container'>
-                            <label htmlFor='order'>Order: </label>
+                            <label htmlFor='part'>Part: </label>
                             <input type="number" 
                             placeholder=" "
-                            id="order"
+                            id="part"
                             autoComplete="off"
-                            value={order}
+                            value={part}
                             required
-                            onChange={(e) => setOrder(e.target.value)}
+                            onChange={(e) => setPart(e.target.value)}
                             />
                         </div>
                         </Col>
@@ -125,30 +124,49 @@ const TutorialEditPage = () => {
                             />
                         </div>
                         </Col>
+                        
+                    </Row>
+                    <Row>
+                        <Col>
+                            <div className='input-container'>
+                                <label htmlFor='text'>Content: </label>
+                                <textarea type="text" 
+                                    placeholder=" "
+                                    id="text"
+                                    value={text}
+                                    required
+                                    onChange={(e) => setText(e.target.value)}
+                                />
+                            </div>
+                            </Col>
                     </Row>
 
-                    <div className='edit-actions'>
-                        <button type="button" className="btn btn-dark" onClick={saveTopic}>Save</button>
+                    <div className='edit-actions'>  
+                        <button type="button" className="btn btn-dark" onClick={savePart}>Save</button> 
                     </div>
 
             </form>
            </div>
-           <h3>Topic Parts</h3>
+           <h3>Exercises</h3>
             <MDBTable align='middle' className='topicTable' responsive bordered >
                 <MDBTableHead>
                     <tr>
-                        <th scope='col'>Order</th>
-                        <th scope='col'>Part Name</th>
+                        <th scope='col'>Type</th>
+                        <th scope='col'>Level</th>
+                        <th scope='col'>Valid</th>
+                        <th scope='col'>Question</th>
                         <th scope='col'>Actions</th>
                     </tr>
                 </MDBTableHead>
                 <MDBTableBody>
-                    {partData?.map((el)=>
+                    {exerciseData?.map((el)=>
                         <tr>
-                            <th scope='row' >{el.part}</th>
-                            <td>{el.name}</td>
+                            <th scope='row' >{el.type.name}</th>
+                            <td>{el.difficulty.name}</td>
+                            <td  className='actions'>{el.valid ? <i className="fa-solid fa-check"></i> : <i className="fa-solid fa-xmark"></i>}</td>
+                            <td>{el.question}</td>
                             <td className='actions'>
-                                <a href={'/admin/tutorial/topic/'+id+'/part/'+el._id}>
+                                <a href={'/admin/tutorial/topic/'+topicId+'/part/'+partId+"/exercise/"+el._id}>
                                     <i className="fa-solid fa-pen-to-square"></i>
                                 </a>
                             </td>
@@ -163,4 +181,4 @@ const TutorialEditPage = () => {
     )
 }
 
-export default TutorialEditPage;
+export default PartEditPage;

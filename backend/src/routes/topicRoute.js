@@ -5,7 +5,10 @@ const topicValidator = require('../validators/topicValidator');
 const router = express.Router();
 
 router.post("/", topicValidator.topicExists,topicController.addTopic);
-//router.get("/:id", topicController.getTopic);
+router.get("/all", topicController.getAllTopics);
+router.post("/parts",topicController.getTopicParts);
+router.post("/:id", topicController.getTopic);
+router.post("/edit/:id",topicController.editTopic);
 //router.delete("/:id",topicController.deleteTopic)
 
 module.exports = router;

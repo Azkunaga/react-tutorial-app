@@ -1,9 +1,8 @@
-const express = require('express');
-const { valueQuestion, getQuestion, addQuestion,validQuestion ,deleteQuestion} = require('../services/questionService')
+const questionService = require('../services/questionService')
 
 const valueQuest = async (req,res) => {
     try{
-        valueQuestion(req.body.questionID,req.body.stars);
+        questionService.valueQuestion(req.body.questionID,req.body.stars);
         res.status(200).send({
             message: "Question valuated",
           })
@@ -16,7 +15,7 @@ const valueQuest = async (req,res) => {
 
 const getQuest = async (req,res) => {
     try{
-        const quest = getQuestion(req.body.topic, req.body.part, req.body.user);
+        const quest = questionService.getQuestions(req.body.topic, req.body.part, req.body.user);
         if(!quest){
             res.status(401).send({
                 message: "Questions not found for this topic",
@@ -73,10 +72,24 @@ const deleteQuest = async (req,res) => {
     }
 }
 
+const getQuestionsByPart = async(req,res) =>{
+    try {
+        const questions = await questionService.getQuestionByPart(req.body.partId);
+        res.status(200).send({
+            questions,
+          })
+    } catch (error) {
+        res.status(500).send({
+            error: error.mesage, 
+        })
+    }
+}
+
 module.exports = {
     valueQuest,
     getQuest,
     addQuest,
     validQuest,
     deleteQuest,
+    getQuestionsByPart,
 }
