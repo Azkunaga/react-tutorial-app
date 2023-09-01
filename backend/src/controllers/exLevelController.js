@@ -36,6 +36,20 @@ const getExLevel = async (req,res) => {
     }
 }
 
+const getAll = async (req,res) => {
+    try{
+        const levels = await exLevelService.getAll()
+        res.status(200).send({
+            levels
+            })
+        
+    }catch (error) {
+        res.status(500).send({
+        error: error.mesage, 
+        })
+    }
+}
+
 const deleteExLevel = async (req,res) => {
     try{
         exLevelService.deleteExLevel(req.body.exlevel)
@@ -51,6 +65,7 @@ const deleteExLevel = async (req,res) => {
 
 module.exports = {
     addExLevel,
+    getAll,
     getExLevel,
     deleteExLevel,
 }

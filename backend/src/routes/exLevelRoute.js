@@ -5,6 +5,7 @@ const exlevelValidator = require('../validators/exLevelValidator');
 const router = express.Router();
 
 router.post("/", exlevelValidator.exlevelExists, exlevelController.addExLevel);
+router.post("/all", exlevelController.getAll);
 //router.get("/:id", exlevelController.getExLevel);
 //router.delete("/:id",exlevelController.deleteExLevel);
 

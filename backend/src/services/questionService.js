@@ -85,9 +85,10 @@ const deleteQuestion = async (questionID) => {
 const getQuestionById = async (questionID) => {
     try{
         mongodbConnection();
-        return question.findOne({
+        const q = await question.findOne({
             id:questionID,
-        })
+        }).populate("difficulty").populate("type");
+        return q;
     }catch(error){
         console.log(error.message)
     }

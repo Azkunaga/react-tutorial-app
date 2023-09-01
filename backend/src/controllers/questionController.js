@@ -13,9 +13,30 @@ const valueQuest = async (req,res) => {
     }
 }
 
+const getQuestionById = async(req,res) =>{
+    try {
+        const quest = await questionService.getQuestionById(req.params.questionId); 
+        if(!quest){
+            res.status(401).send({
+                message: "Questions not found",
+            })
+        }else{
+            res.status(200).send({
+                message: "Question found",
+                quest
+            })
+        }
+    } catch (error) {
+        res.status(500).send({
+            error: error.mesage,
+        })
+    }
+
+}
+
 const getQuest = async (req,res) => {
     try{
-        const quest = questionService.getQuestions(req.body.topic, req.body.part, req.body.user);
+        const quest = await questionService.getQuestions(req.body.topic, req.body.part, req.body.user);
         if(!quest){
             res.status(401).send({
                 message: "Questions not found for this topic",
@@ -48,7 +69,7 @@ const addQuest = async (req,res) => {
 
 const validQuest = async (req,res) => {
     try{
-        validQuestion(req.body.questionID);
+        await validQuestion(req.body.questionID);
         res.status(200).send({
             message: "Question validated",
           })
@@ -61,7 +82,7 @@ const validQuest = async (req,res) => {
 
 const deleteQuest = async (req,res) => {
     try{
-        deleteQuestion(req.body.questionID);
+        await deleteQuestion(req.body.questionID);
         res.status(200).send({
             message: "Question deleted",
           })
@@ -88,6 +109,7 @@ const getQuestionsByPart = async(req,res) =>{
 module.exports = {
     valueQuest,
     getQuest,
+    getQuestionById,
     addQuest,
     validQuest,
     deleteQuest,

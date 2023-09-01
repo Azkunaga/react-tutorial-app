@@ -36,6 +36,20 @@ const getExType = async (req,res) => {
     }
 }
 
+const getAll = async (req,res) => {
+    try{
+        const types = await extypeService.getAll()
+        res.status(200).send({
+            types
+            })
+        
+    }catch (error) {
+        res.status(500).send({
+        error: error.mesage, 
+        })
+    }
+}
+
 const deleteExType = async (req,res) => {
     try{
         extypeService.deleteExType(req.body.extype)
@@ -53,4 +67,5 @@ module.exports = {
     addExType,
     getExType,
     deleteExType,
+    getAll,
 }

@@ -166,7 +166,7 @@ const PartEditPage = () => {
                             <td  className='actions'>{el.valid ? <i className="fa-solid fa-check"></i> : <i className="fa-solid fa-xmark"></i>}</td>
                             <td>{el.question}</td>
                             <td className='actions'>
-                                <a href={'/admin/tutorial/topic/'+topicId+'/part/'+partId+"/exercise/"+el._id}>
+                                <a href={'/admin/tutorial/topic/'+topicId+'/part/'+partId+"/question/"+el._id}>
                                     <i className="fa-solid fa-pen-to-square"></i>
                                 </a>
                             </td>

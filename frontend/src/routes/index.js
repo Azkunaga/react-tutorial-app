@@ -16,6 +16,7 @@ import AdminPage from '../pages/admin';
 import TutorialPage from '../pages/admin/tutorial';
 import TutorialEditPage from '../pages/admin/tutorialEdit';
 import PartEditPage from '../pages/admin/partEdit';
+import QuestionEditPage from '../pages/admin/questionEdit';
 
 import UsersEditPage from '../pages/admin/usersEdit'
 
@@ -36,6 +37,7 @@ const AppRoutes = () => {
             <Route path="/admin/tutorial" exact element={<TutorialPage/>} />
             <Route path="/admin/tutorial/topic/:id" element={<TutorialEditPage/>} />
             <Route path="/admin/tutorial/topic/:topicId/part/:partId" element={<PartEditPage/>} />
+            <Route path="/admin/tutorial/topic/:topicId/part/:partId/question/:questionId" element={<QuestionEditPage/>} />
             <Route path="/admin/users" exact element={<UsersEditPage/>} />
 
             {/* Protected routes */}
