@@ -1,4 +1,4 @@
-import {React, useEffect, useState} from 'react'
+import {React, useEffect, useState, useRef} from 'react'
 import {useParams} from 'react-router-dom'
 import {Container, Row, Col} from 'react-bootstrap'
 import './style.css'
@@ -13,6 +13,7 @@ const QuestionEditPage = () => {
     let [level,setLevel] = useState("");
     let [type,setType] = useState("");
     let [pAnswer,setPAnswer] = useState("");
+    let [valid,setValid] = useState("");
 
     let [types, setTypes] = useState([]);
     let [levels, setLevels] = useState([]);
@@ -20,9 +21,9 @@ const QuestionEditPage = () => {
     const { questionId } = useParams();
   
     useEffect(() => {
+        getData();
         getLevels();
         getTypes();
-        getData();
     }, [questionId]);
 
     const getLevels = async () => {
@@ -79,13 +80,10 @@ const QuestionEditPage = () => {
                     withCredentials: true
                 }
             );
-
-            console.log(response?.data?.quest);
             setData(response?.data?.quest);
-
             setQuestion(response?.data?.quest.question);
             setPAnswer(response?.data?.quest.correctAnswer);
-            // setText(response?.data?.quest.type.name);
+            setValid(response?.data?.quest.valid)
 
         } catch (err) {
             if (!err?.response) {
@@ -154,6 +152,20 @@ const QuestionEditPage = () => {
                             </select>
                         </div>
                         </Col>
+                        <Col>
+                        <div className='input-container'>
+                            <label htmlFor='Valid'>Valid: </label>
+                            <select
+                            id="valid"
+                            value={valid}
+                            required
+                            onChange={(e) => setType(e.target.value)}
+                            >
+                                <option value="true">True</option>
+                                <option value="false">False</option>
+                            </select>
+                        </div>
+                        </Col>
                         
                     </Row>
                     <Row>
@@ -166,7 +178,8 @@ const QuestionEditPage = () => {
                             autoComplete="off"
                             value={question}
                             required
-                            onChange={(e) => setQuestion(e.target.value)}
+                            onChange={(e) => {setQuestion(e.target.value);} 
+                            }
                             />
                         </div>
                         </Col>

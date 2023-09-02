@@ -95,7 +95,8 @@ const deleteQuest = async (req,res) => {
 
 const getQuestionsByPart = async(req,res) =>{
     try {
-        const questions = await questionService.getQuestionByPart(req.body.partId);
+        console.log(req.body.partId)
+        const questions = await questionService.getQuestionsByPart(req.body.partId);
         res.status(200).send({
             questions,
           })

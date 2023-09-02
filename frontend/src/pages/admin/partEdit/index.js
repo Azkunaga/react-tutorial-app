@@ -1,5 +1,5 @@
 import {React, useEffect, useState} from 'react'
-import {useNavigate, useParams} from 'react-router-dom'
+import {useParams} from 'react-router-dom'
 import {Container, Row, Col} from 'react-bootstrap'
 import { MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import './style.css'
@@ -58,7 +58,7 @@ const PartEditPage = () => {
                     withCredentials: true
                 }
             );
-           
+            console.log(response);
             setExerciseData(response?.data?.questions);
         } catch (err) {
             if (!err?.response) {

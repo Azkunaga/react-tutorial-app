@@ -1,3 +1,5 @@
+
+
 header{
   height: 100px;
   background-color: #f0ede2;
@@ -9,6 +11,7 @@ main {
 }
 
 body{
+  background-color:#f0ede2;
   margin: 0;
   padding: 0;
 }
@@ -16,6 +19,7 @@ body{
 footer{
   background-color: #f0ede2;
   position:static;
+
   width: 100%;
   height: 70px; /* replace with actual footer height */
 }

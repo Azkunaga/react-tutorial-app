@@ -94,11 +94,11 @@ const getQuestionById = async (questionID) => {
     }
 }
 
-const getQuestionByPart = async(partiId) => {
+const getQuestionsByPart = async(partId) => {
     try{
         mongodbConnection();
-        const questions = await question.find({
-            tutorialPart:partiId,
+        const questions = question.find({
+            tutorialPart:partId,
         }).populate('difficulty').populate('type');
         return questions;
     }catch(error){
@@ -114,5 +114,5 @@ module.exports = {
     validQuestion,
     deleteQuestion,
     getQuestionById,
-    getQuestionByPart
+    getQuestionsByPart
 }
