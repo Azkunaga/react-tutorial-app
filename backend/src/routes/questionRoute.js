@@ -7,6 +7,7 @@ const router = express.Router();
 router.post("/valueQuestion/:id", questionController.valueQuest);
 router.post("/part" , questionController.getQuestionsByPart);
 router.post("/:id", questionController.getQuestionById);
+router.post("/edit/:id", questionController.editQuestion);
 router.post("/", questionController.addQuest);
 router.post("/validQuestion/:id", questionController.validQuest);
 router.delete("/:id", questionController.deleteQuest);

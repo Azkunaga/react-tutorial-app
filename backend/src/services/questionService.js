@@ -106,6 +106,25 @@ const getQuestionsByPart = async(partId) => {
     }
 }
 
+const editQuestion = async(questId, level, type, valid, questionText, pAnswer) =>{
+    try{
+        mongodbConnection();
+        const levelObj = await exLevelService.getExLevel(level);
+        const typeObj = await exTypeService.getExType(type);
+        const questions = await question.findOneAndUpdate(
+            {_id:questId},
+            {question:questionText,
+            correctAnswer:pAnswer,
+            valid: valid,
+            difficulty:levelObj,
+            type:typeObj},
+            {new:true});
+        return questions;
+    }catch(error){
+        console.log(error.message)
+    }
+}
+
 module.exports = {
     valueQuestion,
     getQuestions,
@@ -114,5 +133,6 @@ module.exports = {
     validQuestion,
     deleteQuestion,
     getQuestionById,
-    getQuestionsByPart
+    getQuestionsByPart,
+    editQuestion
 }

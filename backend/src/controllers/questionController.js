@@ -107,6 +107,20 @@ const getQuestionsByPart = async(req,res) =>{
     }
 }
 
+const editQuestion = async(req,res) => {
+    try{
+        const updatedQuestion = await questionService.editQuestion(req.params.id, req.body.level, req.body.type, req.body.valid, req.body.question, req.body.pAnswer);
+        res.status(200).send({
+            message: "Edited Correctly",
+            question:updatedQuestion,
+          })
+    }catch (error) {
+        res.status(500).send({
+            error: error.mesage, 
+        })
+    }
+}
+
 module.exports = {
     valueQuest,
     getQuest,
@@ -115,4 +129,5 @@ module.exports = {
     validQuest,
     deleteQuest,
     getQuestionsByPart,
+    editQuestion,
 }

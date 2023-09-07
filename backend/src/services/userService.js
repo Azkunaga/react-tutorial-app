@@ -12,7 +12,6 @@ const searchUser = async (name) => {
     }catch(e){
         console.log(e.error);
     }
-
 }
 
 const searchUserWithToken = async(rToken) => {
@@ -36,8 +35,52 @@ const updateTokenFromUser = async(username,token) => {
     }
 }
 
+const getUser = async (id) => {
+    try{
+        mongodbConnection();
+        const u = await user.findOne({_id:id});
+        return u;
+    }catch(e){
+
+    }
+}
+
+const getAllUsers = async () => {
+    try{
+        mongodbConnection();
+        const u = await user.find();
+        return u;
+    }catch(e){
+        console.log(e.error);
+    }
+}
+
+const deleteUser = async (id) => {
+    try{
+        mongodbConnection();
+        const u = await user.findByIdAndDelete({_id:id});
+        return u;
+    }catch(e){
+        console.log(e.error);
+    }
+}
+
+const editUser = async (id) => {
+    try{
+        mongodbConnection();
+        const u = await user.findOneAndUpdate({_id:id});
+        return u;
+    }catch(e){
+        console.log(e.error);
+    }
+}
+
 module.exports = {
     searchUser,
     searchUserWithToken,
-    updateTokenFromUser
+    updateTokenFromUser,
+    getUser,
+    getAllUsers,
+    editUser,
+    deleteUser
 }

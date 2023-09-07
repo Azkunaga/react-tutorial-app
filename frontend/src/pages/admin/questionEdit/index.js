@@ -81,9 +81,11 @@ const QuestionEditPage = () => {
                 }
             );
             setData(response?.data?.quest);
-            setQuestion(response?.data?.quest.question);
-            setPAnswer(response?.data?.quest.correctAnswer);
-            setValid(response?.data?.quest.valid)
+            setQuestion(response?.data?.quest?.question);
+            setPAnswer(response?.data?.quest?.correctAnswer);
+            setType(response?.data?.quest?.type.name);
+            setLevel(response?.data?.quest?.difficulty.name);
+            setValid(response?.data?.quest?.valid);
 
         } catch (err) {
             if (!err?.response) {
@@ -98,13 +100,13 @@ const QuestionEditPage = () => {
         try {
             const role = localStorage.getItem('userData')?.role || null;
             const response = await normalAxios.post("/api/tutorial/question/edit/"+questionId,
-            JSON.stringify({"question":question, "level":level, "type":type, "pAnswer":pAnswer, "role": role}),
+            JSON.stringify({"question":question, "level":level, "type":type, "pAnswer":pAnswer, "valid":valid,  "role": role}),
             {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true
             }
             );
-            console.log(response);
+           
         }catch(err){
             if (!err?.response) {
                 console.log("not response")
@@ -159,7 +161,7 @@ const QuestionEditPage = () => {
                             id="valid"
                             value={valid}
                             required
-                            onChange={(e) => setType(e.target.value)}
+                            onChange={(e) => setValid(e.target.value)}
                             >
                                 <option value="true">True</option>
                                 <option value="false">False</option>

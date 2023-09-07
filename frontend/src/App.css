@@ -4,6 +4,7 @@
   text-decoration: none;
   letter-spacing: 1px;
 }
+
 .gs_button{
   position: relative;
   overflow: hidden;
@@ -88,4 +89,37 @@
 .backButton{
   float: right;
   cursor: pointer;
+}
+
+/* Tables */
+
+.topicTable{
+  margin-top: 5vh;
+  margin-left: 10%;
+  width: 80% !important;
+}
+
+td a{
+text-decoration: none;
+color: black;
+}
+
+.actions{
+  font-size: large;
+  flex-wrap: wrap;
+  margin-left: -15px;
+}
+
+.actions i{
+  margin-left: 15px;
+}
+
+.actions a:hover,
+.actions button:hover{
+  color:#f59b00
+}
+
+.actions button{
+  background: transparent;
+  border: none;
 }

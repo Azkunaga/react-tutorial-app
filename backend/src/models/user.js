@@ -20,7 +20,7 @@ let userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  email: {
+  email: { 
     type: String,
     required: true,
   },
@@ -31,6 +31,9 @@ let userSchema = new mongoose.Schema({
   role: {
     type: String,
     required: false,
+  },
+  status: {
+    type:String
   },
   refreshToken: {
     type: String,

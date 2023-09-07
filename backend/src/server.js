@@ -22,6 +22,7 @@ const chatGPTRoute = require("./routes/chatGPTRoute");
 const topicRoute = require("./routes/topicRoute");
 const exTypeRoute = require("./routes/exTypeRoute");
 const exLevelRoute = require("./routes/exLevelRoute");
+const userRoute = require("./routes/userRoute");
 
 //Cross Origin Resource Sharing
 server.use(cors(corsOptions));
@@ -46,6 +47,7 @@ server.use('/api/tutorial/exType', exTypeRoute);
 server.use('/api/tutorial/exLevel', exLevelRoute);
 server.use('/api/tutorial', tutorialRoute);
 server.use('/api/chatGPT', chatGPTRoute);
+server.use('/api/users', userRoute);
 
 //no existing routes
 server.all('*', (req, res) => {

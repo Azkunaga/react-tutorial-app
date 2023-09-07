@@ -1,8 +1,8 @@
-import {React, useEffect, useState} from 'react'
-import {useParams} from 'react-router-dom'
-import {Container, Row, Col} from 'react-bootstrap'
+import {React, useEffect, useState} from 'react';
+import {useParams} from 'react-router-dom';
+import {Container, Row, Col} from 'react-bootstrap';
 import { MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
-import './style.css'
+import './style.css';
 import {normalAxios} from '../../../api/axios'
 import BackButton from '../../../components/backButton';
 
