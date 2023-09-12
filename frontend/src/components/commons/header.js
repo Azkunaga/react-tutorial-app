@@ -1,15 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {Container, Navbar, Nav} from 'react-bootstrap';
 import './style.css';
 import logo from '../../img/logo_small.png'
 
 const Header = () => {
     const user = localStorage.getItem('userData');
+
+    const [link, setLink] = useState();
+
+    useEffect(()=>{
+        if(user?.role=="admin"){
+            setLink("/admin")
+        }else if(user?.role=="teacher"){
+            setLink("/teacher")
+        }else{
+            setLink("/student")
+        }
+    },[])
+
     return (  
         <header>
          <Navbar className="color-nav" expand="lg" variant="light">
             <Container>
-                <Navbar.Brand href="/">
+                <Navbar.Brand href={link}>
                     <img
                     src = {logo}
                     width="auto"

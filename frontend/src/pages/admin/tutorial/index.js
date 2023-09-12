@@ -1,6 +1,5 @@
 import {React, useEffect, useState} from 'react'
 import {Container} from 'react-bootstrap'
-import {useNavigate, useParams,} from 'react-router-dom'
 import { MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import './style.css'
 import {normalAxios} from '../../../api/axios'
@@ -11,9 +10,9 @@ const TutorialPage = () => {
 
     const getData = async () => {
         try {
-            //const role = localStorage.getItem('userData')?.role;
-            const response = await normalAxios.get('/api/tutorial/topic/all',
-                JSON.stringify(),
+            const role = localStorage.getItem('userData')?.role;
+            const response = await normalAxios.post('/api/tutorial/topic/all',
+                JSON.stringify({role}),
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true

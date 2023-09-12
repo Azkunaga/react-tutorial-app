@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Container } from 'react-bootstrap'
 import { normalAxios } from '../../../api/axios';
-import { MDBBadge, MDBBtn, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
+import { MDBBadge, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import profile from '../../../img/profile.jpg';
 
-const UsersEditPage = () => {
+const UsersListPage = () => {
 
     const [usersData, setUsersData] = useState();
 
@@ -47,7 +47,7 @@ const UsersEditPage = () => {
                     <th scope='col'>Name</th>
                     <th scope='col'>Username</th>
                     <th scope='col'>Role</th>
-                    <th scope='col'>Status</th>
+                    <th scope='col'>State</th>
                     <th scope='col'>Actions</th>
                 </tr>
             </MDBTableHead>
@@ -57,8 +57,8 @@ const UsersEditPage = () => {
                     <td>
                         <div className='d-flex align-items-center'>
                         <img
-                            src={el.img || profile}
-                            alt=''
+                            src = {el.profileImage ? "data:image/"+ el.profileImage.contentType + ";base64,"+ el.profileImage.data.toString('base64') : profile}
+                            alt= 'profile picture'
                             style={{ width: '45px', height: '45px' }}
                             className='rounded-circle'
                         />
@@ -74,11 +74,11 @@ const UsersEditPage = () => {
                     <td>{el.role.charAt(0).toUpperCase() + el.role.slice(1)}</td>
                     <td>
                         <MDBBadge color='success' pill>
-                            {el.status.charAt(0).toUpperCase() + el.status.slice(1)}
+                            {el.state.charAt(0)?.toUpperCase() + el.state.slice(1)}
                         </MDBBadge>
-                    </td>  
+                    </td>
                     <td className='actions'>
-                        <a href={'/admin/user/'+el._id}>
+                        <a href={'/admin/users/'+el._id}>
                             <i className="fa-solid fa-pen-to-square"></i>
                         </a>
                         <button onClick={deleteUser}>
@@ -94,4 +94,4 @@ const UsersEditPage = () => {
     )
 }
 
-export default UsersEditPage;
+export default UsersListPage;

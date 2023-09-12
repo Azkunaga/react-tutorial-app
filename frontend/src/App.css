@@ -70,6 +70,11 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   transition: all 300ms;
   margin:2vh;
+  height: 320px;
+}
+
+.card img{
+  overflow: hidden;
 }
 
 .card:hover {
@@ -88,6 +93,9 @@
 
 .backButton{
   float: right;
+  position:relative;
+  right: 0;
+  bottom: 0;
   cursor: pointer;
 }
 
@@ -95,8 +103,8 @@
 
 .topicTable{
   margin-top: 5vh;
-  margin-left: 10%;
-  width: 80% !important;
+  /* margin-left: 10%; */
+  /* width: 80% !important; */
 }
 
 td a{

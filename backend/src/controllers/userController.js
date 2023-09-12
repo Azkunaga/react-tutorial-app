@@ -11,7 +11,6 @@ const getUserById = async (req,res) => {
         }else{
             res.status(401).send({
                 message: "User not found",
-                error: error.mesage,
             })
         }
         
@@ -50,15 +49,17 @@ const getAllUsers = async(req,res) =>{
 
 const editUser = async(req,res) => {
     try{
+        console.log(req.body);
+        return;
         const updatedUser = await userService.editUser(req.params.id, req.body.firstname, 
-            req.body.lastname, req.body.username, req.body.email, req.body.state, req.body.code, req.body.role);
+            req.body.lastname, req.body.username, req.body.email, req.body.state, req.body.code, req.body.img, req.body.userRole);
         res.status(200).send({
             message: "Edited Correctly",
             user:updatedUser,
           })
     }catch (error) {
         res.status(500).send({
-            error: error.mesage, 
+            error: error.mesage,
         })
     }
 }

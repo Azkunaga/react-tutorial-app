@@ -1,5 +1,6 @@
 const mongodbConnection = require('../config/mongodb');
 
+const codeService = require('./codeService')
 const user = require('../models/user');
 
 //user comprobation in db
@@ -38,7 +39,7 @@ const updateTokenFromUser = async(username,token) => {
 const getUser = async (id) => {
     try{
         mongodbConnection();
-        const u = await user.findOne({_id:id});
+        const u = await user.findOne({_id:id}).populate('profileImage');
         return u;
     }catch(e){
 
@@ -65,10 +66,25 @@ const deleteUser = async (id) => {
     }
 }
 
-const editUser = async (id) => {
+const editUser = async (id, firstName, lastName, username, email, state, code, img, role) => {
     try{
         mongodbConnection();
-        const u = await user.findOneAndUpdate({_id:id});
+        const codeO = await codeService.getCode(code);
+        const u = await user.findOneAndUpdate({_id:id},
+            {
+                firstName: firstName,
+                lastName: lastName,
+                username: username,
+                email:email,
+                state:state,
+                code:codeO || null,
+                profileImage:{
+                    data: img.buffer,
+                    contentType: img.mimetype,
+                },
+                role:role
+            },
+            {new:true});
         return u;
     }catch(e){
         console.log(e.error);

@@ -1,4 +1,5 @@
 const questionService = require('../services/questionService')
+const valorationService = require('../services/valorationService');
 
 const valueQuest = async (req,res) => {
     try{
@@ -15,7 +16,7 @@ const valueQuest = async (req,res) => {
 
 const getQuestionById = async(req,res) =>{
     try {
-        const quest = await questionService.getQuestionById(req.params.questionId); 
+        const quest = await questionService.getQuestionById(req.params.id);
         if(!quest){
             res.status(401).send({
                 message: "Questions not found",
@@ -31,7 +32,57 @@ const getQuestionById = async(req,res) =>{
             error: error.mesage,
         })
     }
+}
 
+const getValidQuestions = async (req,res) => {
+    try{
+        const questList = await questionService.getValidQuestions(req.body.valid);
+        if(!questList){
+            res.status(401).send({
+                message: "Questions not found",
+            })
+        }else{
+            res.status(200).send({
+                message: "Questions found",
+                questList
+            })
+        }
+    }catch (error) {
+        res.status(500).send({
+        error: error.mesage, 
+        })
+    }
+}
+
+const getValoratedQuestions = async (req, res) =>{
+    try{
+        const questList = await questionService.getValidQuestions(false);
+        const list = [];
+        await Promise.all(
+            questList.map(async (element) => {
+                const stats = await valorationService.getStatsByQuestionId(element._id);
+                list.push({
+                    question:element,
+                    stats:stats
+                })
+            })
+        );
+
+        if(!list){
+            res.status(401).send({
+                message: "Questions not found",
+            })
+        }else{
+            res.status(200).send({
+                message: "Questions found",
+                list
+            })
+        }
+    }catch (error) {
+        res.status(500).send({
+        error: error.mesage, 
+        })
+    }
 }
 
 const getQuest = async (req,res) => {
@@ -56,7 +107,7 @@ const getQuest = async (req,res) => {
 
 const addQuest = async (req,res) => {
     try{
-        addQuestion(req.body.topic,req.body.question);
+        await addQuestion(req.body.topic,req.body.question);
         res.status(200).send({
             message: "Question added",
           })
@@ -125,6 +176,8 @@ module.exports = {
     valueQuest,
     getQuest,
     getQuestionById,
+    getValoratedQuestions,
+    getValidQuestions,
     addQuest,
     validQuest,
     deleteQuest,

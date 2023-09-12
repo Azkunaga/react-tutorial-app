@@ -25,18 +25,22 @@ let userSchema = new mongoose.Schema({
     required: true,
   },
   code: {
-    type: String,
-    required: false,
+    type: mongoose.Types.ObjectId, ref: "Code"
   },
   role: {
     type: String,
     required: false,
   },
-  status: {
-    type:String
+  state: {
+    type:String,
+    default: "active",
   },
   refreshToken: {
     type: String,
+  },
+  profileImage: {
+    data: Buffer,
+    contentType: String
   },
   createdAt: {
     type:Date,

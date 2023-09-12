@@ -1,11 +1,13 @@
-import {React, useEffect, useState, useRef} from 'react'
-import {useParams} from 'react-router-dom'
+import {React, useEffect, useState} from 'react'
+import {useParams, useLocation} from 'react-router-dom'
 import {Container, Row, Col} from 'react-bootstrap'
 import './style.css'
 import {normalAxios} from '../../../api/axios'
 import BackButton from '../../../components/backButton';
 
 const QuestionEditPage = () => {
+
+    const location = useLocation();
 
     let [data, setData] = useState("");
 
@@ -18,17 +20,34 @@ const QuestionEditPage = () => {
     let [types, setTypes] = useState([]);
     let [levels, setLevels] = useState([]);
 
+    let [isTeacher, setIsTeacher] = useState();
+    let [isValidate, setIsValidate] = useState();
+
     const { questionId } = useParams();
+
+    const role = localStorage.getItem('userData')?.role || null;
   
     useEffect(() => {
         getData();
-        getLevels();
-        getTypes();
     }, [questionId]);
+
+    useEffect(()=>{
+        if(role=="teacher"){
+            setIsTeacher(true);
+        }else{
+            setIsTeacher(false);
+        }
+
+        if(location.pathname.includes('valid')){
+            setIsValidate(true);
+        }else{
+            setIsValidate(false);
+        }
+
+    },[])
 
     const getLevels = async () => {
         try {
-            const role = localStorage.getItem('userData')?.role || null;
             const response = await normalAxios.post("/api/tutorial/exLevel/all",
                 JSON.stringify({"role":role}),
                 {
@@ -80,12 +99,17 @@ const QuestionEditPage = () => {
                     withCredentials: true
                 }
             );
-            setData(response?.data?.quest);
-            setQuestion(response?.data?.quest?.question);
-            setPAnswer(response?.data?.quest?.correctAnswer);
-            setType(response?.data?.quest?.type.name);
-            setLevel(response?.data?.quest?.difficulty.name);
-            setValid(response?.data?.quest?.valid);
+            if(response?.data?.quest){
+                setData(response?.data?.quest);
+                setQuestion(response?.data?.quest?.question);
+                setPAnswer(response?.data?.quest?.correctAnswer);
+                setType(response?.data?.quest?.type.name);
+                setLevel(response?.data?.quest?.difficulty.name);
+                setValid(response?.data?.quest?.valid);
+                getLevels();
+                getTypes();
+            }
+
 
         } catch (err) {
             if (!err?.response) {
@@ -120,7 +144,7 @@ const QuestionEditPage = () => {
     return (
         <Container>
            <h2>Edit Question</h2>
-           { data &&
+           { questionId && data ?
             <div className='edit'>
             <form onSubmit={saveQuestion}>
                     <Row>
@@ -131,6 +155,7 @@ const QuestionEditPage = () => {
                             id="level"
                             value={level}
                             required
+                            disabled = {isTeacher}
                             onChange={(e) => setLevel(e.target.value)}
                             >
                                 {levels?.map((el)=>
@@ -146,6 +171,7 @@ const QuestionEditPage = () => {
                             id="type"
                             value={type}
                             required
+                            disabled = {isTeacher}
                             onChange={(e) => setType(e.target.value)}
                             >
                                 {types?.map((el)=>
@@ -161,6 +187,7 @@ const QuestionEditPage = () => {
                             id="valid"
                             value={valid}
                             required
+                            disabled = {isTeacher && !isValidate}
                             onChange={(e) => setValid(e.target.value)}
                             >
                                 <option value="true">True</option>
@@ -180,6 +207,7 @@ const QuestionEditPage = () => {
                             autoComplete="off"
                             value={question}
                             required
+                            disabled = {isTeacher}
                             onChange={(e) => {setQuestion(e.target.value);} 
                             }
                             />
@@ -195,6 +223,7 @@ const QuestionEditPage = () => {
                                     id="pA"
                                     value={pAnswer}
                                     required
+                                    disabled = {isValidate}
                                     onChange={(e) => setPAnswer(e.target.value)}
                                 />
                             </div>
@@ -207,7 +236,7 @@ const QuestionEditPage = () => {
 
             </form>
            </div>
-            }
+            : <p>Question not found</p>}
             <BackButton></BackButton>
         </Container>
     )

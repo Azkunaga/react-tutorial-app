@@ -36,10 +36,6 @@ const getQuestions = async (tutPart,type, difficulty) => {
     }
 }
 
-const getQuestion = async()=>{
-
-}
-
 const addQuestion = async (tutPart,type,level,questionStatement, questionAnswer) => {
     try{
         mongodbConnection();
@@ -63,7 +59,7 @@ const addQuestion = async (tutPart,type,level,questionStatement, questionAnswer)
 const validQuestion = async (questionID) => {
     try{
         mongodbConnection();
-        await question.findOneAndUpdate({id:questionID}, {valid:false}, {
+        await question.findOneAndUpdate({_id:questionID}, {valid:true}, {
             new: true
           });
     }catch(error){
@@ -86,8 +82,25 @@ const getQuestionById = async (questionID) => {
     try{
         mongodbConnection();
         const q = await question.findOne({
-            id:questionID,
+            _id:questionID,
         }).populate("difficulty").populate("type");
+        return q;
+    }catch(error){
+        console.log(error.message)
+    }
+}
+
+const getValidQuestions = async (bool) => { 
+    try{
+        mongodbConnection();
+        const q = await question.find({
+            valid:bool,
+        }).populate("type").populate("difficulty").populate({
+            path : 'tutorialPart',
+            populate : {
+              path : 'topic'
+            }
+          }).sort({order:1});
         return q;
     }catch(error){
         console.log(error.message)
@@ -127,8 +140,8 @@ const editQuestion = async(questId, level, type, valid, questionText, pAnswer) =
 
 module.exports = {
     valueQuestion,
+    getValidQuestions,
     getQuestions,
-    getQuestion,
     addQuestion,
     validQuestion,
     deleteQuestion,

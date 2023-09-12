@@ -8,6 +8,9 @@ import Login from '../pages/login';
 import Home from '../pages/home';
 
 import TeacherPage from '../pages/teacher';
+import TeacherQuestionsPage from '../pages/teacher/questions';
+import TeacherValidPage from '../pages/teacher/valid';
+import TeacherUsersPage from '../pages/teacher/users';
 
 import StudentPage from '../pages/student';
 
@@ -18,7 +21,8 @@ import TutorialEditPage from '../pages/admin/tutorialEdit';
 import PartEditPage from '../pages/admin/partEdit';
 import QuestionEditPage from '../pages/admin/questionEdit';
 
-import UsersEditPage from '../pages/admin/usersEdit'
+import UsersListPage from '../pages/admin/usersListAdmin'
+import UsersEditPage from '../pages/admin/usersEditPage';
 
 import NoExists from '../pages/noExists';
 import Unauthorized from '../pages/unauthorized';
@@ -33,12 +37,21 @@ const AppRoutes = () => {
             <Route path="/register" exact element={<Register/>} />
             <Route path="/login" exact element={<Login/>} />
             <Route path="/unauthorized" exact element={<Unauthorized/>} />
+
             <Route path="/admin" exact element={<AdminPage/>} />
             <Route path="/admin/tutorial" exact element={<TutorialPage/>} />
             <Route path="/admin/tutorial/topic/:id" element={<TutorialEditPage/>} />
             <Route path="/admin/tutorial/topic/:topicId/part/:partId" element={<PartEditPage/>} />
             <Route path="/admin/tutorial/topic/:topicId/part/:partId/question/:questionId" element={<QuestionEditPage/>} />
-            <Route path="/admin/users" exact element={<UsersEditPage/>} />
+            <Route path="/admin/users" exact element={<UsersListPage/>} />
+            <Route path="/admin/users/:id" exact element={<UsersEditPage/>} />
+
+            <Route path="/teacher" exact element={<TeacherPage/>} />
+            <Route path="/teacher/questions" exact element={<TeacherQuestionsPage/>} />
+            <Route path="/teacher/questions/:questionId" exact element={<QuestionEditPage/>} />
+            <Route path="/teacher/valid" exact element={<TeacherValidPage/>} />
+            <Route path="/teacher/valid/:questionId" exact element={<QuestionEditPage/>} />
+            <Route path="/teacher/students" exact element={<TeacherUsersPage/>} />
 
             {/* Protected routes */}
             {/* <Route element={<RequireAuth allowedRoles={ROLES.STUDENT} />}>
