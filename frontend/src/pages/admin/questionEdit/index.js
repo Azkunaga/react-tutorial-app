@@ -25,10 +25,15 @@ const QuestionEditPage = () => {
 
     const { questionId } = useParams();
 
-    const role = localStorage.getItem('userData')?.role || null;
+    const role = JSON.parse(localStorage.getItem('userData'))?.role || null;
   
     useEffect(() => {
-        getData();
+        if(questionId){
+            getData();
+        }else{
+            setData(null);
+        }
+        
     }, [questionId]);
 
     useEffect(()=>{
@@ -143,7 +148,7 @@ const QuestionEditPage = () => {
 
     return (
         <Container>
-           <h2>Edit Question</h2>
+           <h2>{isValidate ? "Valid Question" : isTeacher? "Edit Question Possible Answer" : "Edit Question"}</h2>
            { questionId && data ?
             <div className='edit'>
             <form onSubmit={saveQuestion}>

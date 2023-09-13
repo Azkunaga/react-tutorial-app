@@ -48,11 +48,18 @@ const getTutorialPartById = async(req,res) =>{
 //admin galdera berriak sartzeko
 const addTutorialPart = async (req,res) => {
     try{
-        const part = await tutorialService.addPart(req.body.topic,req.body.name,req.body.part,req.body.text)
-        res.status(200).send({
-            message: "Added Correctly",
-            part
-          })
+        const part = await tutorialService.addPart(req.body.topic,req.body.name,req.body.part,req.body.text);
+        if(!part){
+            res.status(500).send({
+                message: "Something went wrong",
+              })
+        }else{
+            res.status(200).send({
+                message: "Added Correctly",
+                part
+              })
+        }
+
     }catch (error) {
         res.status(500).send({
         error: error.mesage, 

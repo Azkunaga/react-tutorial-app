@@ -27,7 +27,10 @@ const getPartById = async(id) =>{
 const addPart = async(topicName,name,part,text) => {
     try{
         mongodbConnection();
-        const t = await topicService.getTopic(topicName);
+        const t = await topicService.getTopicByName(topicName);
+        if(!t){
+            return null;
+        }
         const tp = tutorialPart.create({
             topic:t,
             name:name,

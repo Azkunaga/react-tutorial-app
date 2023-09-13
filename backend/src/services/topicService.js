@@ -27,6 +27,18 @@ const getTopic = async (topicId) => {
     }
 }
 
+const getTopicByName = async(tName)=>{
+    try{
+        mongodbConnection();
+        const t = await topic.findOne({
+            name:tName,
+        })
+        return t;
+    }catch(error){
+        console.log(error.message)
+    }
+}
+
 const deleteTopic = async (name) => {
     try{
         mongodbConnection();
@@ -62,6 +74,7 @@ const editTopic = async(id,newOrder,newName)=>{
 module.exports = {
     addTopic,
     getTopic,
+    getTopicByName,
     getAllTopics,
     deleteTopic,
     editTopic

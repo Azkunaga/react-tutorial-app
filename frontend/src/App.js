@@ -9,6 +9,7 @@ const App = () => {
   let location = useLocation();
   let pathList = ['/register','/login', '/'];
   let hide = false;
+  
   if(pathList.includes(location.pathname)){
     hide = true;
   }

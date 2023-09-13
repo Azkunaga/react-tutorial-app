@@ -8,8 +8,6 @@ const Login = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
-    const from = location.state?.from?.pathname || "/";
-
     const usernameRef = useRef();
     const errRef = useRef();
 
@@ -39,11 +37,14 @@ const Login = () => {
             const role = response?.data?.role;
             const accesToken = response?.data?.accesToken;
 
-            localStorage.setItem('userData',{username,role,accesToken});
+            localStorage.setItem('userData',JSON.stringify({username,role,accesToken}));
+
+            console.log(JSON.parse(localStorage.getItem('userData')).role);
 
             setPwd('');
             setUsername('');
-
+            
+            const from = location.state?.from?.pathname || "/" + JSON.parse(localStorage.getItem('userData'))?.role;
             navigate(from, {replace:true});
 
         } catch (err) {
@@ -92,7 +93,7 @@ const Login = () => {
                     />
                 </div>
 
-                <div class={(username && pwd) ? "gs_button login": "gs_button login notSelectable"} onClick={handleSubmit} disabled={(!username || !pwd) ? true : false}>
+                <div className={(username && pwd) ? "gs_button login": "gs_button login notSelectable"} onClick={handleSubmit} disabled={(!username || !pwd) ? true : false}>
                     <div className="slide"></div>
                     <a className="gs_a" href="/register">Sign In</a>
                 </div>
