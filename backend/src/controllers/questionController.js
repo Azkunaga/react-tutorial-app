@@ -133,7 +133,7 @@ const validQuest = async (req,res) => {
 
 const deleteQuest = async (req,res) => {
     try{
-        await deleteQuestion(req.body.questionID);
+        await questionService.deleteQuestion(req.params.id);
         res.status(200).send({
             message: "Question deleted",
           })

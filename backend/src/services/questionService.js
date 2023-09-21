@@ -70,9 +70,20 @@ const validQuestion = async (questionID) => {
 const deleteQuestion = async (questionID) => {
     try{
         mongodbConnection();
-        question.deleteOne({
-            id:questionID,
-        })
+        const q = await question.deleteOne({
+            _id:questionID,
+        });
+    }catch(error){
+        console.log(error.message)
+    }
+}
+
+const deleteByPart = async (partId) =>{
+    try{
+        mongodbConnection();
+        const q = await question.deleteMany({
+            tutorialPart:partId,
+        });
     }catch(error){
         console.log(error.message)
     }
@@ -145,6 +156,7 @@ module.exports = {
     addQuestion,
     validQuestion,
     deleteQuestion,
+    deleteByPart,
     getQuestionById,
     getQuestionsByPart,
     editQuestion

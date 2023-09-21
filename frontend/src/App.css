@@ -92,19 +92,15 @@
 /* Back button */
 
 .backButton{
-  float: right;
-  position:relative;
-  right: 0;
-  bottom: 0;
+  display: flex;
+  justify-content: right;
   cursor: pointer;
 }
 
 /* Tables */
 
 .topicTable{
-  margin-top: 5vh;
-  /* margin-left: 10%; */
-  /* width: 80% !important; */
+  margin-top: 3vh;
 }
 
 td a{
@@ -114,12 +110,12 @@ color: black;
 
 .actions{
   font-size: large;
-  flex-wrap: wrap;
-  margin-left: -15px;
+  display: flex;
+  /* margin-left: -15px; */
 }
 
 .actions i{
-  margin-left: 15px;
+  /* margin-left: 15px; */
 }
 
 .actions a:hover,
@@ -132,6 +128,15 @@ color: black;
   border: none;
 }
 
+/* Edit actions (NEW, SAVE, CANCEL) */
+
+.edit-actions{
+  display: flex;
+  justify-content: right;
+  column-gap: 5px;
+  margin-right: 5px;
+}
+
 /* Center content */
 
 .center{
@@ -140,4 +145,39 @@ color: black;
   justify-content: center;
   flex-direction: column;
   height: 70vh;
+}
+
+/* new actions */
+
+.new {
+  display: flex;
+  justify-content: right;
+}
+
+.button_plus {
+  width: 35px;
+  height: 35px;
+  background: #f0ede2;
+  transition: 0.3s;
+  cursor: pointer;
+  border: 2px solid #5b5b5b;
+  text-align: center;
+  border-radius: 50%;
+}
+
+.button_plus > i{
+  color: #5b5b5b;
+  transition: 0.3s;
+  font-size: 20px;
+  margin-top: calc(50% - 10px); /* 50% - (50% of the element) */
+}
+
+.button_plus:hover {
+  background-color: #5b5b5b;
+  transition: 0.3s;
+}
+
+.button_plus:hover > i {
+  color: #f0ede2;
+  transition: 0.3s;
 }

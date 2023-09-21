@@ -3,10 +3,16 @@ import {Container} from 'react-bootstrap'
 import { MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import './style.css'
 import {normalAxios} from '../../../api/axios'
+import NewRow from '../../../components/newRow';
 
 const TutorialPage = () => {
 
     let [data, setData] = useState([]);
+    let [newRow, setNewRow] = useState();
+
+    useEffect(() => {
+        setNewRow(data[data.length-1]?.order+1)
+    }, [data]);
 
     const getData = async () => {
         try {
@@ -18,8 +24,9 @@ const TutorialPage = () => {
                     withCredentials: true
                 }
             );
-
-            setData(response?.data?.topics);
+            
+            setData(await response?.data?.topics);
+            
 
         } catch (err) {
             if (!err?.response) {
@@ -31,6 +38,28 @@ const TutorialPage = () => {
         }
     }
 
+    const deleteTopic = async (id)=>{
+        try {
+            const response = await normalAxios.delete("/api/tutorial/topic/"+id,
+            {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true
+            }
+            );
+            console.log(response)
+            if(response.status===200){
+                getData();
+            }
+            
+        }catch(err){
+            if (!err?.response) {
+                console.log("not response")
+                console.log(err);
+            }else{
+                console.log(err);
+            }
+        }
+    }
 
 
     useEffect(() => {
@@ -40,6 +69,7 @@ const TutorialPage = () => {
     return (
         <Container>
            <h3>Tutorial Topics</h3>
+            <NewRow redirect={'tutorial/topic/new/'+ newRow }></NewRow>
             <MDBTable align='middle' className='topicTable' responsive bordered >
                 <MDBTableHead>
                     <tr>
@@ -50,12 +80,16 @@ const TutorialPage = () => {
                 </MDBTableHead>
                 <MDBTableBody>
                     {data?.map((el)=>
-                        <tr>
+                        <tr key={el._id}>
                             <th scope='row'>{el.order}</th>
                             <td>{el.name}</td>
-                            <td className='actions'><a href={'/admin/tutorial/topic/'+el._id}><i class="fa-solid fa-pen-to-square"></i></a></td>
+                            <td className='actions'>
+                                <a href={'/admin/tutorial/topic/'+el._id}><i className="fa-solid fa-pen-to-square"></i></a>
+                                <button onClick={() => deleteTopic(el._id)}><i className="fa-solid fa-trash"></i></button>
+                            </td>
                         </tr>
                     )}
+                   
                 </MDBTableBody>
             </MDBTable>
         </Container>

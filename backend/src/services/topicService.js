@@ -1,5 +1,6 @@
 const mongodbConnection = require('../config/mongodb');
 const topic = require('../models/topic');
+const tutorialService = require('./tutorialService');
 
 const addTopic = async (name,order) => {
     try{
@@ -8,7 +9,6 @@ const addTopic = async (name,order) => {
             name:name,
             order:order,
         })
-        console.log(t);
         return t;
     }catch(error){
         console.log(error.message)
@@ -39,13 +39,14 @@ const getTopicByName = async(tName)=>{
     }
 }
 
-const deleteTopic = async (name) => {
+const deleteTopic = async (id) => {
     try{
+        console.log('del serv')
         mongodbConnection();
+        await tutorialService.deleteByTopic(id);
         await topic.deleteOne({
-            name:name,
+            _id:id,
         })
-        return t;
     }catch(error){
         console.log(error.message)
     }

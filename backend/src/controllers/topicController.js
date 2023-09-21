@@ -5,7 +5,7 @@ const addTopic = async (req,res) => {
     try{
         const newTopic = await topicService.addTopic(req.body.topic, req.body.order);
         res.status(200).send({
-            message: " Correctly",
+            message: "Correctly Added",
             newTopic,
           })
     }catch (error) {
@@ -39,7 +39,8 @@ const getTopic = async (req,res) => {
 
 const deleteTopic = async (req,res) => {
     try{
-        topicService.deleteTopic(req.body.topic)
+        console.log('del contr')
+        await topicService.deleteTopic(req.params.id)
         res.status(200).send({
             message: "Deleted Correctly",
           })
@@ -52,7 +53,6 @@ const deleteTopic = async (req,res) => {
 
 const getAllTopics = async(req,res) =>{
     try{
-        console.log("topicContr1")
         const topics = await topicService.getAllTopics();
         res.status(200).send({
             topics,

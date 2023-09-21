@@ -1,10 +1,11 @@
 import {React, useEffect, useState} from 'react'
-import {useNavigate, useParams} from 'react-router-dom'
+import {useParams} from 'react-router-dom'
 import {Container, Row, Col} from 'react-bootstrap'
-import { MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
+import {MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import './style.css'
 import {normalAxios} from '../../../api/axios'
 import BackButton from '../../../components/backButton';
+import NewRow from '../../../components/newRow';
 
 const TutorialEditPage = () => {
 
@@ -14,12 +15,18 @@ const TutorialEditPage = () => {
     let [name,setName] = useState("");
     let [order,setOrder] = useState("");
 
+    let [newRow, setNewRow] = useState();
+
     const { id } = useParams();
   
     useEffect(() => {
         getData(id);
         getPartData(id);
     }, [id]);
+
+    useEffect(() => {
+        setNewRow((partData[partData.length-1]?.part||0)+1)
+    }, [partData]);
 
     const getData = async (id) => {
         try {
@@ -33,7 +40,6 @@ const TutorialEditPage = () => {
                 }
             );            
             setData(response?.data?.topic);
-
             setName(response?.data?.topic.name);
             setOrder(response?.data?.topic.order)
             
@@ -59,6 +65,7 @@ const TutorialEditPage = () => {
             );
             
             setPartData(response?.data?.parts);
+
         } catch (err) {
             if (!err?.response) {
                 console.log("not response")
@@ -92,6 +99,29 @@ const TutorialEditPage = () => {
         }
     }
 
+    const deletePart = async(partId)=>{
+        try {
+            const response = await normalAxios.delete("/api/tutorial/"+partId,
+            {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true
+            }
+            );
+
+            if(response.status===200){
+                getPartData(id);
+            }
+            
+        }catch(err){
+            if (!err?.response) {
+                console.log("not response")
+                console.log(err);
+            }else{
+                console.log(err);
+            }
+        }
+    }
+
     return (
         <Container>
            <h2>Edit Tutorial Topic</h2>
@@ -115,7 +145,7 @@ const TutorialEditPage = () => {
                         </Col>
                         <Col>
                         <div className='input-container'>
-                            <label htmlFor='name'>Name of Part: </label>
+                            <label htmlFor='name'>Name of Topic: </label>
                             <input type="text" 
                             placeholder=" "
                             id="name"
@@ -134,6 +164,7 @@ const TutorialEditPage = () => {
             </form>
            </div>
            <h3>Topic Parts</h3>
+            <NewRow redirect={"/admin/tutorial/topic/" + id + "/part/new/" + newRow}></NewRow>
             <MDBTable align='middle' className='topicTable' responsive bordered >
                 <MDBTableHead>
                     <tr>
@@ -144,13 +175,14 @@ const TutorialEditPage = () => {
                 </MDBTableHead>
                 <MDBTableBody>
                     {partData?.map((el)=>
-                        <tr>
+                        <tr key={el._id}>
                             <th scope='row' >{el.part}</th>
                             <td>{el.name}</td>
                             <td className='actions'>
                                 <a href={'/admin/tutorial/topic/'+id+'/part/'+el._id}>
                                     <i className="fa-solid fa-pen-to-square"></i>
                                 </a>
+                                <button onClick={()=>deletePart(el._id)}><i className="fa-solid fa-trash"></i></button>
                             </td>
                         </tr>
                     )}

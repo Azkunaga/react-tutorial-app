@@ -48,7 +48,7 @@ const getTutorialPartById = async(req,res) =>{
 //admin galdera berriak sartzeko
 const addTutorialPart = async (req,res) => {
     try{
-        const part = await tutorialService.addPart(req.body.topic,req.body.name,req.body.part,req.body.text);
+        const part = await tutorialService.addPart(req.body.topicId,req.body.name,req.body.part,req.body.text);
         if(!part){
             res.status(500).send({
                 message: "Something went wrong",
@@ -85,7 +85,7 @@ const editTutorialPart = async(req,res) => {
 //admin galdera berriak sartzeko
 const deleteTutorialPart = async (req,res) => {
     try{
-        tutorialService.deletePart(req.body.questionId)
+        await tutorialService.deletePart(req.params.id)
         res.status(200).send({
             message: "Deleted Correctly",
           })

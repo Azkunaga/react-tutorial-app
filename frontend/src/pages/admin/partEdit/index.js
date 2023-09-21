@@ -15,6 +15,7 @@ const PartEditPage = () => {
     let [part,setPart] = useState("");
     let [text,setText] = useState("");
 
+    let [newRow, setNewRow] = useState();
 
     const { topicId, partId } = useParams();
   
@@ -22,6 +23,10 @@ const PartEditPage = () => {
         getData();
         getExercises();
     }, [partId]);
+
+    useEffect(() => {
+        setNewRow(data[data.length-1]?.part+1)
+    }, [data]);
 
     const getData = async () => {
         try {
@@ -81,6 +86,28 @@ const PartEditPage = () => {
             }
             );
             console.log(response);
+        }catch(err){
+            if (!err?.response) {
+                console.log("not response")
+                console.log(err);
+            }else{
+                console.log(err);
+            }
+        }
+    }
+
+    const deleteQuestion = async(questId) => {
+        try {
+            const response = await normalAxios.delete("/api/tutorial/question/"+questId,
+            {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true
+            }
+            );
+            if(response.status===200){
+                getExercises();
+            }
+            
         }catch(err){
             if (!err?.response) {
                 console.log("not response")
@@ -160,7 +187,7 @@ const PartEditPage = () => {
                 </MDBTableHead>
                 <MDBTableBody>
                     {exerciseData?.map((el)=>
-                        <tr>
+                        <tr key={el._id}>
                             <th scope='row' >{el.type.name}</th>
                             <td>{el.difficulty.name}</td>
                             <td  className='actions'>{el.valid ? <i className="fa-solid fa-check"></i> : <i className="fa-solid fa-xmark"></i>}</td>
@@ -169,6 +196,7 @@ const PartEditPage = () => {
                                 <a href={'/admin/tutorial/topic/'+topicId+'/part/'+partId+"/question/"+el._id}>
                                     <i className="fa-solid fa-pen-to-square"></i>
                                 </a>
+                                <button onClick={()=>deleteQuestion(el._id)}><i className="fa-solid fa-trash"></i></button>
                             </td>
                         </tr>
                     )}

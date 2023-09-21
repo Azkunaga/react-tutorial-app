@@ -1,5 +1,6 @@
-const topicService = require('./topicService');
 const tutorialPart = require('../models/tutorialPart');
+const topic = require('../models/topic');
+const questionService = require('./questionService')
 
 const mongodbConnection = require('../config/mongodb');
 
@@ -24,10 +25,12 @@ const getPartById = async(id) =>{
     }
 }
 
-const addPart = async(topicName,name,part,text) => {
+const addPart = async(topicId,name,part,text) => {
     try{
         mongodbConnection();
-        const t = await topicService.getTopicByName(topicName);
+        const t =  await topic.findOne({
+            _id:topicId,
+        })
         if(!t){
             return null;
         }
@@ -46,9 +49,23 @@ const addPart = async(topicName,name,part,text) => {
 const deletePart = async(partId) => {
     try{
         mongodbConnection();
+        await questionService.deleteByPart(partId);
         await tutorialPart.deleteOne({
-            id:partId,
+            _id:partId,
         })
+    }catch(error){
+        console.log(error.message)
+    }
+}
+
+const deleteByTopic = async (topicId) => {
+    try{
+        console.log("deletebytopic")
+        mongodbConnection();
+        const parts = await getPartsByTopic(topicId);
+        await parts.forEach(async element => {
+            await deletePart(element._id);
+        });
     }catch(error){
         console.log(error.message)
     }
@@ -81,6 +98,7 @@ module.exports = {
     getPart,
     addPart,
     deletePart,
+    deleteByTopic,
     editPart,
     getPartsByTopic,
 }

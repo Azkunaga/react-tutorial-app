@@ -8,7 +8,7 @@ router.post("/", topicValidator.topicExists,topicController.addTopic);
 router.post("/all", topicController.getAllTopics);
 router.post("/parts",topicController.getTopicParts);
 router.post("/:id", topicController.getTopic);
-router.post("/edit/:id",topicController.editTopic);
-//router.delete("/:id",topicController.deleteTopic)
+router.post("/edit/:id", topicController.editTopic);
+router.delete("/:id", topicController.deleteTopic)
 
 module.exports = router;
