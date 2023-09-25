@@ -18,17 +18,14 @@ const UsersEditPage = () => {
 
     const { id } = useParams();
 
-    const [file, setFile] = useState();
- 
-    const onFileChange = event => {
-        // Update the state
-        console.log(event.target.files[0]);
-        setFile(event.target.files[0]);
-    };
+    const [image, setImage] = useState(null);
+
+    const getFileInfo = (e) => {
+        setImage(e.target.files[0]);
+    }
 
     const getUser = async() =>{
         try {
-            
             const role = localStorage.getItem('userData')?.role || null;
             const response = await normalAxios.post("/api/users/"+id,
                 JSON.stringify({"role":role}),
@@ -58,26 +55,26 @@ const UsersEditPage = () => {
     const handleSubmit = async(event)=>{
         try {
             event.preventDefault();
+            const formData = new FormData(); 
+            formData.append("file",image);
+            const response = await normalAxios.post("/api/upload-image", formData,  
+            {
+                headers: { 'Content-Type': 'multipart/form-data' },
+                withCredentials: true
+            }
+            );
 
-            const formData = new FormData();
-            formData.append('file', file);
+            const imageName = response?.data?.image;
+
             const logedRole = localStorage.getItem('userData')?.role || null;
-            // const response = await normalAxios.post("/api/users/edit/"+id,
-            // JSON.stringify({"img":file, firstName, lastName, username, state, email, code, userRole , "role":logedRole}),
-            // {
-            //     headers: { 'Content-Type': 'application/json' },
-            //     withCredentials: true
-            // }
-            // );
 
-            const response = await normalAxios.post("/api/users/edit/"+id, formData,
+            const response2 = await normalAxios.post("/api/users/edit/"+id,
+            JSON.stringify({imageName, firstName, lastName, username, state, email, code, userRole , "role":logedRole}),
             {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true
             }
             );
-
-            console.log(response);
 
         }catch(err){
             if (!err?.response) {
@@ -142,7 +139,7 @@ const UsersEditPage = () => {
                             type="file"
                             id="file-ip-1"
                             accept="image/*"
-                            onChange={onFileChange} />
+                            onChange={getFileInfo} />
                         </div>
                     </Col>
                 </Row>

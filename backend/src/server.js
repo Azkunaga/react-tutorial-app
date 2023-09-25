@@ -23,6 +23,7 @@ const topicRoute = require("./routes/topicRoute");
 const exTypeRoute = require("./routes/exTypeRoute");
 const exLevelRoute = require("./routes/exLevelRoute");
 const userRoute = require("./routes/userRoute");
+const imageRoute = require('./routes/imageRoute')
 
 //Cross Origin Resource Sharing
 server.use(cors(corsOptions));
@@ -32,6 +33,9 @@ server.use(express.json())
 
 //middleware for coockies
 server.use(cookieParser());
+
+//Static folder
+server.use(express.static('public'));
 
 //public routes
 server.use('/api/auth/login', loginRoute);
@@ -48,6 +52,7 @@ server.use('/api/tutorial/exLevel', exLevelRoute);
 server.use('/api/tutorial', tutorialRoute);
 server.use('/api/chatGPT', chatGPTRoute);
 server.use('/api/users', userRoute);
+server.use('/api/upload-image', imageRoute);
 
 //no existing routes
 server.all('*', (req, res) => {

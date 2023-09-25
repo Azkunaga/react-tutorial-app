@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Container } from 'react-bootstrap'
-import { normalAxios } from '../../../api/axios';
+import { normalAxios, SERVER_URL } from '../../../api/axios';
 import { MDBBadge, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import profile from '../../../img/profile.jpg';
 
@@ -18,7 +18,7 @@ const UsersListPage = () => {
                     withCredentials: true
                 }
             );   
-            console.log(response?.data?.users);
+            
             setUsersData(response?.data?.users);
 
         } catch (err) {
@@ -53,11 +53,11 @@ const UsersListPage = () => {
             </MDBTableHead>
             <MDBTableBody>
                 {usersData?.map((el)=>
-                    <tr>
+                    <tr key={el._id}>
                     <td>
                         <div className='d-flex align-items-center'>
                         <img
-                            src = {el.profileImage ? "data:image/"+ el.profileImage.contentType + ";base64,"+ el.profileImage.data.toString('base64') : profile}
+                            src = {el.profileImage ?  SERVER_URL+"/userImages/"+el.profileImage : profile}
                             alt= 'profile picture'
                             style={{ width: '45px', height: '45px' }}
                             className='rounded-circle'
@@ -82,7 +82,7 @@ const UsersListPage = () => {
                             <i className="fa-solid fa-pen-to-square"></i>
                         </a>
                         <button onClick={deleteUser}>
-                            <i class="fa-solid fa-trash"></i>
+                            <i className="fa-solid fa-trash"></i>
                         </button>
                     </td>
                     </tr>

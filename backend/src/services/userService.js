@@ -78,10 +78,7 @@ const editUser = async (id, firstName, lastName, username, email, state, code, i
                 email:email,
                 state:state,
                 code:codeO || null,
-                profileImage:{
-                    data: img.buffer,
-                    contentType: img.mimetype,
-                },
+                profileImage:img,
                 role:role
             },
             {new:true});

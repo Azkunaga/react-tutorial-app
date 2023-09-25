@@ -39,6 +39,7 @@ authAxios.interceptors.response.use(
 );
 
 export {
+  SERVER_URL,
   normalAxios,
   authAxios,
 }

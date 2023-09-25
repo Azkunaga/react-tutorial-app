@@ -49,10 +49,8 @@ const getAllUsers = async(req,res) =>{
 
 const editUser = async(req,res) => {
     try{
-        console.log(req.body);
-        return;
         const updatedUser = await userService.editUser(req.params.id, req.body.firstname, 
-            req.body.lastname, req.body.username, req.body.email, req.body.state, req.body.code, req.body.img, req.body.userRole);
+            req.body.lastname, req.body.username, req.body.email, req.body.state, req.body.code, req.body.imageName, req.body.userRole);
         res.status(200).send({
             message: "Edited Correctly",
             user:updatedUser,
