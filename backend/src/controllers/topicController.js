@@ -1,6 +1,25 @@
 const topicService = require('../services/topicService');
 const tutorialService = require('../services/tutorialService');
 
+const getMenu  = async (req,res) =>{
+    try {
+        const menu = await topicService.getMenu(req.body.username);
+        if(menu){
+            res.status(200).send({
+                menu,
+              })
+        }else{
+            res.status(401).send({
+                message:"Menu no available",
+              })
+        }
+    } catch (error) {
+        res.status(500).send({
+            error, 
+        })
+    }
+}
+
 const addTopic = async (req,res) => {
     try{
         const newTopic = await topicService.addTopic(req.body.topic, req.body.order);
@@ -10,7 +29,7 @@ const addTopic = async (req,res) => {
           })
     }catch (error) {
         res.status(500).send({
-        error: error.mesage, 
+        error 
         })
     }
 }
@@ -32,7 +51,7 @@ const getTopic = async (req,res) => {
         
     }catch (error) {
         res.status(500).send({
-            error: error.mesage, 
+            error
         })
     }
 }
@@ -46,7 +65,7 @@ const deleteTopic = async (req,res) => {
           })
     }catch (error) {
         res.status(500).send({
-        error: error.mesage, 
+        error
         })
     }
 }
@@ -59,7 +78,7 @@ const getAllTopics = async(req,res) =>{
           })
     }catch (error) {
         res.status(500).send({
-        error: error.mesage, 
+        error
         })
     }
 }
@@ -72,7 +91,7 @@ const getTopicParts = async(req,res) =>{
           })
     }catch (error) {
         res.status(500).send({
-            error: error.mesage, 
+            error
         })
     }
 }
@@ -87,12 +106,13 @@ const editTopic = async(req,res) => {
           })
     }catch (error) {
         res.status(500).send({
-            error: error.mesage, 
+            error
         })
     }
 }
 
 module.exports = {
+    getMenu,
     addTopic,
     getTopic,
     getAllTopics,

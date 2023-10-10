@@ -4,6 +4,7 @@ const tutorialController = require('../controllers/tutorialController');
 
 const router = express.Router();
 
+router.post("/last", tutorialController.getLastPartId);
 router.post("/:id", tutorialController.getTutorialPartById);
 router.post('/edit/:id', tutorialController.editTutorialPart);
 router.post("/", tutorialController.addTutorialPart);

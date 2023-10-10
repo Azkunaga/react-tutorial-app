@@ -11,7 +11,7 @@ const registerUser = async (username, password, firstName, lastName, email, role
             username: username, 
             password: encodePass,
             firstName: firstName,
-            lastName: lastName, 
+            lastName: lastName,
             email: email, 
             role: role,
             code: codeObj,

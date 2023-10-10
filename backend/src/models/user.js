@@ -25,7 +25,8 @@ let userSchema = new mongoose.Schema({
     required: true,
   },
   code: {
-    type: mongoose.Types.ObjectId, ref: "Code"
+    type: mongoose.Types.ObjectId, ref: "Code",
+    default: null,
   },
   role: {
     type: String,
@@ -37,9 +38,11 @@ let userSchema = new mongoose.Schema({
   },
   refreshToken: {
     type: String,
+    default: "",
   },
   profileImage: {
     type:String,
+    default: "",
   },
   createdAt: {
     type:Date,

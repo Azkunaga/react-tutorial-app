@@ -110,12 +110,7 @@ color: black;
 
 .actions{
   font-size: large;
-  display: flex;
   /* margin-left: -15px; */
-}
-
-.actions i{
-  /* margin-left: 15px; */
 }
 
 .actions a:hover,

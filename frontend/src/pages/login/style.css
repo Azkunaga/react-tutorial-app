@@ -55,6 +55,11 @@
     font-size:12px;
 }
 
+.msg{
+    color:green;
+    font-size: 12px;
+}
+
 .auth-form input[type="text"],
 .auth-form input[type="email"],
 .auth-form select,

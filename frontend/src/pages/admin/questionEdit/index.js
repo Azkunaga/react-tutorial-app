@@ -1,11 +1,12 @@
 import {React, useEffect, useState} from 'react'
-import {useParams, useLocation} from 'react-router-dom'
+import {useParams, useLocation, useNavigate} from 'react-router-dom'
 import {Container, Row, Col} from 'react-bootstrap'
 import './style.css'
 import {normalAxios} from '../../../api/axios'
-import BackButton from '../../../components/backButton';
 
 const QuestionEditPage = () => {
+
+    const navigate = useNavigate();
 
     const location = useLocation();
 
@@ -236,13 +237,14 @@ const QuestionEditPage = () => {
                     </Row>
 
                     <div className='edit-actions'>  
-                        <button type="button" className="btn btn-dark" onClick={saveQuestion}>Save</button> 
+                        <button type="button" className="btn btn-dark" onClick={saveQuestion}>Save</button>
+                        <button type="button" className="btn btn-dark" onClick={()=>navigate(-1)}>Back</button> 
                     </div>
 
             </form>
            </div>
             : <p>Question not found</p>}
-            <BackButton></BackButton>
+
         </Container>
     )
 }

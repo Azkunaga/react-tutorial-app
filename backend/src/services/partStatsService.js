@@ -16,22 +16,22 @@ const addPartStats = async (tutorialPart, user, duration, returnNumber) => {
         })
         return ps;
     }catch(error){
-        console.log(error.message)
+        console.log(error)
     }
 }
 
-const getPartStats = async (tutorialPart, user) => {
+const getPartStats = async (partId, user) => {
     try{
         mongodbConnection();
         const u = await userService.searchUser(user);
-        const tp = await tutorialService.getPart(tutorialPart);
+        // const tp = await tutorialService.getPartById(partId);
         const ps = await partStats.findOne({
-            tutorialPart:tp,
+            tutorialPart:partId,
             user: u,
         })
         return ps;
     }catch(error){
-        console.log(error.message)
+        console.log(error)
     }
 }
 
@@ -41,7 +41,7 @@ const getAll = async () => {
         const all = await partStats.find();
         return all;
     }catch(error){
-        console.log(error.message)
+        console.log(error)
     }
 }
 
@@ -56,7 +56,17 @@ const deletePartStats = async (tutorialPart, user) => {
         })
         return ps;
     }catch(error){
-        console.log(error.message)
+        console.log(error)
+    }
+}
+
+const getLast = async(username)=>{
+    try {
+        const u = await userService.getUser(username)
+        const ps = await partStats.findOne({user:u}).sort({createdAt:-1});
+        return ps;
+    } catch (error) {
+        console.log(error)
     }
 }
 
@@ -64,5 +74,6 @@ module.exports = {
     addPartStats,
     getPartStats,
     getAll,
-    deletePartStats
+    deletePartStats,
+    getLast
 }

@@ -27,7 +27,7 @@ const fillPrompt = PromptTemplate.fromTemplate(
   `Create a {level} fill in the gap exercise, just one, about React {component}.
   Give {opt}. Give the list disordered.
 
-  Give the exercise starting with "Exercise:". 
+  Give the exercise starting with "Exercise:".
   Give the correct answer of the exercise starting with "Correct answer:"
   `
 );

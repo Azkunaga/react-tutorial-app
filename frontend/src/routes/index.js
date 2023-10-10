@@ -13,6 +13,7 @@ import TeacherValidPage from '../pages/teacher/valid';
 import TeacherUsersPage from '../pages/teacher/users';
 
 import StudentPage from '../pages/student';
+import StudentTutorialPage from '../pages/student/tutorial'
 
 import AdminPage from '../pages/admin';
 
@@ -23,9 +24,11 @@ import QuestionEditPage from '../pages/admin/questionEdit';
 import NewTutorialTopicPage from '../pages/admin/tutorialEdit/new';
 import NewTutorialPartPage from '../pages/admin/partEdit/new';
 
-
 import UsersListPage from '../pages/admin/usersListAdmin'
 import UsersEditPage from '../pages/admin/usersEditPage';
+import NewUserPage from '../pages/admin/usersEditPage/new'
+
+import ProfilePage from '../pages/profile';
 
 import NoExists from '../pages/noExists';
 import Unauthorized from '../pages/unauthorized';
@@ -50,6 +53,7 @@ const AppRoutes = () => {
             <Route path="/admin/tutorial/topic/:topicId/part/:partId/question/:questionId" element={<QuestionEditPage/>} />
             <Route path="/admin/users" exact element={<UsersListPage/>} />
             <Route path="/admin/users/:id" exact element={<UsersEditPage/>} />
+            <Route path="/admin/users/new" exact element={<NewUserPage/>} />
 
             <Route path="/teacher" exact element={<TeacherPage/>} />
             <Route path="/teacher/questions" exact element={<TeacherQuestionsPage/>} />
@@ -57,6 +61,11 @@ const AppRoutes = () => {
             <Route path="/teacher/valid" exact element={<TeacherValidPage/>} />
             <Route path="/teacher/valid/:questionId" exact element={<QuestionEditPage/>} />
             <Route path="/teacher/students" exact element={<TeacherUsersPage/>} />
+
+            <Route path="/student" exact element={<StudentPage/>} />
+            <Route path="/student/tutorial/:id" exact element={<StudentTutorialPage/>} />
+
+            <Route path="/profile" exact element={<ProfilePage/>} />
 
             {/* Protected routes */}
             {/* <Route element={<RequireAuth allowedRoles={ROLES.STUDENT} />}>

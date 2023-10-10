@@ -7,6 +7,7 @@ const router = express.Router();
 router.post("/", topicValidator.topicExists,topicController.addTopic);
 router.post("/all", topicController.getAllTopics);
 router.post("/parts",topicController.getTopicParts);
+router.post("/menu", topicController.getMenu);
 router.post("/:id", topicController.getTopic);
 router.post("/edit/:id", topicController.editTopic);
 router.delete("/:id", topicController.deleteTopic)

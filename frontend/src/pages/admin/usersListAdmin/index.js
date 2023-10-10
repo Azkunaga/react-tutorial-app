@@ -3,6 +3,7 @@ import { Container } from 'react-bootstrap'
 import { normalAxios, SERVER_URL } from '../../../api/axios';
 import { MDBBadge, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import profile from '../../../img/profile.jpg';
+import NewRow from '../../../components/newRow'
 
 const UsersListPage = () => {
 
@@ -18,7 +19,8 @@ const UsersListPage = () => {
                     withCredentials: true
                 }
             );   
-            
+            console.log(response)
+
             setUsersData(response?.data?.users);
 
         } catch (err) {
@@ -30,8 +32,27 @@ const UsersListPage = () => {
         }
     }
 
-    const deleteUser = async() => {
-
+    const deleteUser = async(id) => {
+        try {
+            const response = await normalAxios.delete("/api/users/"+id,
+            {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true
+            }
+            );
+            console.log(response)
+            if(response.status===200){
+                getUsersData();
+            }
+            
+        }catch(err){
+            if (!err?.response) {
+                console.log("not response")
+                console.log(err);
+            }else{
+                console.log(err);
+            }
+        }
     }
 
     useEffect(()=>{
@@ -41,6 +62,7 @@ const UsersListPage = () => {
     return (
         <Container>
             <h2>Users List</h2>
+            <NewRow redirect={"/admin/users/new"}></NewRow>
             <MDBTable align='middle' responsive>
             <MDBTableHead>
                 <tr>
@@ -73,7 +95,7 @@ const UsersListPage = () => {
                     </td>
                     <td>{el.role.charAt(0).toUpperCase() + el.role.slice(1)}</td>
                     <td>
-                        <MDBBadge color='success' pill>
+                        <MDBBadge color={el.state==="active" ? 'success' : 'danger'} pill>
                             {el.state.charAt(0)?.toUpperCase() + el.state.slice(1)}
                         </MDBBadge>
                     </td>
@@ -81,7 +103,7 @@ const UsersListPage = () => {
                         <a href={'/admin/users/'+el._id}>
                             <i className="fa-solid fa-pen-to-square"></i>
                         </a>
-                        <button onClick={deleteUser}>
+                        <button onClick={()=>deleteUser(el._id)}>
                             <i className="fa-solid fa-trash"></i>
                         </button>
                     </td>

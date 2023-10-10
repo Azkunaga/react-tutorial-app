@@ -43,7 +43,7 @@ const getTutorialStats = async(username) =>{
                 const incorrect = answers.filter(function (a) {
                     return a.correct == false;
                 }).length;
-                const pStats = await partStatsService.getPartStats(value2.name,username);
+                const pStats = await partStatsService.getPartStats(value2._id,username);
                 if(pStats){
                     allDuration += pStats.duration;
                     allReturn += pStats.return;

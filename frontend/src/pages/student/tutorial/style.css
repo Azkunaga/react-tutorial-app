@@ -1,0 +1,130 @@
+.tutorial{
+    margin-left: 5vh;
+    margin-right: 5vh;
+}
+
+.tutorial-menu,
+.tutorial-div{
+    background-color: #5b5b5b;
+    height: calc(100vh - 80px - 50px);
+}
+
+.tutorial-menu,
+.tutorial-content{
+    overflow-y: scroll;
+}
+
+.part-div,
+.tutorial-actions-div{
+    background-color: #353535;
+}
+
+.part-div{
+    height: 30px;
+}
+
+.tutorial-actions-div{
+    height: 50px;
+}
+
+.part-title{
+    padding-top: 2px;
+    margin-left: 15px;
+    color: white;
+}
+
+.tutorial-content{
+    height: calc(100vh - 210px);
+    overflow: auto;
+}
+
+
+.content-text{
+    color: #eaeaea;
+    padding-top: 2%;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-bottom: 2%;
+}
+
+.tutorial-actions-div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.tutorial-actions{
+    color: white;
+}
+
+.tutorial-menu-content{
+    color: white;
+    padding-top: 10%;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.part-info{
+   float: right;
+}
+
+.part-info i{
+    position:static;
+    margin-left: 10px;
+}
+
+.tutorial-menu-content .hide{
+    display: none;
+}
+
+.parts{
+    margin-left: 10px;
+    margin-top: 10px;
+    font-size: 12px;
+}
+
+.parts div{
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.tutorial-menu-content .topic{
+    margin-bottom: 30px;
+}
+
+.gs_button.continue{
+    background: #f59b00 !important;
+    width: auto;
+    padding-left: 5px;
+    padding-right: 5px;
+} 
+
+.gs_button.continue .slide{
+    background: #636363;
+} 
+
+.gs_button.continue:hover {
+    border: 1px solid #f59b00;
+  }
+
+.gs_button.continue:hover a {
+    color: #f59b00;
+}
+
+/* Style the <pre> element */
+pre {
+    background-color: #484848;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid;
+    border-radius: 5px;
+    overflow-x: auto;
+width: fit-content;
+  }
+  
+  /* Style the <code> element */
+  code {
+    font-family: "Courier New", monospace;
+    font-size: 14px;
+  }

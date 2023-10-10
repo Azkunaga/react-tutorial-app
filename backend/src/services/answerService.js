@@ -30,6 +30,17 @@ const createAnswer = async (user, questionId, answerText, help, dur, eval) => {
     }
 }
 
+const getAnswersByUserAndPart = async (username, questions) => {
+    try {
+        const u = await userService.getUser(username);
+        const answers = await answer.find({ user: u._id, answerToQuestion: { $in: questions } });
+        return answers;
+    } catch (error) {
+        
+    }
+}
+
 module.exports = {
     createAnswer,
+    getAnswersByUserAndPart,
 };

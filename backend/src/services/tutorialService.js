@@ -1,6 +1,8 @@
 const tutorialPart = require('../models/tutorialPart');
 const topic = require('../models/topic');
-const questionService = require('./questionService')
+const questionService = require('./questionService');
+const answerService = require('./answerService');
+const partStatsService = require('./partStatsService');
 
 const mongodbConnection = require('../config/mongodb');
 
@@ -86,10 +88,60 @@ const getPartsByTopic = async(topicId) =>{
         mongodbConnection();
         const parts = await tutorialPart.find({
             topic:topicId,
-        })
+        }).sort({part: 'asc'});
         return parts;
     }catch(error){
         console.log(error.message)
+    }
+}
+
+const getPartProgress = async (username,partId) => {
+    try {
+        let progress = 0;
+        const partStats = await partStatsService.getPartStats(partId,username);
+        if(partStats?.done){
+            progress+=50;
+        }
+        const exercises = await questionService.getQuestionsByPart(partId);
+        const answers = await answerService.getAnswersByUserAndPart(username,exercises);
+        const correctNum = 0;
+        if(answers){
+            correctNum = answers.filter(function (a) {
+                return a.correct == true;
+            }).length || 0;
+        }else{
+            return progress;
+        }
+        progress = progress + ((correctNum/(exercises.length))*100)/2;
+        return progress;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const isDone = async (username, partId) => {
+    try {
+        const partStats = await partStatsService.getPartStats(partId,username);
+        if(partStats?.done){
+            return true;
+        }else{
+            return false;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const getLastPartId = async(username) => {
+    try {
+        const partStats = await partStatsService.getLast(username);
+        if(partStats){
+            return partStats._id;
+        }else{
+            return null;
+        }
+    } catch (error) {
+        console.log(error);
     }
 }
 
@@ -101,4 +153,7 @@ module.exports = {
     deleteByTopic,
     editPart,
     getPartsByTopic,
+    getPartProgress,
+    isDone,
+    getLastPartId,
 }

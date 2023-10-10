@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
-import BackButton from '../../../components/backButton'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { normalAxios } from '../../../api/axios';
 
 const UsersEditPage = () => {
+
+    const navigate = useNavigate();
 
     const [username, setUsername] = useState();
     const [firstName, setFirstName] = useState();
@@ -13,6 +14,7 @@ const UsersEditPage = () => {
     const [email, setEmail] = useState();
     const [userRole, setUserRole] = useState();
     const [state, setState] = useState();
+    const [imgName, setImgName] = useState();
 
     const [studentCode, setStudentCode] = useState(false)
 
@@ -24,7 +26,7 @@ const UsersEditPage = () => {
         setImage(e.target.files[0]);
     }
 
-    const getUser = async() =>{
+    async function getUser(){
         try {
             const role = localStorage.getItem('userData')?.role || null;
             const response = await normalAxios.post("/api/users/"+id,
@@ -42,6 +44,7 @@ const UsersEditPage = () => {
             setUserRole(response?.data?.user.role);
             setCode(response?.data?.user.code); 
             setState(response?.data?.user.state);
+            setImgName(response?.data?.user.profileImage);
 
         } catch (err) {
             if (!err?.response) {
@@ -52,29 +55,36 @@ const UsersEditPage = () => {
         }
     }
 
-    const handleSubmit = async(event)=>{
+    const saveUser = async(event)=>{
         try {
             event.preventDefault();
-            const formData = new FormData(); 
-            formData.append("file",image);
-            const response = await normalAxios.post("/api/upload-image", formData,  
-            {
-                headers: { 'Content-Type': 'multipart/form-data' },
-                withCredentials: true
+            if(image){
+                const formData = new FormData();
+                formData.append("file",image);
+                const response = await normalAxios.post("/api/upload-image", formData,  
+                {
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                    withCredentials: true
+                }
+                );
+                console.log(response)
+                setImgName(response?.data?.image);
             }
-            );
-
-            const imageName = response?.data?.image;
-
+            
             const logedRole = localStorage.getItem('userData')?.role || null;
 
             const response2 = await normalAxios.post("/api/users/edit/"+id,
-            JSON.stringify({imageName, firstName, lastName, username, state, email, code, userRole , "role":logedRole}),
+            JSON.stringify({imgName, firstName, lastName, username, state, email, code, userRole , "role":logedRole}),
             {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true
             }
             );
+            console.log(response2)
+
+            if(response2.status === 200){
+                navigate(-1);
+            }
 
         }catch(err){
             if (!err?.response) {
@@ -87,10 +97,6 @@ const UsersEditPage = () => {
     };
 
     useEffect(()=>{
-        getUser();
-    },[id]);
-
-    useEffect(()=>{
         if(userRole==="student"){
             setStudentCode(true);
         }else{
@@ -99,10 +105,13 @@ const UsersEditPage = () => {
         }
     },[userRole]);
 
+    useEffect(()=>{
+        getUser();
+    },[id]);
+
     return (
         <Container>
             <h2>Edit User</h2>
-            <form onSubmit={handleSubmit} >
                 <Row>
                     <Col>
                         <div className='input-container'>
@@ -115,14 +124,14 @@ const UsersEditPage = () => {
                                 value={username}
                                 required
                                 aria-describedby="nameNote"
-                                onChange={(e) => setUsername(e.target.value)}
+                                onChange={(e) => {setUsername(e.target.value);}}
                             />
                         </div>
                     </Col>
                     <Col>
                     <div className='input-container'>
                         <label htmlFor="state">State</label>
-                        <select 
+                        <select
                             name="state"
                             value={state}
                             required
@@ -139,9 +148,10 @@ const UsersEditPage = () => {
                             type="file"
                             id="file-ip-1"
                             accept="image/*"
+                            
                             onChange={getFileInfo} />
                         </div>
-                    </Col>
+                    </Col> 
                 </Row>
 
                 <Row>
@@ -152,8 +162,8 @@ const UsersEditPage = () => {
                             placeholder=" " 
                             type="text"
                             id="firstName"
-                            onChange={(e) => setFirstName(e.target.value)}
                             value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
                             autoComplete="off"
                             required
                         />
@@ -167,8 +177,8 @@ const UsersEditPage = () => {
                         placeholder=" " 
                         type="text"
                         id="lastName"
-                        onChange={(e) => setLastName(e.target.value)}
                         value={lastName}
+                        onChange={(e) => {setLastName(e.target.value);}}
                         autoComplete="off"
                         required
                     />
@@ -224,11 +234,10 @@ const UsersEditPage = () => {
                     </Col>
                 </Row>
 
-                <div className='edit-actions'>  
-                        <button type="button" className="btn btn-dark" onClick={handleSubmit}>Save</button> 
+                <div className='edit-actions'>           
+                    <button type="button" className="btn btn-dark" onClick={saveUser}>Save</button> 
+                    <button type="button" className="btn btn-dark" onClick={()=>navigate(-1)}>Cancel</button> 
                 </div>
-            </form>
-            <BackButton></BackButton>
         </Container>
 
     )

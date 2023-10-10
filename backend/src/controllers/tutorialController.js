@@ -1,13 +1,32 @@
 const tutorialService = require('../services/tutorialService')
 
-//app
+
+const getLastPartId = async (req,res) => {
+    try {
+        console.log("contr last");
+        const partId = await tutorialService.getLastPartId(req.body.user);
+        if(!partId){
+            res.status(200).send({
+                message: "Part not found",
+                partId:"start",
+            })
+        }else{
+            res.status(200).send({
+                message: "Part found",
+                partId
+            })
+        }
+    } catch (error) {
+        
+    }
+}
+
 const getTutorialPart = async (req,res) => {
     try{
         const part = await tutorialService.getPart(req.body.topic,req.body.part)
         if(!part){
             res.status(401).send({
                 message: "Part not found",
-                error: error.mesage,
             })
         }else{
             res.status(200).send({
@@ -18,7 +37,7 @@ const getTutorialPart = async (req,res) => {
         
     }catch (error) {
         res.status(500).send({
-        error: error.mesage, 
+            error
         })
     }
 }
@@ -29,7 +48,6 @@ const getTutorialPartById = async(req,res) =>{
         if(!part){
             res.status(401).send({
                 message: "Part not found",
-                error: error.mesage,
             })
         }else{
             res.status(200).send({
@@ -40,7 +58,7 @@ const getTutorialPartById = async(req,res) =>{
         
     }catch (error) {
         res.status(500).send({
-        error: error.mesage, 
+            error
         })
     }
 }
@@ -62,7 +80,7 @@ const addTutorialPart = async (req,res) => {
 
     }catch (error) {
         res.status(500).send({
-        error: error.mesage, 
+        error
         })
     }
 }
@@ -77,7 +95,7 @@ const editTutorialPart = async(req,res) => {
           })
     }catch (error) {
         res.status(500).send({
-            error: error.mesage, 
+            error
         })
     }
 }
@@ -91,12 +109,13 @@ const deleteTutorialPart = async (req,res) => {
           })
     }catch (error) {
         res.status(500).send({
-        error: error.mesage, 
+        error
         })
     }
 }
 
 module.exports = {
+    getLastPartId,
     getTutorialPartById,
     getTutorialPart,
     addTutorialPart,

@@ -1,13 +1,14 @@
 import {React, useEffect, useState} from 'react'
-import {useParams} from 'react-router-dom'
+import {useNavigate, useParams} from 'react-router-dom'
 import {Container, Row, Col} from 'react-bootstrap'
 import {MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import './style.css'
 import {normalAxios} from '../../../api/axios'
-import BackButton from '../../../components/backButton';
 import NewRow from '../../../components/newRow';
 
 const TutorialEditPage = () => {
+
+    const navigate = useNavigate();
 
     let [data, setData] = useState("");
     let [partData, setPartData] = useState([]);
@@ -190,7 +191,10 @@ const TutorialEditPage = () => {
             </MDBTable> 
             </div>
             }
-            <BackButton></BackButton>
+            <div className='edit-actions'>
+                <button type="button" className="btn btn-dark" onClick={()=>navigate(-1)}>Back</button>
+            </div>
+           
         </Container>
     )
 }
