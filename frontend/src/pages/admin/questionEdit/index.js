@@ -1,10 +1,13 @@
-import {React, useEffect, useState} from 'react'
+import {React, useEffect, useState, useRef} from 'react'
 import {useParams, useLocation, useNavigate} from 'react-router-dom'
-import {Container, Row, Col} from 'react-bootstrap'
+import {Container, Row, Col, OverlayTrigger, Tooltip} from 'react-bootstrap'
 import './style.css'
 import {normalAxios} from '../../../api/axios'
 
 const QuestionEditPage = () => {
+
+    const [show, setShow] = useState(false);
+    const target = useRef(null);
 
     const navigate = useNavigate();
 
@@ -173,18 +176,33 @@ const QuestionEditPage = () => {
                         <Col>
                         <div className='input-container'>
                             <label htmlFor='type'>Type: </label>
-                            <select
-                            id="type"
-                            value={type}
-                            required
-                            disabled = {isTeacher}
-                            onChange={(e) => setType(e.target.value)}
-                            >
-                                {types?.map((el)=>
-                                    <option value={el.name}>{el.name.charAt(0).toUpperCase() + el.name.slice(1)}</option>
-                                )}
-                            </select>
+                            <div>
+                                <select
+                                id="type"
+                                value={type}
+                                required
+                                disabled = {isTeacher}
+                                onChange={(e) => setType(e.target.value)}
+                                >
+                                    {types?.map((el)=>
+                                        <option value={el.name}>{el.name.charAt(0).toUpperCase() + el.name.slice(1)}</option>
+                                    )}
+                                </select>
+                                <div className='typeInfo'>
+                                <OverlayTrigger
+                                placement="bottom"
+                                overlay={
+                                    <Tooltip>
+                                        {types.find((a)=> a.name === type)?.description}
+                                    </Tooltip>
+                                }
+                                >
+                                    <i class="fa-solid fa-circle-info"></i>
+                                </OverlayTrigger>
+                                </div>
+                            </div>
                         </div>
+                        
                         </Col>
                         <Col>
                         <div className='input-container'>

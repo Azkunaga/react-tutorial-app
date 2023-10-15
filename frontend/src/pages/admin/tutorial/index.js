@@ -4,8 +4,11 @@ import { MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import './style.css'
 import {normalAxios} from '../../../api/axios'
 import NewRow from '../../../components/newRow';
+import { useNavigate } from 'react-router-dom';
 
 const TutorialPage = () => {
+
+    const navigate = useNavigate();
 
     let [data, setData] = useState([]);
     let [newRow, setNewRow] = useState();
@@ -92,6 +95,9 @@ const TutorialPage = () => {
                    
                 </MDBTableBody>
             </MDBTable>
+            <div className='edit-actions'>
+                <button type="button" className="btn btn-dark" onClick={()=>navigate(-1)}>Back</button>
+            </div>
         </Container>
     )
 }

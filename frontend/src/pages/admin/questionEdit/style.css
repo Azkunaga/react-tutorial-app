@@ -1,3 +1,15 @@
 .input-container textarea{
     min-height: 200px;
 }
+
+.typeInfo{
+    float: right    ;
+}
+
+select#type{
+ width: calc(100% - 20px);
+}
+
+.tooltip {
+    --mdb-tooltip-max-width: 450px;
+}

@@ -4,8 +4,11 @@ import { normalAxios, SERVER_URL } from '../../../api/axios';
 import { MDBBadge, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import profile from '../../../img/profile.jpg';
 import NewRow from '../../../components/newRow'
+import { useNavigate } from 'react-router-dom';
 
 const UsersListPage = () => {
+
+    const navigate = useNavigate();
 
     const [usersData, setUsersData] = useState();
 
@@ -111,6 +114,9 @@ const UsersListPage = () => {
                 )}
             </MDBTableBody>
             </MDBTable>
+            <div className='edit-actions'>
+                <button type="button" className="btn btn-dark" onClick={()=>navigate(-1)}>Back</button>
+            </div>
         </Container>
 
     )

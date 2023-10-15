@@ -36,6 +36,10 @@ let userSchema = new mongoose.Schema({
     type:String,
     default: "active",
   },
+  initialLevel: {
+    type:String,
+    default: "low",
+  },
   refreshToken: {
     type: String,
     default: "",

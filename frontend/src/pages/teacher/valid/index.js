@@ -2,8 +2,11 @@ import React, {useState, useEffect} from 'react'
 import { Container } from 'react-bootstrap';
 import { MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import { normalAxios } from '../../../api/axios';
+import { useNavigate } from 'react-router-dom';
 
 const TeacherValidPage = () => {
+
+    const navigate = useNavigate();
 
     let [data, setData] = useState([]);
 
@@ -65,6 +68,9 @@ const TeacherValidPage = () => {
                     )}
                 </MDBTableBody>
             </MDBTable> 
+            <div className='edit-actions'>
+                <button type="button" className="btn btn-dark" onClick={()=>navigate(-1)}>Back</button>
+            </div>
         </Container>
     )
 }
