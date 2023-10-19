@@ -36,20 +36,19 @@ const getQuestions = async (tutPart,type, difficulty) => {
     }
 }
 
-const addQuestion = async (tutPart,type,level,questionStatement, questionAnswer) => {
+const addQuestion = async (partId, questionStatement, type, level, questionAnswer, valid) => {
     try{
         mongodbConnection();
         const levelObj = await exLevelService.getExLevel(level);
-        const partObj = await tutorialService.getPart(tutPart);
         const typeObjt = await exTypeService.getExType(type);
         const quest = await question.create({
-            tutorialPart:partObj,
+            tutorialPart:partId,
             type:typeObjt,
             difficulty:levelObj,
             question:questionStatement,
             correctAnswer: questionAnswer,
-            valid:false,
-        }) 
+            valid:valid,
+        })
         return quest; 
     }catch(error){
         console.log(error.message)

@@ -4,7 +4,7 @@ import {Container, Row, Col} from 'react-bootstrap';
 import { MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import './style.css';
 import {normalAxios} from '../../../api/axios'
-import BackButton from '../../../components/backButton';
+import NewRow from '../../../components/newRow'
 
 const PartEditPage = () => {
 
@@ -177,6 +177,7 @@ const PartEditPage = () => {
             </form>
            </div>
            <h3>Exercises</h3>
+            <NewRow redirect={'/admin/tutorial/topic/'+topicId+'/part/'+partId+'/question/'}></NewRow>
             <MDBTable align='middle' className='topicTable' responsive bordered >
                 <MDBTableHead>
                     <tr>
@@ -193,7 +194,7 @@ const PartEditPage = () => {
                             <th scope='row' >{el.type.name}</th>
                             <td>{el.difficulty.name}</td>
                             <td  className='actions'>{el.valid ? <i className="fa-solid fa-check"></i> : <i className="fa-solid fa-xmark"></i>}</td>
-                            <td>{el.question}</td>
+                            <td>{el.question.name}</td>
                             <td className='actions'>
                                 <a href={'/admin/tutorial/topic/'+topicId+'/part/'+partId+"/question/"+el._id}>
                                     <i className="fa-solid fa-pen-to-square"></i>

@@ -176,3 +176,7 @@ color: black;
   color: #f0ede2;
   transition: 0.3s;
 }
+
+.sd-root-modern{
+  background: transparent !important;
+}

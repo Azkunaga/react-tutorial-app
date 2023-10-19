@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import {normalAxios} from '../api/axios'
 import { Col } from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom'
+import Markdown from 'react-markdown';
 
 const TutorialPart = (props) => {
 
@@ -56,7 +57,10 @@ const TutorialPart = (props) => {
                         </div>
                     </div>
                     <div className='tutorial-content'>
-                        <div className='content-text' dangerouslySetInnerHTML={{__html: part?.text}} />
+                        {/* <div className='content-text' dangerouslySetInnerHTML={{__html: part?.text}} > */}
+                        <div className='content-text'>
+                            <Markdown>{part?.text}</Markdown>
+                        </div>
                     </div>
                     <div className='tutorial-actions-div'>
                         <div className='tutorial-actions'>

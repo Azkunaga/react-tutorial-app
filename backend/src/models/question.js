@@ -7,7 +7,7 @@ let questionSchema = new mongoose.Schema({
   type:{
     type: mongoose.Types.ObjectId, ref: "ExType"
   },
-  question:String,
+  question:Object,
   correctAnswer:String, //TODO
   difficulty:{
     type: mongoose.Types.ObjectId, ref: "ExLevel"

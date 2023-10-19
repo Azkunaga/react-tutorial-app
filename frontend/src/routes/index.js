@@ -21,6 +21,7 @@ import TutorialPage from '../pages/admin/tutorial';
 import TutorialEditPage from '../pages/admin/tutorialEdit';
 import PartEditPage from '../pages/admin/partEdit';
 import QuestionEditPage from '../pages/admin/questionEdit';
+import CreateQuestionPage from '../pages/admin/questionEdit/new';
 import NewTutorialTopicPage from '../pages/admin/tutorialEdit/new';
 import NewTutorialPartPage from '../pages/admin/partEdit/new';
 
@@ -51,6 +52,7 @@ const AppRoutes = () => {
             <Route path="/admin/tutorial/topic/:id" element={<TutorialEditPage/>} />
             <Route path="/admin/tutorial/topic/:topicId/part/:partId" element={<PartEditPage/>} />
             <Route path="/admin/tutorial/topic/:topicId/part/:partId/question/:questionId" element={<QuestionEditPage/>} />
+            <Route path="/admin/tutorial/topic/:topicId/part/:partId/question/" element={<CreateQuestionPage/>} />
             <Route path="/admin/users" exact element={<UsersListPage/>} />
             <Route path="/admin/users/:id" exact element={<UsersEditPage/>} />
             <Route path="/admin/users/new" exact element={<NewUserPage/>} />

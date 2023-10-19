@@ -3,11 +3,9 @@ import {useParams, useLocation, useNavigate} from 'react-router-dom'
 import {Container, Row, Col, OverlayTrigger, Tooltip} from 'react-bootstrap'
 import './style.css'
 import {normalAxios} from '../../../api/axios'
+import ExerciseComponent from '../../../components/exerciseComponent'
 
 const QuestionEditPage = () => {
-
-    const [show, setShow] = useState(false);
-    const target = useRef(null);
 
     const navigate = useNavigate();
 
@@ -37,7 +35,6 @@ const QuestionEditPage = () => {
         }else{
             setData(null);
         }
-        
     }, [questionId]);
 
     useEffect(()=>{
@@ -54,6 +51,10 @@ const QuestionEditPage = () => {
         }
 
     },[])
+
+    useEffect(() => {
+        console.log(type + "edit");
+    },[type])
 
     const getLevels = async () => {
         try {
@@ -132,8 +133,9 @@ const QuestionEditPage = () => {
     const saveQuestion = async () =>{
         try {
             const role = localStorage.getItem('userData')?.role || null;
+            const exercise = JSON.parse(localStorage.getItem('exerciseJSON'));  
             const response = await normalAxios.post("/api/tutorial/question/edit/"+questionId,
-            JSON.stringify({"question":question, "level":level, "type":type, "pAnswer":pAnswer, "valid":valid,  "role": role}),
+            JSON.stringify({"question":exercise, level, type, pAnswer, valid ,role}),
             {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true
@@ -221,23 +223,7 @@ const QuestionEditPage = () => {
                         </Col>
                         
                     </Row>
-                    <Row>
-                    <Col>
-                        <div className='input-container'>
-                            <label htmlFor='quest'>Question: </label>
-                            <textarea type="text" 
-                            placeholder=" "
-                            id="quest"
-                            autoComplete="off"
-                            value={question}
-                            required
-                            disabled = {isTeacher}
-                            onChange={(e) => {setQuestion(e.target.value);} 
-                            }
-                            />
-                        </div>
-                        </Col>
-                    </Row>
+                    <ExerciseComponent type={type} data={question}></ExerciseComponent>
                     <Row>
                         <Col>
                             <div className='input-container'>

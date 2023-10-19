@@ -87,7 +87,7 @@ const getValoratedQuestions = async (req, res) =>{
 
 const getQuest = async (req,res) => {
     try{
-        const quest = await questionService.getQuestions(req.body.topic, req.body.part, req.body.user);
+        const quest = await questionService.getQuestions(req.body.part, req.body.type, req.body.level);
         if(!quest){
             res.status(401).send({
                 message: "Questions not found for this topic",
@@ -107,9 +107,10 @@ const getQuest = async (req,res) => {
 
 const addQuest = async (req,res) => {
     try{
-        await addQuestion(req.body.topic,req.body.question);
+        const q = await questionService.addQuestion(req.body.partId, req.body.question, req.body.type, req.body.level, req.body.pAnswer, req.body.valid);
         res.status(200).send({
             message: "Question added",
+            q,
           })
     }catch (error) {
         res.status(500).send({
