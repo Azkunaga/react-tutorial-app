@@ -62,10 +62,38 @@ const deletePartStats = async (tutorialPart, user) => {
 
 const getLast = async(username)=>{
     try {
-        const u = await userService.getUser(username)
-        const ps = await partStats.findOne({user:u}).sort({createdAt:-1});
+        const u = await userService.searchUser(username);
+        const ps = await partStats.findOne({user:u._id}).sort({createdAt:-1});
         return ps;
     } catch (error) {
+        console.log(error)
+    }
+}
+
+const completePart = async(username,partId,duration)=>{
+    try{
+        const ps = await getPartStats(partId,username);
+        if(ps){
+            const newDuration = duration + ps.duration;
+            const newReturn = ps.return + 1;
+            const updated = await partStats.findOneAndUpdate({_id:ps._id},{
+                done:true,
+                duration:newDuration,
+                return:newReturn,
+            })
+            return updated;
+        }else{
+            const u = await userService.searchUser(username);
+            mongodbConnection();
+            const newPs =  await partStats.create({
+                tutorialPart:partId,
+                user:u._id,
+                done:true,
+                duration:duration,
+            })
+            return newPs;
+        }
+    }catch(error){
         console.log(error)
     }
 }
@@ -75,5 +103,6 @@ module.exports = {
     getPartStats,
     getAll,
     deletePartStats,
-    getLast
+    getLast,
+    completePart
 }

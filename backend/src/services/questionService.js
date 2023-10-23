@@ -3,6 +3,8 @@ const question = require('../models/question');
 const tutorialPartService = require('./tutorialService');
 const exTypeService = require('./exTypeService');
 const exLevelService = require('./exLevelService');
+const answerService = require('./answerService');
+const {getRandom} = require('../util/random')
 
 const valueQuestion = async (question,stars) => {
     try{
@@ -148,6 +150,55 @@ const editQuestion = async(questId, level, type, valid, questionText, pAnswer) =
     }
 }
 
+const getOneExerciseByPart = async (username,partId) =>{
+    try{
+        const questions = await getQuestionsNotDone(username,partId);
+        if(questions.length>0){
+            const finalQuest = getRandom(questions);
+            return finalQuest?._id;
+        }else{
+            return "new";
+        }
+
+    }catch(error){
+        console.log(error.message)
+    }
+}
+
+const getNextQuestionsByPart = async (username, partId, questId) => {
+    try {
+        console.log("Getting not done questions:");
+        let questions = await getQuestionsNotDone(username,partId);
+        if(questions.length>1){
+            questions = questions.filter(ques => String(ques._id)!==questId);
+        }
+        if(questions.length>0){
+            const finalQuest = getRandom(questions);
+            return finalQuest?._id;
+        }else{
+            return "new";
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const getQuestionsNotDone = async (username,partId) => {
+    try {
+        let questions = await getQuestionsByPart(partId);
+        let answers = await answerService.getAnswersByUserAndPart(username,questions);
+        answers = answers.filter(ans => ans.correct);
+        let answeredQuestions = [];
+        answers.forEach((ans) => {
+            answeredQuestions.push(String(ans.answerToQuestion._id));
+        })
+        questions = questions.filter(quest => answeredQuestions.indexOf(String(quest._id))<0 );
+        return questions;
+    } catch (error) {
+        console.log(error);
+    }
+} 
+
 module.exports = {
     valueQuestion,
     getValidQuestions,
@@ -158,5 +209,7 @@ module.exports = {
     deleteByPart,
     getQuestionById,
     getQuestionsByPart,
-    editQuestion
+    editQuestion,
+    getOneExerciseByPart,
+    getNextQuestionsByPart
 }

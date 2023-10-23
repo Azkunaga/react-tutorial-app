@@ -1,23 +1,17 @@
-const tutorialService = require('../services/tutorialService')
-
+const tutorialService = require('../services/tutorialService');
+const partStatsService = require('../services/partStatsService');
+const questionService = require('../services/questionService');
 
 const getLastPartId = async (req,res) => {
     try {
-        console.log("contr last");
         const partId = await tutorialService.getLastPartId(req.body.user);
-        if(!partId){
-            res.status(200).send({
-                message: "Part not found",
-                partId:"start",
-            })
-        }else{
-            res.status(200).send({
-                message: "Part found",
-                partId
-            })
-        }
+        res.status(200).send({
+            partId,
+        })
     } catch (error) {
-        
+        res.status(500).send({
+            error
+        })
     }
 }
 
@@ -114,6 +108,43 @@ const deleteTutorialPart = async (req,res) => {
     }
 }
 
+const completePart = async (req,res) => {
+    try {
+        const username = req.body.username;
+        const partId = req.body.part;
+        const duration = req.body.duration;
+        const ps = await partStatsService.completePart(username,partId,duration);
+        if(ps){
+            const exercise = await questionService.getOneExerciseByPart(username,partId);
+            res.status(200).send({
+                exercise,
+            })
+        }else{
+            res.status(500).send({
+                error
+            })
+        }
+       
+    } catch (error) {
+        res.status(500).send({
+            error
+        })
+    }
+}
+
+const getNextPartId = async(req,res)=>{
+    try{
+        const next = await tutorialService.getNextPartId(req.body.partId);
+        res.status(200).send({
+            next,
+        })
+    }catch(error){
+        res.status(500).send({
+            error
+        })
+    }
+}
+
 module.exports = {
     getLastPartId,
     getTutorialPartById,
@@ -121,4 +152,5 @@ module.exports = {
     addTutorialPart,
     editTutorialPart,
     deleteTutorialPart,
+    completePart,
 }

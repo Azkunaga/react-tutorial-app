@@ -1,4 +1,5 @@
 const userService = require('../services/userService');
+const tutorialService = require('../services/tutorialService')
 
 const addUser = async(req, res) =>{
     try {
@@ -145,6 +146,27 @@ const editPassword = async(req,res) => {
     }
 }
 
+const setInitialLevel = async(req,res) => {
+    try{
+        const u = await userService.setInitialLevel(req.body.username, req.body.initialLevel);
+        const first = await tutorialService.getFirstId();
+        if(u){
+            res.status(200).send({
+                message: "Password changed correctly",
+                first,
+              })
+        }else{
+            res.status(401).send({
+                message: "Error settin inital level",
+            })
+        }
+    }catch(error){
+        res.status(500).send({
+            error: error.mesage,
+        })
+    }
+}
+
 module.exports = {
     addUser,
     getUserById,
@@ -154,4 +176,5 @@ module.exports = {
     editUser,
     editUserByName,
     editPassword,
+    setInitialLevel
 }

@@ -8,9 +8,9 @@ let partStatsSchema = new mongoose.Schema({
     type: mongoose.Types.ObjectId, ref: "TutorialPart",
   },
   user:{type: mongoose.Types.ObjectId, ref: "User"},
-  done: Boolean, //part completed?
-  duration: Number, //seconds
-  return: Number, //return times
+  done: {type:Boolean, default: false}, //part completed?
+  duration: {type:Number, default: 0}, //seconds
+  return: {type:Number, default: 0}, //return times
   createdAt:{
     type:Date,
     default: Date.now

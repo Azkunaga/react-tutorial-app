@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.post("/valueQuestion/:id", questionController.valueQuest);
 router.post("/part" , questionController.getQuestionsByPart);
+router.post("/next" , questionController.getNextQuestionsByPart);
 router.post("/teacher" , questionController.getValidQuestions);
 router.post("/teacher/valid", questionController.getValoratedQuestions);
 router.post("/:id", questionController.getQuestionById);

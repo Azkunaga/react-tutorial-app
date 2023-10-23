@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.post("/create", userController.addUser);
 router.post("/user", userController.getUserByName);
+router.post("/start" , userController.setInitialLevel);
 router.post("/edit/password", userController.editPassword);
 router.post("/user/edit", userController.editUserByName);
 router.post("/:id", userController.getUserById);

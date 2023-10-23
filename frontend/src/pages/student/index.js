@@ -8,13 +8,13 @@ import { normalAxios } from '../../api/axios';
 
 const StudentPage = () => {
 
-    const [lastPartId, setLastPartId] = useState();
-
     const user = JSON.parse(localStorage.getItem('userData'));
 
-    const getLastPartId = async()=>{
+    const [lastPartId, setLastPartId] = useState();
+
+    const getLastPartId = async() => {
         const response = await normalAxios.post("/api/tutorial/last",
-            JSON.stringify({username:user?.username, role:user?.role}),
+            JSON.stringify({user:user?.username, role:user?.role}),
             {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true

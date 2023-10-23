@@ -9,6 +9,7 @@ const Header = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('userData');
+        localStorage.removeItem('menuState');
     }
 
     const link = user?.role || " ";

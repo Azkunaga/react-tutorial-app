@@ -84,6 +84,7 @@ const getAnswerToQuestion = async (question) => {
         console.log(error.message)
     }
 }
+
 const calculateType = async(username,tutPart) =>{
     const types = await exTypeService.getAll();
     const tutorialObj = await tutorialService.getPart(tutPart);
@@ -211,10 +212,8 @@ const createExercise = async (username,tutPart,type,level) => {
                 console.log("no existe el type");
                 break;
         }
-        console.log(question.text);
         const split1 = question.text.split("Exercise:");
         const split2 = split1[1].split("Correct answer:");
-        console.log(split2);
         const ex = split2[0].trim(" ");
         const pA = split2[1].trim(" ");
         const quest = await questionService.addQuestion(tutPart,calculatedType,calculatedLevel, ex, pA);
@@ -227,7 +226,7 @@ const createExercise = async (username,tutPart,type,level) => {
 const evaluate = async (quest,ans) => {
     try{
         const question = await questionService.getQuestionById(quest);
-        const res = await chains.answerEvaluationChain({question:question.question, pAnswer: question.correctAnswer, answer: ans})
+        const res = await chains.answerEvaluationChain.call({question:question.question.description, chances: question.question.chances || "no options", pAnswer: question.correctAnswer, answer: ans})
         return res.text;
     }catch(error){
         console.log(error.message)

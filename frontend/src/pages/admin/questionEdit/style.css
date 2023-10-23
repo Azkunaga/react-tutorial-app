@@ -13,3 +13,9 @@ select#type{
 .tooltip {
     --mdb-tooltip-max-width: 450px;
 }
+
+/* surveyjs */
+
+.sd-root-modern{
+    background: transparent !important;
+  }

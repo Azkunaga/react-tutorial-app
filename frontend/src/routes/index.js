@@ -66,6 +66,7 @@ const AppRoutes = () => {
 
             <Route path="/student" exact element={<StudentPage/>} />
             <Route path="/student/tutorial/:id" exact element={<StudentTutorialPage/>} />
+            <Route path="/student/tutorial/:id/exercises/:exId" exact element={<StudentTutorialPage/>} />
 
             <Route path="/profile" exact element={<ProfilePage/>} />
 

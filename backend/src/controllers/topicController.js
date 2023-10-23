@@ -98,12 +98,26 @@ const getTopicParts = async(req,res) =>{
 
 const editTopic = async(req,res) => {
     try{
-        
         const updatedTopic = await topicService.editTopic(req.params.id, req.body.order, req.body.name);
         res.status(200).send({
             message: "Edited Correctly",
             topic:updatedTopic,
           })
+    }catch (error) {
+        res.status(500).send({
+            error
+        })
+    }
+}
+ 
+const getNextPartId = async (req,res)=>{
+    try{
+        console.log(req.body.partId);
+        const next = await topicService.getNextPartId(req.body.partId);
+        console.log("Next",next);
+        res.status(200).send({
+            next
+        })
     }catch (error) {
         res.status(500).send({
             error
@@ -119,4 +133,5 @@ module.exports = {
     deleteTopic,
     getTopicParts,
     editTopic,
+    getNextPartId,
 }

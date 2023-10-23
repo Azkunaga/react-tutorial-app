@@ -1,42 +1,51 @@
 const answer = require('../models/answer');
 const userService = require('../services/userService');
-const questionService = require('../services/questionService');
 const mongodbConnection = require('../config/mongodb');
 
 const createAnswer = async (user, questionId, answerText, help, dur, eval) => {
     try{
-        mongodbConnection();
         const u = await userService.searchUser(user);
-        const q = await questionService.getQuestionById(questionId);
-        let helpBool = false;
         let answerBool = false;
-        if(help){
-            helpBool = true;
-        }
-        if(eval.startsWith('Yes')){
+        if(eval.startsWith('Yes' || 'yes')){
             answerBool = true;
         }
+        let feedback = splitAnswer(eval);
+        mongodbConnection();
         await answer.create({
-            user:u,
-            answerToQuestion:q,
+            user:u._id,
+            answerToQuestion:questionId,
             answer:answerText,
-            correct:anwserBool,
-            help: helpBool,
-            correction:eval,
+            correct:answerBool,
+            help: help,
+            correction:feedback,
             duration: dur
         })
+        return {
+            text:feedback,
+            correct:answerBool,
+        };
     }catch(error){
         console.log(error.message)
     }
 }
 
+const splitAnswer = (text) =>{
+    try{
+        let newLine = "\n\n";
+        let split = text.split(newLine).slice(1).join(newLine);
+        return split;
+    }catch(error){
+        console.log(error);
+    }
+}
+
 const getAnswersByUserAndPart = async (username, questions) => {
     try {
-        const u = await userService.getUser(username);
-        const answers = await answer.find({ user: u._id, answerToQuestion: { $in: questions } });
+        const u = await userService.searchUser(username);
+        const answers = await answer.find({ user: u._id, answerToQuestion: { $in: questions } }).populate('answerToQuestion');
         return answers;
     } catch (error) {
-        
+        console.log(error);  
     }
 }
 

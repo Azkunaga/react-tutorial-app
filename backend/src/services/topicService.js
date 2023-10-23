@@ -16,9 +16,9 @@ const getMenu = async(username) => {
             await Promise.all(parts.map(async (part)=>{
                 const done = await tutorialService.isDone(username,part._id);
                 if(done){
-                    doneCount++;
+                    doneCount+=1;
                 }
-                const progress = await tutorialService.getPartProgress(username, part._id);
+                let progress = await tutorialService.getPartProgress(username, part._id);
                 tp+=progress;
                 partsInfo.push({
                     id:part._id,
@@ -97,7 +97,6 @@ const getAllTopics = async()=>{
     try{
         mongodbConnection();
         const t = await topic.find().sort({order: 'asc'});
-        
         return t;
     }catch(error){
         console.log(error)
@@ -114,6 +113,37 @@ const editTopic = async(id,newOrder,newName)=>{
     }
 }
 
+const getNextPartId = async(partId)=>{
+    try{
+        mongodbConnection();
+        const thispart = await tutorialService.getPartById(partId);
+        const nextp = await tutorialService.nextPart(thispart);
+        if(nextp){
+            return nextp._id;
+        }else{
+            const topics = await getAllTopics();
+            let i = 0;
+            let aurk = false;
+            let nextTopic = null;
+            while (!aurk && i<topic.length) {
+                if(String(topics[i]._id) === String(thispart.topic._id)){
+                    nextTopic = topics[i+1];
+                    aurk = true;
+                }
+            }
+            if(nextTopic){
+                const parts = await tutorialService.getPartsByTopic(nextTopic._id);
+                console.log(parts);
+                return parts[0]._id;
+            }
+
+        } 
+        
+    }catch(error){
+        console.log(error)
+    }
+}
+
 module.exports = {
     getMenu,    
     addTopic,
@@ -121,5 +151,6 @@ module.exports = {
     getTopicByName,
     getAllTopics,
     deleteTopic,
-    editTopic
+    editTopic,
+    getNextPartId
 }

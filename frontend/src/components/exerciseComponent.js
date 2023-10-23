@@ -22,12 +22,16 @@ const ExerciseComponent = (props) => {
         "type": "text",
         "name": question || "Example Title",
         "description": description || "Example Description",
+        "valueName": "answer",
+        "isRequired": true,
     }
 
     let test = {
         "type": "radiogroup",
         "title": question || "Example title",
         "description": description || "Example description",
+        "valueName": "answer",
+        "isRequired": true,
         "choices": [
          option1 || "Option 1",
          option2 || "Option 2",
@@ -40,6 +44,8 @@ const ExerciseComponent = (props) => {
         "type": "boolean",
         "name": question || "Example Title",
         "description": description || "Example Description",
+        "valueName": "answer",
+        "isRequired": true,
         "labelTrue": "True",
         "labelFalse": "False",
     }
@@ -48,6 +54,8 @@ const ExerciseComponent = (props) => {
         "type": "ranking",
         "name": question || "Example Title",
         "description": description || "Example Description",
+        "valueName": "answer",
+        "isRequired": true,
         "choices": [
             option1 || "Option 1",
             option2 || "Option 2",
@@ -60,6 +68,8 @@ const ExerciseComponent = (props) => {
         "type": "tagbox",
         "name": question || "Example Title",
         "description": description || "Example Description",
+        "valueName": "answer",
+        "isRequired": true,
         "choices": [
             option1 || "Option 1",
             option2 || "Option 2",

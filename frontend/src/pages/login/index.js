@@ -38,6 +38,7 @@ const Login = () => {
             const accesToken = response?.data?.accesToken;
 
             localStorage.setItem('userData',JSON.stringify({username,role,accesToken}));
+            localStorage.setItem("menuState",JSON.stringify([]));
 
             console.log(JSON.parse(localStorage.getItem('userData')).role);
 

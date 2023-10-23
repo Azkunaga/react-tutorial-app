@@ -35,7 +35,6 @@
 
 .tutorial-content{
     height: calc(100vh - 210px);
-    overflow: auto;
 }
 
 
@@ -69,6 +68,10 @@
    float: right;
 }
 
+.topic-info{
+    cursor: pointer;
+  }
+
 .part-info i{
     position:static;
     margin-left: 10px;
@@ -85,13 +88,31 @@
 }
 
 .parts div{
-    margin-top: 5px;
     cursor: pointer;
+}
+
+.parts .pBar{
+    margin-top: 5px;
 }
 
 .tutorial-menu-content .topic{
     margin-bottom: 30px;
 }
+
+
+/* exercises css */
+
+.tutorial-exercise-center{
+    position: relative;
+    left: 50%;
+    top: 45%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+/* button continue */
 
 .gs_button.continue{
     background: #f59b00 !important;
@@ -120,7 +141,7 @@ pre {
     border: 1px solid;
     border-radius: 5px;
     overflow-x: auto;
-width: fit-content;
+    width: fit-content;
   }
   
   /* Style the <code> element */
@@ -128,3 +149,28 @@ width: fit-content;
     font-family: "Courier New", monospace;
     font-size: 14px;
   }
+
+/* correct or incorrect text */
+
+.feedback-actions{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.feedback-actions button{
+    margin-right: 20px;
+    margin-top: 30px;
+}
+.correct{
+    color:green;
+}
+
+.incorrect{
+    color: red;
+}
+
+.newEx {
+    color: #eaeaea;
+}

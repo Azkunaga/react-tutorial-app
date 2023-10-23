@@ -3,7 +3,7 @@ import * as Survey from "survey-react";
 import 'survey-core/defaultV2.min.css';
 import {Converter} from 'showdown'
 
-function SurveyComponent(props) {
+function SurveyExComponent(props) {
 
   const json = {
     "logoPosition": "right",
@@ -15,14 +15,9 @@ function SurveyComponent(props) {
       ]
      }
     ],
-    "mode": "display",
     "widthMode": "responsive",
     "showQuestionNumbers": false,
    }
-
-    useEffect(()=>{
-      localStorage.setItem('exerciseJSON',JSON.stringify(props.exercise));
-    },[json]);
 
     const survey = new Survey.Model(json);
 
@@ -36,8 +31,15 @@ function SurveyComponent(props) {
         // Set HTML markup to render
         options.html = str;
     });
+
+    const surveyComplete = useCallback((sender) => {
+      console.log("complete");
+      props.action(sender.data.answer);
+    }, []);
+  
+    survey.onComplete.add(surveyComplete);
   
     return (<Survey.Survey model={survey} />);
 }
 
-export default SurveyComponent;
+export default SurveyExComponent;

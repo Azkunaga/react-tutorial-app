@@ -140,6 +140,19 @@ const editPassword = async(username,pwd)=>{
     }
 }
 
+const setInitialLevel = async(username,initialLevel)=>{
+    try{
+        mongodbConnection();
+        const u = await user.findOneAndUpdate({username:username},{
+            initialLevel: initialLevel,
+          },
+          {new:true})
+        return u;
+    }catch(e){
+        console.log(e);
+    }
+}
+
 module.exports = {
     searchUser,
     searchUserWithToken,
@@ -150,5 +163,6 @@ module.exports = {
     editUser,
     editUserByName,
     deleteUser,
-    editPassword
+    editPassword,
+    setInitialLevel
 }

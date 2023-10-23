@@ -60,11 +60,10 @@ const helpWithQuestion = async(questionId)=>{
 
 const evaluateAnswer = async (req,res) => {
     try{
-        const eval = evaluate(req.body.questionId,req.body.answer);
-        answerService.createAnswer(req.body.user, req.body.questionID, req.body.answer, req.body.help, req.body.duration, eval);
-
+        const eval = await chatGPTService.evaluate(req.body.questionId, req.body.answer);
+        const feedback = await answerService.createAnswer(req.body.user, req.body.questionId,req.body.answer, req.body.help, req.body.duration, eval);
         return res.status(200).send({
-            answer: eval
+            feedback
           });
 
     }catch (error) {

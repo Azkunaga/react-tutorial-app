@@ -75,16 +75,19 @@ const levelPrompt = PromptTemplate.fromTemplate(
 );
 
 const answerEvaluationPrompt = PromptTemplate.fromTemplate(
-  `You will receive the user answer to a exercise about React.
+  `You will receive the user answer to a exercise about React. 
   
   Exercise: {question}
 
-  Possible answer: {pAnswer}
+  Exercise option(if there are any): {chances}
+
+  Correct answer: {pAnswer}
 
   Answer given by the user: {answer}
 
-  Correct the user answer and give explanations or/and tips. 
-  Start the correction with Yes/No. 
+  Check if the answer given by the user is correct and give explanations or/and tips. 
+  Start the correction with Yes/No in relation with the user answer and in a new line continue with the correction.
+  Give all the response in markdown syntax so it can be added to a website.
   `
 );
 

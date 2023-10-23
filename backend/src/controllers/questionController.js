@@ -147,7 +147,6 @@ const deleteQuest = async (req,res) => {
 
 const getQuestionsByPart = async(req,res) =>{
     try {
-        console.log(req.body.partId)
         const questions = await questionService.getQuestionsByPart(req.body.partId);
         res.status(200).send({
             questions,
@@ -173,6 +172,19 @@ const editQuestion = async(req,res) => {
     }
 }
 
+const getNextQuestionsByPart = async (req, res) => {
+    try{
+        const next = await questionService.getNextQuestionsByPart(req.body.user, req.body.partId, req.body.questId);
+        res.status(200).send({
+            next,
+        })
+    }catch (error) {
+        res.status(500).send({
+            error: error.mesage, 
+        })
+    }
+}
+
 module.exports = {
     valueQuest,
     getQuest,
@@ -184,4 +196,5 @@ module.exports = {
     deleteQuest,
     getQuestionsByPart,
     editQuestion,
+    getNextQuestionsByPart,
 }

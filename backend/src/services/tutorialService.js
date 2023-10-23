@@ -3,6 +3,7 @@ const topic = require('../models/topic');
 const questionService = require('./questionService');
 const answerService = require('./answerService');
 const partStatsService = require('./partStatsService');
+const userService = require('./userService');
 
 const mongodbConnection = require('../config/mongodb');
 
@@ -19,11 +20,13 @@ const getPart = async(partName) => {
 const getPartById = async(id) =>{
     try{
         mongodbConnection();
-        console.log(id);
-        const tp = await tutorialPart.findOne({_id: id})
+        if(id==="undefined"){
+            return null;
+        }
+        const tp = await tutorialPart.findById({_id: id}).populate('topic');
         return tp;
     }catch(error){
-        console.log(error.message)
+        console.log(error)
     }
 }
 
@@ -99,21 +102,26 @@ const getPartProgress = async (username,partId) => {
     try {
         let progress = 0;
         const partStats = await partStatsService.getPartStats(partId,username);
-        if(partStats?.done){
-            progress+=50;
-        }
         const exercises = await questionService.getQuestionsByPart(partId);
-        const answers = await answerService.getAnswersByUserAndPart(username,exercises);
-        const correctNum = 0;
-        if(answers){
-            correctNum = answers.filter(function (a) {
-                return a.correct == true;
-            }).length || 0;
-        }else{
-            return progress;
+        if(exercises.length>0){
+            const answers = await answerService.getAnswersByUserAndPart(username,exercises);
+            let correctNum = 0;
+            if(answers.length>0){
+                correctNum = answers.filter(ans => ans.correct).length;
+                progress = progress + ((correctNum/(exercises.length))*100)/2;
+            }
         }
-        progress = progress + ((correctNum/(exercises.length))*100)/2;
+
+        if(partStats?.done){
+            if(exercises.length===0){
+                progress = 100;
+            }else{
+                progress+=50;
+            }
+        }
+
         return progress;
+       
     } catch (error) {
         console.log(error);
     }
@@ -136,11 +144,37 @@ const getLastPartId = async(username) => {
     try {
         const partStats = await partStatsService.getLast(username);
         if(partStats){
-            return partStats._id;
+            return partStats.tutorialPart._id;
         }else{
-            return null;
+            const user = await userService.searchUser(username);
+            if(!user.initialLevel){
+                return "start";
+            }else{
+                const first = await getFirstId();
+                return first;
+            }
         }
     } catch (error) {
+        console.log(error);
+    }
+}
+
+const getFirstId = async () => {
+    try {
+        console.log("getting first partid")
+        const firstTopic = await topic.findOne({order:1});
+        const parts = await getPartsByTopic(firstTopic._id);
+        return parts[0]._id;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const nextPart = async (tpart) =>{
+    try{
+        const nextp = await tutorialPart.findOne({topic:tpart.topic._id, part:tpart.part+1});
+        return nextp;
+    }catch(error){
         console.log(error);
     }
 }
@@ -156,4 +190,6 @@ module.exports = {
     getPartProgress,
     isDone,
     getLastPartId,
+    getFirstId,
+    nextPart
 }
