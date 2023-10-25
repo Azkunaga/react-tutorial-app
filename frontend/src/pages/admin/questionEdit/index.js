@@ -1,5 +1,5 @@
-import {React, useEffect, useState, useRef} from 'react'
-import {useParams, useLocation, useNavigate} from 'react-router-dom'
+import {React, useEffect, useState} from 'react'
+import {useParams, useNavigate} from 'react-router-dom'
 import {Container, Row, Col, OverlayTrigger, Tooltip} from 'react-bootstrap'
 import './style.css'
 import {normalAxios} from '../../../api/axios'
@@ -8,8 +8,6 @@ import ExerciseComponent from '../../../components/exerciseComponent'
 const QuestionEditPage = () => {
 
     const navigate = useNavigate();
-
-    const location = useLocation();
 
     let [data, setData] = useState("");
 
@@ -22,9 +20,6 @@ const QuestionEditPage = () => {
     let [types, setTypes] = useState([]);
     let [levels, setLevels] = useState([]);
 
-    let [isTeacher, setIsTeacher] = useState();
-    let [isValidate, setIsValidate] = useState();
-
     const { questionId } = useParams();
 
     const role = JSON.parse(localStorage.getItem('userData'))?.role || null;
@@ -36,25 +31,6 @@ const QuestionEditPage = () => {
             setData(null);
         }
     }, [questionId]);
-
-    useEffect(()=>{
-        if(role=="teacher"){
-            setIsTeacher(true);
-        }else{
-            setIsTeacher(false);
-        }
-
-        if(location.pathname.includes('valid')){
-            setIsValidate(true);
-        }else{
-            setIsValidate(false);
-        }
-
-    },[])
-
-    useEffect(() => {
-        console.log(type + "edit");
-    },[type])
 
     const getLevels = async () => {
         try {
@@ -141,6 +117,10 @@ const QuestionEditPage = () => {
                 withCredentials: true
             }
             );
+
+            if(response.status===200){
+                navigate(-1);
+            }
            
         }catch(err){
             if (!err?.response) {
@@ -154,10 +134,9 @@ const QuestionEditPage = () => {
 
     return (
         <Container>
-           <h2>{isValidate ? "Valid Question" : isTeacher? "Edit Question Possible Answer" : "Edit Question"}</h2>
+           <h2>Edit Question</h2>
            { questionId && data ?
             <div className='edit'>
-            <form onSubmit={saveQuestion}>
                     <Row>
                         <Col>
                         <div className='input-container'>
@@ -166,11 +145,10 @@ const QuestionEditPage = () => {
                             id="level"
                             value={level}
                             required
-                            disabled = {isTeacher}
                             onChange={(e) => setLevel(e.target.value)}
                             >
                                 {levels?.map((el)=>
-                                    <option value={el.name}>{el.name.charAt(0).toUpperCase() + el.name.slice(1)}</option>
+                                    <option key={el._id} value={el.name}>{el.name.charAt(0).toUpperCase() + el.name.slice(1)}</option>
                                 )}
                             </select>
                         </div>
@@ -183,11 +161,10 @@ const QuestionEditPage = () => {
                                 id="type"
                                 value={type}
                                 required
-                                disabled = {isTeacher}
                                 onChange={(e) => setType(e.target.value)}
                                 >
                                     {types?.map((el)=>
-                                        <option value={el.name}>{el.name.charAt(0).toUpperCase() + el.name.slice(1)}</option>
+                                        <option key={el._id} value={el.name}>{el.name.charAt(0).toUpperCase() + el.name.slice(1)}</option>
                                     )}
                                 </select>
                                 <div className='typeInfo'>
@@ -199,7 +176,7 @@ const QuestionEditPage = () => {
                                     </Tooltip>
                                 }
                                 >
-                                    <i class="fa-solid fa-circle-info"></i>
+                                    <i className="fa-solid fa-circle-info"></i>
                                 </OverlayTrigger>
                                 </div>
                             </div>
@@ -213,7 +190,6 @@ const QuestionEditPage = () => {
                             id="valid"
                             value={valid}
                             required
-                            disabled = {isTeacher && !isValidate}
                             onChange={(e) => setValid(e.target.value)}
                             >
                                 <option value="true">True</option>
@@ -223,7 +199,7 @@ const QuestionEditPage = () => {
                         </Col>
                         
                     </Row>
-                    <ExerciseComponent type={type} data={question}></ExerciseComponent>
+                        <ExerciseComponent type={type} data={question} ></ExerciseComponent>
                     <Row>
                         <Col>
                             <div className='input-container'>
@@ -233,7 +209,6 @@ const QuestionEditPage = () => {
                                     id="pA"
                                     value={pAnswer}
                                     required
-                                    disabled = {isValidate}
                                     onChange={(e) => setPAnswer(e.target.value)}
                                 />
                             </div>
@@ -244,8 +219,6 @@ const QuestionEditPage = () => {
                         <button type="button" className="btn btn-dark" onClick={saveQuestion}>Save</button>
                         <button type="button" className="btn btn-dark" onClick={()=>navigate(-1)}>Back</button> 
                     </div>
-
-            </form>
            </div>
             : <p>Question not found</p>}
 

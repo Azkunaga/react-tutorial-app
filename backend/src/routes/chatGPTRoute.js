@@ -1,13 +1,14 @@
 const express = require('express');
 
-const { askChatGPT, recommendQuestionsChatGPT ,createExerciseChatGPT, evaluateAnswer,helpWithQuestion } = require('../controllers/chatGPTController');
+const chatGPTController = require('../controllers/chatGPTController');
 
 const router = express.Router();
 
-router.post("/ask", askChatGPT);
-router.post("/recommend", recommendQuestionsChatGPT);
-router.post("/create", createExerciseChatGPT);
-router.post("/help", helpWithQuestion);
-router.post("/evaluate", evaluateAnswer);
+router.post("/ask", chatGPTController.askChatGPT);
+router.post("/recommend", chatGPTController.recommendQuestionsChatGPT);
+router.post("/create", chatGPTController.createExerciseChatGPT);
+router.post("/create2", chatGPTController.createExerciseChatGPT2);
+router.post("/help", chatGPTController.helpWithQuestion);
+router.post("/evaluate", chatGPTController.evaluateAnswer);
 
 module.exports = router;

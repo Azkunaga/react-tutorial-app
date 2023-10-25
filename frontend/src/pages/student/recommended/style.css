@@ -1,0 +1,25 @@
+.recommend-div{
+    overflow: auto;
+}
+
+.recommend-content{
+    padding-top: 3%;
+    padding-bottom: 3%;
+}
+
+.norec{
+    color: white;
+}
+
+.rec{
+    padding-top: 100px;
+    height: 100%;
+}
+
+.recQuestions{
+    padding-top: 10%;
+}
+
+.quest{
+    cursor: pointer;
+}

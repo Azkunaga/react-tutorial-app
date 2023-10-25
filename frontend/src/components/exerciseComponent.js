@@ -16,10 +16,9 @@ const ExerciseComponent = (props) => {
 
     let [withOption, setWithOptions] = useState(false);
 
-    const isTeacher = false;
-
     let code = {
-        "type": "text",
+        "type": "comment",
+        "name": question,
         "name": question || "Example Title",
         "description": description || "Example Description",
         "valueName": "answer",
@@ -28,6 +27,22 @@ const ExerciseComponent = (props) => {
 
     let test = {
         "type": "radiogroup",
+        "name": question,
+        "title": question || "Example title",
+        "description": description || "Example description",
+        "valueName": "answer",
+        "isRequired": true,
+        "choices": [
+         option1 || "Option 1",
+         option2 || "Option 2",
+         option3 || "Option 3",
+         option4 || "Option 4"
+        ]
+    }
+
+    let test1 = {
+        "type": "checkbox",
+        "name": question,
         "title": question || "Example title",
         "description": description || "Example description",
         "valueName": "answer",
@@ -42,6 +57,7 @@ const ExerciseComponent = (props) => {
 
     let trueFalse = {
         "type": "boolean",
+        "name": question,
         "name": question || "Example Title",
         "description": description || "Example Description",
         "valueName": "answer",
@@ -52,6 +68,7 @@ const ExerciseComponent = (props) => {
 
     let fill1 = {
         "type": "ranking",
+        "name": question,
         "name": question || "Example Title",
         "description": description || "Example Description",
         "valueName": "answer",
@@ -66,7 +83,8 @@ const ExerciseComponent = (props) => {
 
     let fill2 = {
         "type": "tagbox",
-        "name": question || "Example Title",
+        "name": question ,
+        "title": question || "Example Title",
         "description": description || "Example Description",
         "valueName": "answer",
         "isRequired": true,
@@ -79,7 +97,6 @@ const ExerciseComponent = (props) => {
        }
 
     useEffect(()=>{
-        console.log("aldaketa")
         setQuestion(props.data?.name);
         setDescription(props.data?.description);
         if(props.data?.choices){
@@ -102,8 +119,13 @@ const ExerciseComponent = (props) => {
             setWithOptions(false);
         }
         
-        if(props.type === "test2" || props.type === "test3"){
+        if(props.type === "test2"){
             setExercise(test);
+            setWithOptions(true);
+        }
+
+        if(props.type === "test3"){
+            setExercise(test1);
             setWithOptions(true);
         }
         
@@ -131,7 +153,6 @@ const ExerciseComponent = (props) => {
                     autoComplete="off"
                     value={question}
                     required
-                    disabled = {isTeacher}
                     onChange={(e) => {setQuestion(e.target.value);} 
                     }
                     />
@@ -151,13 +172,12 @@ const ExerciseComponent = (props) => {
                     </OverlayTrigger></label>
                    
                     <textarea type="text" 
-                    placeholder=" "
-                    id="descr"
-                    autoComplete="off"
-                    value={description}
-                    required
-                    disabled = {isTeacher}
-                    onChange={(e) => {setDescription(e.target.value);} 
+                        placeholder=" "
+                        id="descr"
+                        autoComplete="off"
+                        value={description}
+                        required
+                        onChange={(e) => {setDescription(e.target.value);} 
                     }
                     />
                 </div>
@@ -173,7 +193,6 @@ const ExerciseComponent = (props) => {
                     autoComplete="off"
                     value={option1}
                     required
-                    disabled = {isTeacher}
                     onChange={(e) => {setOption1(e.target.value);} 
                     }
                     />
@@ -187,7 +206,6 @@ const ExerciseComponent = (props) => {
                     autoComplete="off"
                     value={option3}
                     required
-                    disabled = {isTeacher}
                     onChange={(e) => {setOption3(e.target.value);} 
                     }
                     />
@@ -203,7 +221,6 @@ const ExerciseComponent = (props) => {
                     autoComplete="off"
                     value={option2}
                     required
-                    disabled = {isTeacher}
                     onChange={(e) => {setOption2(e.target.value);} 
                     }
                     />
@@ -217,7 +234,6 @@ const ExerciseComponent = (props) => {
                     autoComplete="off"
                     value={option4}
                     required
-                    disabled = {isTeacher}
                     onChange={(e) => {setOption4(e.target.value);} 
                     }
                     />

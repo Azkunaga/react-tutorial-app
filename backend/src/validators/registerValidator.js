@@ -15,16 +15,15 @@ checkDuplicateUsernameOrEmail = async(req, res, next) => {
       // Email
       user.findOne({
         email: req.body.email
-      }).then((u) => {
-        if (u) {
-          res.status(409).send({ message: "Failed! Email is already in use!" });
-          return;
+      }).then((e) => {
+        if (e) {
+          return res.status(409).send({ message: "Failed! Email is already in use!" });
         }
         next();
       });
 
       
-      if(ereq.body.code){
+      if(req.body.code){
         const codeObj = await codeService.getCode(req.body.code);
         if(!codeObj){
           res.status(409).send({ message: "Failed! Class Code does not exist!" });

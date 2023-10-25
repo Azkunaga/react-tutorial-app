@@ -3,6 +3,7 @@ import { Container } from 'react-bootstrap';
 import { MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import { normalAxios } from '../../../api/axios';
 import { useNavigate } from 'react-router-dom';
+import {OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 const TeacherValidPage = () => {
 
@@ -43,8 +44,8 @@ const TeacherValidPage = () => {
             <MDBTable align='middle' className='topicTable' responsive bordered >
                 <MDBTableHead>
                     <tr>
-                        <th scope='col'>Votes</th>
                         <th scope='col'>Note</th>
+                        <th scope='col'>Comments</th>
                         <th scope='col'>Topic</th>
                         <th scope='col'>Part</th>
                         <th scope='col'>Question</th>
@@ -53,12 +54,21 @@ const TeacherValidPage = () => {
                 </MDBTableHead>
                 <MDBTableBody>
                     {data?.map((el)=>
-                        <tr>
-                            <th scope='row' >{el.stats.valorations}</th>
-                            <td>{el.stats.avg}</td>
+                        <tr key={el.question._id}>
+                            <td scope='row' >{el.stats?.value || "Not evaluated"}</td>
+                            <td><OverlayTrigger
+                                placement="bottom"
+                                overlay={
+                                    <Tooltip>
+                                        {el.stats?.comment ||"No comment"}
+                                    </Tooltip>
+                                }
+                                >
+                                    <i className="fa-regular fa-comment fa-lg"></i>
+                                </OverlayTrigger></td>
                             <td>{el.question.tutorialPart.topic.name}</td>
                             <td>{el.question.tutorialPart.name}</td>
-                            <td>{el.question.question}</td>
+                            <td>{el.question.question.name}</td>
                             <td className='actions'>
                                 <a href={'/teacher/valid/'+el.question._id}>
                                     <i className="fa-solid fa-pen-to-square"></i>

@@ -80,6 +80,7 @@ const Register = () => {
             setValidRole(true);
         }else{
             setValidRole(false);
+            setCode();
         }
         setErrMsg('');
     }, [role])
@@ -106,6 +107,7 @@ const Register = () => {
                 setFirstName('');
                 setLastName('');
                 setEmail('');
+                setCode('');
 
                 navigate('/login');
             }

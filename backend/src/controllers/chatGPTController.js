@@ -1,9 +1,10 @@
 const chatGPTService = require('../services/chatGPTService');
 const answerService = require('../services/answerService');
+const questionService = require('../services/questionService');
 
 const askChatGPT = async (req,res) => {
     try{
-      const answer = await chatGPTService.getAnswerToQuestion(req.body.question);
+      const answer = await chatGPTService.getAnswerToQuestion(req.body.username,req.body.question);
       return res.status(200).send({
         answer,
       });
@@ -23,7 +24,7 @@ const recommendQuestionsChatGPT = async (req,res) => {
               });
         }
         return res.status(200).send({
-            questionList,
+            questionList: JSON.parse(questionList),
           });
     }catch (error) {
         res.status(500).send({
@@ -34,9 +35,11 @@ const recommendQuestionsChatGPT = async (req,res) => {
 
 const createExerciseChatGPT = async (req,res) => {
     try{
-        const newExercise = await chatGPTService.createExercise(req.body.username, req.body.tutorialPart, req.body.type || null);
+        console.log("create exercise gpt");
+        const newObj = await chatGPTService.createExercise(req.body.username, req.body.partId, req.body.type, req.body.level);
+        const quest = await questionService.addQuestion(newObj.tutPart, newObj.type, newObj.level, newObj.ex, newObj.pA, false);
         return res.status(200).send({
-            newExercise,
+            next:newExercise._id || null,
           });
     }catch (error) {
         res.status(500).send({
@@ -45,9 +48,22 @@ const createExerciseChatGPT = async (req,res) => {
     }
 }
 
-const helpWithQuestion = async(questionId)=>{
+const createExerciseChatGPT2 = async (req,res) => {
+    try{
+        const newExercise = await chatGPTService.createExercise(req.body.username, req.body.partId, req.body.type, req.body.level);
+        return res.status(200).send({
+            question:newExercise || null,
+          });
+    }catch (error) {
+        res.status(500).send({
+        error: error.mesage, 
+        })
+    }
+}
+
+const helpWithQuestion = async(req,res)=>{
     try {
-        const helpText = chatGPTService.getHelpWithQuestion(questionId);
+        const helpText = await chatGPTService.getHelpWithQuestion(req.body.questionId);
         return res.status(200).send({
             helpText,
           });
@@ -78,5 +94,6 @@ module.exports = {
     askChatGPT,
     createExerciseChatGPT,
     helpWithQuestion,
-    evaluateAnswer
+    evaluateAnswer,
+    createExerciseChatGPT2
 }

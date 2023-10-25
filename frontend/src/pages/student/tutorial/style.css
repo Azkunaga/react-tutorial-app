@@ -1,10 +1,11 @@
 .tutorial{
-    margin-left: 5vh;
-    margin-right: 5vh;
+    padding-left: 5vh;
+    padding-right: 5vh;
 }
 
 .tutorial-menu,
-.tutorial-div{
+.tutorial-div,
+.exercises-div{
     background-color: #5b5b5b;
     height: calc(100vh - 80px - 50px);
 }
@@ -102,14 +103,15 @@
 
 /* exercises css */
 
-.tutorial-exercise-center{
-    position: relative;
-    left: 50%;
-    top: 45%;
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    padding-left: 5%;
-    padding-right: 5%;
+.tutorial-exercise{
+    padding-top: 5%;
+    padding-left: 7%;
+    padding-right: 7%;
+    height: 100%;
+}
+
+.exercises-div{
+   overflow-y: auto;
 }
 
 /* button continue */
@@ -152,6 +154,11 @@ pre {
 
 /* correct or incorrect text */
 
+.feedback{
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
+
 .feedback-actions{
     display: flex;
     align-items: center;
@@ -173,4 +180,12 @@ pre {
 
 .newEx {
     color: #eaeaea;
+}
+
+.center-div{
+    position: relative;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }

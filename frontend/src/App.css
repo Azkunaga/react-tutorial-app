@@ -144,12 +144,12 @@ color: black;
 
 /* new actions */
 
-.new {
+.button-right {
   display: flex;
   justify-content: right;
 }
 
-.button_plus {
+.button_circle {
   width: 35px;
   height: 35px;
   background: #f0ede2;
@@ -160,21 +160,30 @@ color: black;
   border-radius: 50%;
 }
 
-.button_plus > i{
+.button_circle > i{
   color: #5b5b5b;
   transition: 0.3s;
   font-size: 20px;
   margin-top: calc(50% - 10px); /* 50% - (50% of the element) */
 }
 
-.button_plus:hover {
+.button_circle:hover {
   background-color: #5b5b5b;
   transition: 0.3s;
 }
 
-.button_plus:hover > i {
+.button_circle:hover > i {
   color: #f0ede2;
   transition: 0.3s;
+}
+
+.question-button .button_circle {
+  width: 40px;
+  height: 40px;
+}
+
+.question-button i{
+  font-size: 23px;
 }
 
 

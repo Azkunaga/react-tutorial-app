@@ -1,12 +1,16 @@
 const mongodbConnection = require('../config/mongodb');
 const code = require('../models/code');
-const userService = require("./userService");
 
-const addCode = async (name) => {
+const addCode = async (userId, c) => {
     try{
         mongodbConnection();
+        const check = await getCode(c);
+        if(check){
+            return null;
+        }
         const t = await code.create({
-            code:name,
+            teacher:userId,
+            code:c,
         })
         return t;
     }catch(error){
@@ -21,19 +25,6 @@ const getCode = async (name) => {
             code:name,
         })
         return t;
-    }catch(error){
-        console.log(error.message)
-    }
-}
-
-const getCodesByTeacher = async (teacher) => {
-    try{
-        mongodbConnection();
-        const t = await userService.searchUser(teacher);
-        const codes = await code.findOne({
-            teacher: t,
-        })
-        return codes;
     }catch(error){
         console.log(error.message)
     }
@@ -54,6 +45,18 @@ const deleteCode = async (name) => {
         mongodbConnection();
         const t = await code.deleteOne({
             code:name,
+        })
+        return t;
+    }catch(error){
+        console.log(error.message)
+    }
+}
+
+const getCodesByTeacher = async (tId) => {
+    try{
+        mongodbConnection();
+        const t = await code.find({
+            teacher:tId,
         })
         return t;
     }catch(error){

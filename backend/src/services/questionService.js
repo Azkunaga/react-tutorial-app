@@ -1,36 +1,31 @@
 const mongodbConnection = require('../config/mongodb');
 const question = require('../models/question');
-const tutorialPartService = require('./tutorialService');
 const exTypeService = require('./exTypeService');
 const exLevelService = require('./exLevelService');
 const answerService = require('./answerService');
+const userService = require('./userService');
+const valorationService = require('./valorationService');
 const {getRandom} = require('../util/random')
 
-const valueQuestion = async (question,stars) => {
+const valueQuestion = async (username,questionId,stars,comment) => {
     try{
         mongodbConnection();
-        const quest = await getQuestionById(question)
-        const valoration = await valoration.create({
-            question:quest,
-            value:stars,
-        })
-        return valoration;
+        console.log(username,questionId,stars,comment);
+        const u = await userService.searchUser(username);
+        const val = await valorationService.createValoration(u._id,questionId,stars,comment);
+        return val;
     }catch(error){
         console.log(error.message)
     }
 }
 
-const getQuestions = async (tutPart,type, difficulty) => {
+const getQuestions = async (partId, typeId, valid) => {
     try{
         mongodbConnection();
-        const tp = await tutorialPartService.getPart(tutPart);
-        const ty = await exTypeService.getExType(type);
-        const l = await exLevel.getExLevel(difficulty);
         const quest = await question.find({
-            tutorialPart:tp,
-            type:ty,
-            difficulty: l,
-            valid:false,
+            tutorialPart:partId,
+            type:typeId,
+            valid:valid,
         })  
         return quest;
     }catch(error){
@@ -38,20 +33,33 @@ const getQuestions = async (tutPart,type, difficulty) => {
     }
 }
 
-const addQuestion = async (partId, questionStatement, type, level, questionAnswer, valid) => {
+const getQuestions2 = async (partId,typeId) => {
+    try{
+        mongodbConnection();
+        const quest = await question.find({
+            tutorialPart:partId,
+            type:typeId,
+        }).select('question');
+        return quest;
+    }catch(error){
+        console.log(error.message)
+    }
+}
+
+const addQuestion = async (partId, type, level, quest, questionAnswer, valid) => {
     try{
         mongodbConnection();
         const levelObj = await exLevelService.getExLevel(level);
         const typeObjt = await exTypeService.getExType(type);
-        const quest = await question.create({
+        const q = await question.create({
             tutorialPart:partId,
-            type:typeObjt,
-            difficulty:levelObj,
-            question:questionStatement,
+            type:typeObjt._id,
+            difficulty:levelObj._id,
+            question:quest,
             correctAnswer: questionAnswer,
             valid:valid,
         })
-        return quest; 
+        return q; 
     }catch(error){
         console.log(error.message)
     }
@@ -131,6 +139,20 @@ const getQuestionsByPart = async(partId) => {
     }
 }
 
+
+const getValidQuestionsByPart = async(partId) => {
+    try{
+        mongodbConnection();
+        const questions = question.find({
+            tutorialPart:partId,
+            valid:true,
+        }).populate('difficulty').populate('type');
+        return questions;
+    }catch(error){
+        console.log(error.message)
+    }
+}
+
 const editQuestion = async(questId, level, type, valid, questionText, pAnswer) =>{
     try{
         mongodbConnection();
@@ -185,7 +207,7 @@ const getNextQuestionsByPart = async (username, partId, questId) => {
 
 const getQuestionsNotDone = async (username,partId) => {
     try {
-        let questions = await getQuestionsByPart(partId);
+        let questions = await getValidQuestionsByPart(partId);
         let answers = await answerService.getAnswersByUserAndPart(username,questions);
         answers = answers.filter(ans => ans.correct);
         let answeredQuestions = [];
@@ -199,16 +221,35 @@ const getQuestionsNotDone = async (username,partId) => {
     }
 } 
 
+const getQuestionsText = async (partId,typeId) => {
+    try {
+        mongodbConnection();
+        let questionsText = [];
+        let questions = await getQuestions(partId,typeId, true);
+
+        questions.forEach((ans) => {
+            questionsText.push(String(ans.question.description));
+        })
+
+        return questionsText;
+    } catch (error) {
+        console.log(error);
+    }
+} 
+
 module.exports = {
     valueQuestion,
     getValidQuestions,
     getQuestions,
+    getQuestions2,
+    getQuestionsText,
     addQuestion,
     validQuestion,
     deleteQuestion,
     deleteByPart,
     getQuestionById,
     getQuestionsByPart,
+    getValidQuestionsByPart,
     editQuestion,
     getOneExerciseByPart,
     getNextQuestionsByPart

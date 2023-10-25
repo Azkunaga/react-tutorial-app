@@ -41,15 +41,27 @@ const splitAnswer = (text) =>{
 
 const getAnswersByUserAndPart = async (username, questions) => {
     try {
+        mongodbConnection();
         const u = await userService.searchUser(username);
         const answers = await answer.find({ user: u._id, answerToQuestion: { $in: questions } }).populate('answerToQuestion');
         return answers;
     } catch (error) {
-        console.log(error);  
+        console.log(error); 
+    }
+}
+
+const getAllAnswersByUser = async (userId) =>{
+    try {
+        mongodbConnection();
+        const answers = await answer.find({ user: userId }).populate('answerToQuestion');
+        return answers;
+    } catch (error) {
+        console.log(error); 
     }
 }
 
 module.exports = {
     createAnswer,
     getAnswersByUserAndPart,
+    getAllAnswersByUser,
 };

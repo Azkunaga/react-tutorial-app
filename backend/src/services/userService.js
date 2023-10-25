@@ -8,7 +8,7 @@ const searchUser = async (name) => {
     //find in db
     try{
         mongodbConnection();
-        const oneUser = await user.findOne({username:name});
+        const oneUser = await user.findOne({username:name}).populate('code');
         return oneUser;
     }catch(e){
         console.log(e);
@@ -56,6 +56,16 @@ const getAllUsers = async () => {
     }
 }
 
+const getAllUsersByCode = async (codeId) => {
+    try{
+        mongodbConnection();
+        const u = await user.find({code:codeId});
+        return u;
+    }catch(e){
+        console.log(e);
+    }
+}
+
 const deleteUser = async (id) => {
     try{
         mongodbConnection();
@@ -77,7 +87,7 @@ const editUser = async (id, firstName, lastName, username, email, state, code, i
                 username: username,
                 email:email,
                 state:state,
-                code:codeO || null,
+                code: codeO || null,
                 profileImage:img,
                 role:role
             },
@@ -91,14 +101,16 @@ const editUser = async (id, firstName, lastName, username, email, state, code, i
 const editUserByName = async (username, newusername, firstname, lastname, email, code, img) => {
     try{
         mongodbConnection();
+        console.log(code);
         const codeO = await codeService.getCode(code);
+        console.log(codeO)
         const u = await user.findOneAndUpdate({username:username},
             {
                 firstName: firstname,
                 lastName: lastname,
                 username: newusername,
                 email:email,
-                code:codeO || null,
+                code: codeO?._id || null,
                 profileImage:img,
             },
             {new:true});
@@ -154,6 +166,7 @@ const setInitialLevel = async(username,initialLevel)=>{
 }
 
 module.exports = {
+    getAllUsersByCode,
     searchUser,
     searchUserWithToken,
     updateTokenFromUser,
@@ -164,5 +177,5 @@ module.exports = {
     editUserByName,
     deleteUser,
     editPassword,
-    setInitialLevel
+    setInitialLevel,
 }

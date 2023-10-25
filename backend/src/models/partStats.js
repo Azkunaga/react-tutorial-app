@@ -13,7 +13,7 @@ let partStatsSchema = new mongoose.Schema({
   return: {type:Number, default: 0}, //return times
   createdAt:{
     type:Date,
-    default: Date.now
+    default: Date.now(),
   }
 });
 

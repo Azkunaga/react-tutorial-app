@@ -1,6 +1,7 @@
 const user = require('../models/user');
 const mongodbConnection = require('../config/mongodb');
 const bcrypt = require('bcryptjs');
+const codeService = require('./codeService');
 
 const registerUser = async (username, password, firstName, lastName, email, role, code, refreshToken) =>{
     try{

@@ -5,7 +5,7 @@ const register = async (req, res, next) => {
     const {username, pwd, firstName, lastName, email, role, code} = req.body;
     const user = await registerUser(username, pwd, firstName, lastName, email, role, code, null);
     if(!user){
-      res.status(401).send({
+      res.status(409).send({
           message: "User not registered",
         })
     }else{

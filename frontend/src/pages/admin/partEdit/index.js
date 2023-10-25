@@ -177,7 +177,7 @@ const PartEditPage = () => {
             </form>
            </div>
            <h3>Exercises</h3>
-            <NewRow redirect={'/admin/tutorial/topic/'+topicId+'/part/'+partId+'/question/'}></NewRow>
+            <NewRow redirect={'/admin/tutorial/topic/'+topicId+'/part/'+partId+'/question/new'}></NewRow>
             <MDBTable align='middle' className='topicTable' responsive bordered >
                 <MDBTableHead>
                     <tr>

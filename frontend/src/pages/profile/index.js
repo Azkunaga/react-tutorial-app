@@ -61,7 +61,7 @@ const ProfilePage = () => {
             setFirstName(response?.data?.user.firstName);
             setLastName(response?.data?.user.lastName);
             setEmail(response?.data?.user.email);
-            setCode(response?.data?.user.code);
+            setCode(response?.data?.user.code.code);
             setImgName(response?.data?.user.profileImage);
 
             setValidFirstName(regex.NAME_REG.test(firstName));
@@ -81,6 +81,8 @@ const ProfilePage = () => {
     const saveUser = async(event)=>{
         try {
             event.preventDefault();
+            setErrMsg("");
+            setMsg("");
             if(validUsername && validFirstName && validLastName && validEmail){
                 console.log(image);
                 if(image){

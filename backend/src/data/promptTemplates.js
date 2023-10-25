@@ -8,35 +8,80 @@ const recommendPrompt = PromptTemplate.fromTemplate(
 
   The user has problems in the following parts of the React tutorial:
 
-  {component}
+  [{component}]
 
-  Which are the common 10 questions you are made about those topics that can help a user in their learning progress? 
+  Which are the common 5 questions you are made about those topics that can help a user in their learning progress? 
   
-  Just give the questions.
+  Just give the questions iside a list as the next structure.
+  Structure: ["Question1?","Question2","Question3","Question4","Question5"]
   `
 );
 
 const codeExPrompt = PromptTemplate.fromTemplate(
-  `Create a {level} exercise statement that ask the student to crate something using React {component}?
-  Give the exercise starting with "Exercise:". 
-  Give the correct answer of the exercise starting with "Correct answer:"
+  `React enviroment. Create a {level} exercise statement that ask the student to code or write something in relation with "{component}" which is part of "{topic}" in a tutorial.
+  
+  Give the exercise directly following the next structure. Replace "question" by the ones you choose using MARKDOWN syntax.
+  {structure}
+
+  Give the exercise starting with "Exercise:" and directly the exercise structure, NO MORE.
+  Give the correct answer of the exercise starting with "Correct answer:".
+
+  DO NOT REPEAT the following exercises:
+  {repeat}
+
+  Output Example:
+  "
+  Exercise:{structure}
+  Correct answer: Here the correct answer
+  "
   `
 );
 
 const fillPrompt = PromptTemplate.fromTemplate(
-  `Create a {level} fill in the gap exercise, just one, about React {component}.
-  Give {opt}. Give the list disordered.
+  `React enviroment. Create a {level} FILL IN THE GAP exercise about "{component}" which is part of "{topic}" in a tutorial. 
+   Create a exercise where the user has fill EMPTY GAPS from the text you provide to complete a text or to complete React CODE.
+   Fill in the gap exercise especifications: {opt}.
 
-  Give the exercise starting with "Exercise:".
-  Give the correct answer of the exercise starting with "Correct answer:"
+  Give the exercise directly following the next structure. Replace "question" using MARKDOWN syntax, and "chances" (gaps) by the ones you choose.
+  {structure}
+
+  Use MARKDOWN syntax in question.
+  Give the exercise starting with "Exercise:" and directly the exercise structure, NO MORE.
+  Give the correct answer of the exercise starting with "Correct answer:".
+
+  DO NOT REPEAT the following exercises:
+  {repeat}
+
+  Output example:
+  "
+  Exercise:{structure}
+  Correct answer: here the correct answer
+  "
   `
 );
 
 const testPrompt = PromptTemplate.fromTemplate(
-  `Create a {level} TEST question about React {component}
-  {opt}.
-  Start with "Exercise:". 
-  Give the correct answer/answers of the exercise starting with "Correct answer:"`
+  `React enviroment. Create a {level} TEST question about "{component}" which is part of "{topic}" in a tutorial.
+  Test exercise especifications: {opt}.
+
+  Give the exercise directly following the next structure. Replace "question" using MARKDOWN syntax, and "chances" by the ones you choose depending on the structure (no true/false exercise). 
+  Use MARKDOWN syntax in question.
+  {structure}
+
+  Give the exercise starting with "Exercise:" and directly the exercise structure, NO MORE.
+  Give the correct answer of the exercise starting with "Correct answer:".
+
+  DO NOT REPEAT the following exercises:
+  {repeat}
+
+  Output Example:
+
+  "
+  Exercise:{structure}
+  Correct answer: Here the correct answer
+  "
+  
+  `
 );
 
 const topicPrompt = PromptTemplate.fromTemplate(`
@@ -47,7 +92,7 @@ times has the user return to that part.
 
 {data}
 
-Decide which of the parts are the most problematics for the user. Just give the "topicName".
+Decide which ones are the most problematic for the user, just analyze those that have enough information. Just give the "topicName".
 Give the answer starting with "Parts:".
 `);
 
@@ -58,19 +103,20 @@ const typePrompt = PromptTemplate.fromTemplate(
   
   {data}
 
-  Decide which type of exercise(exerciseType) should suit best the user to improve.  Just mention the exerciseType, dont give extra explanations.
+  Decide which type of exercise(exerciseType) should suit best the user to improve. Try not to select usually a fill in the gaps exerciseType.
+  Just mention the exerciseType, dont give extra explanations.
   `
 );
 
 const levelPrompt = PromptTemplate.fromTemplate(
   `You will perform as a tutorial system in a React Environment. Now with some user information you will have to modulate the user. 
 
-  The user is right now in part "{tutorialPart}" and has this stats in the "{exerciseType}" exercises of that part:
+  The user initial level of React is {initialLevel}. The user is right now in part "{tutorialPart}" and has this stats in the "{exerciseType}" exercises of that part:
   
   {data}
 
   Decide which level of exercise should suit the best the user to improve.  Just mention the level, dont give extra explanations.
-  Decide: Easy, medium or hard. 
+  Decide: easy, medium or hard. 
   `
 );
 
@@ -97,9 +143,12 @@ const helpPrompt = PromptTemplate.fromTemplate(
   
   Exercise: {question}
 
-  Possible answer: {pAnswer}
+  Exercise option(if there are any): {chances}
 
-  Give some tips to solve this exercise divided by dots.
+  Correct answer: {pAnswer}
+
+  Give some tips without telling the correct answer to solve this exercise.
+  Give the response in markdown syntax so it can be added to a website.
   `
 );
 

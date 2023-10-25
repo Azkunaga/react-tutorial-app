@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {Row} from 'react-bootstrap';
+import {Row, Col} from 'react-bootstrap';
 import TutorialMenu from '../../../components/tutorialMenu';
 import TutorialPart from '../../../components/tutorialPart';
 import './style.css'

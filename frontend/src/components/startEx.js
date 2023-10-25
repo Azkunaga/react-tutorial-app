@@ -13,7 +13,6 @@ const StartEx = () => {
     const user = JSON.parse(localStorage.getItem('userData'));
 
     const json = {
-        "logoPosition": "right",
         "pages": [
          {
           "name": "page1",

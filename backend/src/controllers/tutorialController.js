@@ -36,6 +36,26 @@ const getTutorialPart = async (req,res) => {
     }
 }
 
+const getPartsNamesAndId = async (req,res) => {
+    try{
+        const parts = await tutorialService.getPartsNamesAndId()
+        if(!parts){
+            res.status(401).send({
+                message: "Part not found",
+            })
+        }else{
+            res.status(200).send({
+                parts
+              })
+        }
+        
+    }catch (error) {
+        res.status(500).send({
+            error
+        })
+    }
+}
+
 const getTutorialPartById = async(req,res) =>{
     try{
         const part = await tutorialService.getPartById(req.params.id)
@@ -146,6 +166,7 @@ const getNextPartId = async(req,res)=>{
 }
 
 module.exports = {
+    getPartsNamesAndId,
     getLastPartId,
     getTutorialPartById,
     getTutorialPart,
@@ -153,4 +174,5 @@ module.exports = {
     editTutorialPart,
     deleteTutorialPart,
     completePart,
+    getNextPartId,
 }

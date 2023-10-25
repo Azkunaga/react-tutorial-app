@@ -1,5 +1,10 @@
 const userService = require('../services/userService');
 const tutorialService = require('../services/tutorialService')
+const codeService = require('../services/codeService');
+const valorationService = require('../services/valorationService');
+const recommendationService = require('../services/recommendationService');
+const answerService = require('../services/answerService');
+const partStatsService = require('../services/partStatsService');
 
 const addUser = async(req, res) =>{
     try {
@@ -89,13 +94,36 @@ const getAllUsers = async(req,res) =>{
     }
 }
 
+const getAllUsersByCode = async(req,res) =>{
+    try{
+        const code = await codeService.getCode(req.body.code);
+        if(code){
+            const users = await userService.getAllUsersByCode(code._id);
+            res.status(200).send({
+                users,
+              })
+        }else{
+            res.status(200).send({
+                users:[],
+              })
+        }
+       
+    }catch (error) {
+        res.status(500).send({
+            error: error.mesage, 
+        })
+    }
+}
+
 const editUser = async(req,res) => {
     try{
+
         const updatedUser = await userService.editUser(req.params.id, req.body.firstName, 
             req.body.lastName, req.body.username, req.body.email, req.body.state, req.body.code, req.body.imgName, req.body.userRole);
-        res.status(200).send({
-            message: "Edited Correctly",
-            user:updatedUser,
+
+            res.status(200).send({
+                message: "Edited Correctly",
+                user:updatedUser,
           })
     }catch (error) {
         res.status(500).send({
@@ -106,16 +134,25 @@ const editUser = async(req,res) => {
 
 const editUserByName = async(req,res) => {
     try{
-        console.log("contr")
+        if(req.body.code){
+            const c = await codeService.getCode(req.body.code);
+            console.log("user",c);
+            if(!c){
+                return res.status(409).send({
+                    message: "Code doesn't exist",
+                  })
+            }
+        }
+
         const updatedUser = await userService.editUserByName(req.body.user, req.body.username, req.body.firstName, 
             req.body.lastName, req.body.email, req.body.code, req.body.imgName);
         if(updatedUser){
-            res.status(200).send({
+            return res.status(200).send({
                 message: "Edited Correctly",
                 user: updatedUser,
               })
         }else{
-            res.status(401).send({
+            return res.status(409).send({
                 message: "User not edited correctly",
             })
         }
@@ -135,7 +172,7 @@ const editPassword = async(req,res) => {
                 message: "Password changed correctly",
               })
         }else{
-            res.status(401).send({
+            res.status(409).send({
                 message: "Error changing password",
             })
         }
@@ -156,10 +193,107 @@ const setInitialLevel = async(req,res) => {
                 first,
               })
         }else{
-            res.status(401).send({
+            res.status(409).send({
                 message: "Error settin inital level",
             })
         }
+    }catch(error){
+        res.status(500).send({
+            error: error.mesage,
+        })
+    }
+}
+
+const getAllMovesByUser = async(req,res)=>{
+    try{
+
+        const id = req.body.userId;
+        const moves = [];
+        const valorations = await valorationService.getValorationsByUser(id);
+        // console.log("Valoration", valorations);
+        const recommendations = await recommendationService.getUserRecommendations2(id);
+        // console.log("Rec", recommendations);
+        const answers = await answerService.getAllAnswersByUser(id);
+        // console.log("Ans", answers);
+        const partStats = await partStatsService.getAllByUser(id);
+        // console.log("Stats", partStats);
+
+        valorations.forEach(el => {
+            moves.push({
+                id: el._id,
+                part: el.question?.tutorialPart,
+                move: "Valoration of a question",
+                text: `The user valorated the next question with ${el.value} stars out of 5. \\
+                Question: \\
+                Question type: ${el.question?.type.name} \\
+                Question level: ${el.question?.difficulty.name} \\
+                Description ${el.question?.question.description} \\
+                The user commented the following:\\
+                "${el.comment}"
+                `,
+                date: el.createdAt,
+            })
+        });
+
+        recommendations.forEach(el => {
+            moves.push({
+                id: el._id,
+                part: "Recomendations",
+                move: "Asked a recommended question",
+                text: `The user asked the next question to chatGPT\\
+                Question: ${el.question} \\
+                And chatGPT gave him the next answer:\\
+                ${el.answer}
+                `,
+                date: el.createdAt,
+            })
+        });
+
+        answers.forEach(el => {
+            let c = ""
+            if(el.correct){
+                c="**CORRECTLY**"
+            }else{
+                c="**INCORRECTLY**"
+            }
+            let h="";
+            if(el.correct){
+                h="**out**"
+            }
+            
+            moves.push({
+                id: el._id,
+                part: el.answerToQuestion?.tutorialPart.name,
+                move: "Answer to a question",
+                text: `The user answered the next question ${c}. \ 
+                Question: \\
+                Question type: ${el.answerToQuestion?.type.name} \\
+                Question level: ${el.answerToQuestion?.difficulty.name} \\
+                Description: ${el.answerToQuestion?.question.description} \\
+                The user answered the following with ${h} help: "${el.answer}"`,
+                date: el.createdAt,
+            })
+            });
+
+            partStats.forEach(el => {
+                moves.push({
+                    id: el._id,
+                    part: el.tutorialPart.name,
+                    move: "Marked a part as done",
+                    text: `The user marked the following part as done\\
+                    Part: ${el.tutorialPart.name}\\
+                    These are some stats of the user in this part:\\
+                    Duration: ${el.duration} seconds\\
+                    Return number: ${el.return}
+                    `,
+                    date: el.createdAt,
+                })
+            });
+       
+        res.status(200).send({
+            moves,
+        })
+       
     }catch(error){
         res.status(500).send({
             error: error.mesage,
@@ -176,5 +310,7 @@ module.exports = {
     editUser,
     editUserByName,
     editPassword,
-    setInitialLevel
+    setInitialLevel,
+    getAllUsersByCode,
+    getAllMovesByUser,
 }

@@ -10,19 +10,19 @@ const TeacherPage = () => {
     const cardsInfo = 
     [
         {title:"Edit Tutorial Exercises",
-         text:"You will be able to edit tutorial exercises optimal answers",
+         text:"Edit and create tutorial exercises using ChatGPT",
          img: OL,
          redirect: "/teacher/questions"
         },
         {title:"Valid New Exercises",
-        text:"You will be able to create/bloq/edit users",
+        text:"Validate and edit questions created by ChatGPT",
         img: valid,
         redirect: "/teacher/valid"
         },
         {title:"Monitor Students",
         text:"You will be able to see your students progress",
         img: users,
-        redirect: "/teacher/monitoring"
+        redirect: "/teacher/students"
         },
     ];
     return (

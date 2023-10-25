@@ -10,10 +10,12 @@ import Home from '../pages/home';
 import TeacherPage from '../pages/teacher';
 import TeacherQuestionsPage from '../pages/teacher/questions';
 import TeacherValidPage from '../pages/teacher/valid';
-import TeacherUsersPage from '../pages/teacher/users';
+import MonitoringPage from '../pages/teacher/users';
+import UserMonitoringPage from '../pages/teacher/users/user';
 
 import StudentPage from '../pages/student';
 import StudentTutorialPage from '../pages/student/tutorial'
+import RecommendPage from '../pages/student/recommended';
 
 import AdminPage from '../pages/admin';
 
@@ -35,6 +37,7 @@ import NoExists from '../pages/noExists';
 import Unauthorized from '../pages/unauthorized';
 
 
+
 const AppRoutes = () => {
     return (
         
@@ -51,21 +54,25 @@ const AppRoutes = () => {
             <Route path="/admin/tutorial/topic/:id/part/new/:or" exact element={<NewTutorialPartPage/>} />
             <Route path="/admin/tutorial/topic/:id" element={<TutorialEditPage/>} />
             <Route path="/admin/tutorial/topic/:topicId/part/:partId" element={<PartEditPage/>} />
+            <Route path="/admin/tutorial/topic/:topicId/part/:partId/question/new" element={<CreateQuestionPage/>} />
             <Route path="/admin/tutorial/topic/:topicId/part/:partId/question/:questionId" element={<QuestionEditPage/>} />
-            <Route path="/admin/tutorial/topic/:topicId/part/:partId/question/" element={<CreateQuestionPage/>} />
+            
             <Route path="/admin/users" exact element={<UsersListPage/>} />
             <Route path="/admin/users/:id" exact element={<UsersEditPage/>} />
             <Route path="/admin/users/new" exact element={<NewUserPage/>} />
 
             <Route path="/teacher" exact element={<TeacherPage/>} />
             <Route path="/teacher/questions" exact element={<TeacherQuestionsPage/>} />
+            <Route path="/teacher/questions/new" exact element={<CreateQuestionPage/>} />
             <Route path="/teacher/questions/:questionId" exact element={<QuestionEditPage/>} />
             <Route path="/teacher/valid" exact element={<TeacherValidPage/>} />
             <Route path="/teacher/valid/:questionId" exact element={<QuestionEditPage/>} />
-            <Route path="/teacher/students" exact element={<TeacherUsersPage/>} />
+            <Route path="/teacher/students" exact element={<MonitoringPage/>} />
+            <Route path="/teacher/students/:userId" exact element={<UserMonitoringPage/>} />
 
             <Route path="/student" exact element={<StudentPage/>} />
             <Route path="/student/tutorial/:id" exact element={<StudentTutorialPage/>} />
+            <Route path="/student/recommendations" exact element={<RecommendPage/>} />
             <Route path="/student/tutorial/:id/exercises/:exId" exact element={<StudentTutorialPage/>} />
 
             <Route path="/profile" exact element={<ProfilePage/>} />

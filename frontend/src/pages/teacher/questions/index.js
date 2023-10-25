@@ -3,6 +3,7 @@ import { Container } from 'react-bootstrap';
 import { MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import { normalAxios } from '../../../api/axios';
 import { useNavigate } from 'react-router-dom';
+import NewRow from '../../../components/newRow';
 
 
 const TeacherQuestionsPage = () => {
@@ -41,6 +42,7 @@ const TeacherQuestionsPage = () => {
     return (
         <Container>
             <h3>Question list</h3>
+            <NewRow redirect="questions/new"></NewRow>
             <MDBTable align='middle' className='topicTable' responsive bordered >
                 <MDBTableHead>
                     <tr>
@@ -54,12 +56,12 @@ const TeacherQuestionsPage = () => {
                 </MDBTableHead>
                 <MDBTableBody>
                     {data?.map((el)=>
-                        <tr>
-                            <th scope='row' >{el.type.name}</th>
-                            <td>{el.difficulty.name}</td>
-                            <td>{el.tutorialPart.topic.name}</td>
-                            <td>{el.tutorialPart.name}</td>
-                            <td>{el.question}</td>
+                        <tr key={el._id}>
+                            <th scope='row' >{el.type?.name}</th>
+                            <td>{el.difficulty?.name}</td>
+                            <td>{el.tutorialPart?.topic?.name}</td>
+                            <td>{el.tutorialPart?.name}</td>
+                            <td>{el.question?.name}</td>
                             <td className='actions'>
                                 <a href={'/teacher/questions/'+el._id}>
                                     <i className="fa-solid fa-pen-to-square"></i>

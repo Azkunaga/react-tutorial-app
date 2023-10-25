@@ -6,7 +6,6 @@ import {Converter} from 'showdown'
 function SurveyComponent(props) {
 
   const json = {
-    "logoPosition": "right",
     "pages": [
      {
       "name": "page1",

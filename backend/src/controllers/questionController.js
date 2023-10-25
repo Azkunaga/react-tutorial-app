@@ -3,10 +3,12 @@ const valorationService = require('../services/valorationService');
 
 const valueQuest = async (req,res) => {
     try{
-        questionService.valueQuestion(req.body.questionID,req.body.stars);
-        res.status(200).send({
-            message: "Question valuated",
-          })
+        const v = await questionService.valueQuestion(req.body.user, req.body.questionId, req.body.answer, req.body.comment);
+        if(v){
+            res.status(200).send({
+                message: "Question evaluated",
+            })
+        } 
     }catch (error) {
         res.status(500).send({
         error: error.mesage, 
@@ -63,7 +65,7 @@ const getValoratedQuestions = async (req, res) =>{
                 const stats = await valorationService.getStatsByQuestionId(element._id);
                 list.push({
                     question:element,
-                    stats:stats
+                    stats: stats
                 })
             })
         );
@@ -107,7 +109,7 @@ const getQuest = async (req,res) => {
 
 const addQuest = async (req,res) => {
     try{
-        const q = await questionService.addQuestion(req.body.partId, req.body.question, req.body.type, req.body.level, req.body.pAnswer, req.body.valid);
+        const q = await questionService.addQuestion(req.body.partId, req.body.type, req.body.level, req.body.question, req.body.pAnswer, req.body.valid);
         res.status(200).send({
             message: "Question added",
             q,

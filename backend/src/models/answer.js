@@ -8,6 +8,10 @@ let answerSchema = new mongoose.Schema({
   correct:Boolean,
   help:Boolean,
   correction: String,
+  createdAt:{
+    type:Date,
+    default:Date.now(),
+  }
 });
 
 module.exports = mongoose.model('Answer', answerSchema);

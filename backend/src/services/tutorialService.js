@@ -17,6 +17,16 @@ const getPart = async(partName) => {
     }
 }
 
+const getPartsNamesAndId = async()=>{
+    try{
+        mongodbConnection();
+        const parts = await tutorialPart.find().select('_id, name');
+        return parts;
+    }catch(error){
+        console.log(error.message)
+    }  
+}
+
 const getPartById = async(id) =>{
     try{
         mongodbConnection();
@@ -102,7 +112,7 @@ const getPartProgress = async (username,partId) => {
     try {
         let progress = 0;
         const partStats = await partStatsService.getPartStats(partId,username);
-        const exercises = await questionService.getQuestionsByPart(partId);
+        const exercises = await questionService.getValidQuestionsByPart(partId);
         if(exercises.length>0){
             const answers = await answerService.getAnswersByUserAndPart(username,exercises);
             let correctNum = 0;
@@ -180,6 +190,7 @@ const nextPart = async (tpart) =>{
 }
 
 module.exports = {
+    getPartsNamesAndId,
     getPartById,
     getPart,
     addPart,

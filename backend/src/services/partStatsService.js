@@ -62,6 +62,7 @@ const deletePartStats = async (tutorialPart, user) => {
 
 const getLast = async(username)=>{
     try {
+        mongodbConnection();
         const u = await userService.searchUser(username);
         const ps = await partStats.findOne({user:u._id}).sort({createdAt:-1});
         return ps;
@@ -98,11 +99,22 @@ const completePart = async(username,partId,duration)=>{
     }
 }
 
+const getAllByUser = async (userId)=>{
+    try {
+        mongodbConnection();
+        const ps = await partStats.find({user:userId}).populate('tutorialPart');
+        return ps;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 module.exports = {
     addPartStats,
     getPartStats,
     getAll,
     deletePartStats,
     getLast,
-    completePart
+    completePart,
+    getAllByUser
 }

@@ -4,7 +4,7 @@ const questionController = require('../controllers/questionController');
 
 const router = express.Router();
 
-router.post("/valueQuestion/:id", questionController.valueQuest);
+router.post("/valueQuestion", questionController.valueQuest);
 router.post("/part" , questionController.getQuestionsByPart);
 router.post("/next" , questionController.getNextQuestionsByPart);
 router.post("/teacher" , questionController.getValidQuestions);

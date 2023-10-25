@@ -38,7 +38,7 @@ const StudentPage = () => {
         {title:"Recommended Questions",
         text:"Recommended questions taking your level into account",
         img:R,
-        redirect: "/student/recommended"
+        redirect: "/student/recommendations"
         },
     ];
     return (

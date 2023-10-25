@@ -1,23 +1,49 @@
 const mongodbConnection = require('../config/mongodb');
 const valoration = require('../models/valoration');
 
+const createValoration = async(userId, questionId,stars,comment)=>{
+    try {
+        mongodbConnection();
+        const val = await valoration.create({
+            user:userId,
+            question:questionId,
+            value:stars,
+            comment:comment,
+        })
+        return val;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 const getStatsByQuestionId = async(questionId)=>{
     try {
-        const valorations = await valoration.find({question:questionId});
-        let sum = 0;
-        valorations.forEach( element => {
-            sum+=element.value;
-        });
-        
-        return {
-            valorations: valorations.length,
-            avg: sum/valorations.length || "undefined"
-        };
+        mongodbConnection();
+        const v = await valoration.findOne({question:questionId});
+        return v;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+const getValorationsByUser = async(userId) =>{
+    try {
+        mongodbConnection();
+        console.log("valoration get")
+        const v = await valoration.find({user:userId}).populate({
+            path : 'question',
+            populate : {
+              path : 'type,difficulty'
+            }
+          });
+        return v;
     } catch (error) {
         console.log(error);
     }
 }
 
 module.exports = {
-    getStatsByQuestionId
+    createValoration,
+    getStatsByQuestionId,
+    getValorationsByUser
 }
