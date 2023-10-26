@@ -36,7 +36,11 @@ const TutorialMenu = (params) => {
         <Col xs={0} sm={4} md={3} >
             <div className='tutorial-menu'>
                 <div className='tutorial-menu-content'>
-                    {params.menu.sort((a,b) => a.order - b.order).map((t)=>
+                    <div className='totalProgress'>
+                        <h4>React tutorial from scratch</h4>
+                        <span className='tP'>{params?.totalProgress}%</span><span className='comp'> Completed</span>
+                    </div>
+                    {params.menu?.sort((a,b) => a.order - b.order).map((t)=>
                         <div key={t.id} className='topic'>
                             <div className='topic-info'  onClick={()=>changeActive(t.id)}>
                                 <Row>

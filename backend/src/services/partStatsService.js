@@ -81,6 +81,7 @@ const completePart = async(username,partId,duration)=>{
                 done:true,
                 duration:newDuration,
                 return:newReturn,
+                createdAt:Date.now()
             })
             return updated;
         }else{

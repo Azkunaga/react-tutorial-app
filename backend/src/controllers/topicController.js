@@ -4,7 +4,7 @@ const tutorialService = require('../services/tutorialService');
 const getMenu  = async (req,res) =>{
     try {
         const menu = await topicService.getMenu(req.body.username);
-        if(menu){
+        if(menu.menu){
             res.status(200).send({
                 menu,
               })

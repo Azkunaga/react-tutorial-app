@@ -33,7 +33,7 @@ const StudentTutorial = () => {
                 withCredentials: true
             }
             ).then(response => {
-                console.log(response.data.menu);
+                console.log(response?.data?.menu);
                 setMenu(response?.data?.menu);
             })
 
@@ -118,7 +118,7 @@ const StudentTutorial = () => {
     return (
         <div className='tutorial'>
                 <Row>
-                    <TutorialMenu partId={id} menu={menu}></TutorialMenu>
+                    <TutorialMenu partId={id} menu={menu.menu} totalProgress={menu.totalProgress}></TutorialMenu>
                     { start ? <StartEx></StartEx>
                     : exId ? <TutorialExercise partId={id} exId={exId}></TutorialExercise>
                     : <TutorialPart complete={completeAndContinue} part={part}></TutorialPart>

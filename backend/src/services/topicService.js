@@ -8,6 +8,7 @@ const getMenu = async(username) => {
         mongodbConnection();
         const menu = [];
         const topics = await getAllTopics();
+        let all = 0;
         await Promise.all(topics.map(async (topic)=>{
             const partsInfo = [];
             const parts = await tutorialService.getPartsByTopic(topic._id);
@@ -27,18 +28,21 @@ const getMenu = async(username) => {
                     progress:progress,
                 })
             }))
+
+            let topicProgress = tp/parts.length;
+            all+=topicProgress;
             
             menu.push({
                 id: topic._id,
                 name: topic.name,
                 order: topic.order,
-                progress: tp/parts.length,
+                progress: topicProgress,
                 count: doneCount,
                 active:false,
                 partsInfo
             })
         }))
-        return menu;
+        return {menu, totalProgress:Math.round((all/topics.length)*10)/10};
     } catch (error) {
         console.log(error)
     }
