@@ -99,7 +99,7 @@ const MonitoringPage = () => {
     }
 
     useEffect(()=>{
-        if(code){
+        if(code!==""){
             getMyUsers();
         }
     },[code])

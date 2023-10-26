@@ -29,13 +29,23 @@ const getStatsByQuestionId = async(questionId)=>{
 const getValorationsByUser = async(userId) =>{
     try {
         mongodbConnection();
-        console.log("valoration get")
         const v = await valoration.find({user:userId}).populate({
             path : 'question',
             populate : {
-              path : 'type,difficulty'
+                path : 'type',
+            }
+          }).populate({
+            path : 'question',
+            populate : {
+                path : 'difficulty',
+            }
+          }).populate({
+            path : 'question',
+            populate : {
+                path : 'tutorialPart',
             }
           });
+
         return v;
     } catch (error) {
         console.log(error);

@@ -25,7 +25,6 @@ const TutorialPart = (params) => {
                         </div>
                     </div>
                     <div className='tutorial-content'>
-                        {/* <div className='content-text' dangerouslySetInnerHTML={{__html: part?.text}} > */}
                         <div className='content-text'>
                             <Markdown>{params.part?.text}</Markdown>
                         </div>

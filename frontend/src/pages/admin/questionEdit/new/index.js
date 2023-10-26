@@ -175,6 +175,7 @@ const CreateQuestionPage = () => {
         }else{
             setIsTeacher(false);
         }
+
      },[role])
 
     return (

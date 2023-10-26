@@ -39,7 +39,7 @@ const createExerciseChatGPT = async (req,res) => {
         const newObj = await chatGPTService.createExercise(req.body.username, req.body.partId, req.body.type, req.body.level);
         const quest = await questionService.addQuestion(newObj.tutPart, newObj.type, newObj.level, newObj.ex, newObj.pA, false);
         return res.status(200).send({
-            next:newExercise._id || null,
+            next:quest._id || null,
           });
     }catch (error) {
         res.status(500).send({

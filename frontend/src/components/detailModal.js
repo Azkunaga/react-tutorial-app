@@ -18,7 +18,7 @@ const DetailModal = (props) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-            <Markdown>{props.text}</Markdown>
+            <Markdown className='detailText'>{props.text}</Markdown>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={props.onHide}>Close</Button>

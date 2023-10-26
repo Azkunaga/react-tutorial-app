@@ -61,7 +61,7 @@ const UserMonitoringPage = () => {
             <MDBTableBody>
                 {moves?.map((el,index)=>
                     <tr key={index}>
-                        <td>{el.date}</td>
+                        <td>{new Date(el.date).toLocaleString()}</td>
                         <td>
                             {el.part}
                         </td>

@@ -53,7 +53,22 @@ const getAnswersByUserAndPart = async (username, questions) => {
 const getAllAnswersByUser = async (userId) =>{
     try {
         mongodbConnection();
-        const answers = await answer.find({ user: userId }).populate('answerToQuestion');
+        const answers = await answer.find({ user: userId }).populate({
+            path : 'answerToQuestion',
+            populate : {
+                path : 'type',
+            }
+          }).populate({
+            path : 'answerToQuestion',
+            populate : {
+                path : 'difficulty',
+            }
+          }).populate({
+            path : 'answerToQuestion',
+            populate : {
+                path : 'tutorialPart',
+            }
+          });
         return answers;
     } catch (error) {
         console.log(error); 

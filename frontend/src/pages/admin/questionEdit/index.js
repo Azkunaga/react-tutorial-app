@@ -20,6 +20,8 @@ const QuestionEditPage = () => {
     let [types, setTypes] = useState([]);
     let [levels, setLevels] = useState([]);
 
+    const [isTeacher,setIsTeacher] = useState(false);
+
     const { questionId } = useParams();
 
     const role = JSON.parse(localStorage.getItem('userData'))?.role || null;
@@ -31,6 +33,14 @@ const QuestionEditPage = () => {
             setData(null);
         }
     }, [questionId]);
+
+    useEffect(()=> {
+        if(role==="teacher"){
+            setIsTeacher(true);
+        }else{
+            setIsTeacher(false);
+        }
+     },[role])
 
     const getLevels = async () => {
         try {
@@ -190,6 +200,7 @@ const QuestionEditPage = () => {
                             id="valid"
                             value={valid}
                             required
+                            disabled = {isTeacher}
                             onChange={(e) => setValid(e.target.value)}
                             >
                                 <option value="true">True</option>

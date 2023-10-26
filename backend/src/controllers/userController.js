@@ -210,18 +210,15 @@ const getAllMovesByUser = async(req,res)=>{
         const id = req.body.userId;
         const moves = [];
         const valorations = await valorationService.getValorationsByUser(id);
-        // console.log("Valoration", valorations);
         const recommendations = await recommendationService.getUserRecommendations2(id);
-        // console.log("Rec", recommendations);
         const answers = await answerService.getAllAnswersByUser(id);
-        // console.log("Ans", answers);
         const partStats = await partStatsService.getAllByUser(id);
-        // console.log("Stats", partStats);
 
         valorations.forEach(el => {
+
             moves.push({
                 id: el._id,
-                part: el.question?.tutorialPart,
+                part: el.question?.tutorialPart?.name,
                 move: "Valoration of a question",
                 text: `The user valorated the next question with ${el.value} stars out of 5. \\
                 Question: \\
@@ -229,7 +226,7 @@ const getAllMovesByUser = async(req,res)=>{
                 Question level: ${el.question?.difficulty.name} \\
                 Description ${el.question?.question.description} \\
                 The user commented the following:\\
-                "${el.comment}"
+                "${el.comment || "no comments"}"
                 `,
                 date: el.createdAt,
             })
@@ -270,7 +267,7 @@ const getAllMovesByUser = async(req,res)=>{
                 Question type: ${el.answerToQuestion?.type.name} \\
                 Question level: ${el.answerToQuestion?.difficulty.name} \\
                 Description: ${el.answerToQuestion?.question.description} \\
-                The user answered the following with ${h} help: "${el.answer}"`,
+                The user answered the following **with** ${h} help: "${el.answer}"`,
                 date: el.createdAt,
             })
             });
@@ -282,16 +279,17 @@ const getAllMovesByUser = async(req,res)=>{
                     move: "Marked a part as done",
                     text: `The user marked the following part as done\\
                     Part: ${el.tutorialPart.name}\\
-                    These are some stats of the user in this part:\\
+                    These are some stats of the user in this part: \\
                     Duration: ${el.duration} seconds\\
-                    Return number: ${el.return}
-                    `,
+                    Return number: ${el.return} `,
                     date: el.createdAt,
                 })
             });
+
+            moves.sort((a,b)=> new Date(b.date) - new Date(a.date));
        
         res.status(200).send({
-            moves,
+            moves
         })
        
     }catch(error){

@@ -10,3 +10,7 @@
 .info{
     cursor: pointer;
 }
+
+.detailText pre{
+    color:white;
+}
