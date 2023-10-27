@@ -37,12 +37,13 @@ const UsersEditPage = () => {
                 }
             );
 
+            console.log(response);
             setUsername(response?.data?.user.username);
             setFirstName(response?.data?.user.firstName);
             setLastName(response?.data?.user.lastName);
             setEmail(response?.data?.user.email);
             setUserRole(response?.data?.user.role);
-            setCode(response?.data?.user.code); 
+            setCode(response?.data?.user.code.code); 
             setState(response?.data?.user.state);
             setImgName(response?.data?.user.profileImage);
 

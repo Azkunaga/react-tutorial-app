@@ -39,7 +39,7 @@ const updateTokenFromUser = async(username,token) => {
 const getUser = async (id) => {
     try{
         mongodbConnection();
-        const u = await user.findOne({_id:id});
+        const u = await user.findOne({_id:id}).populate('code');
         return u;
     }catch(e){
 

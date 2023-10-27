@@ -50,7 +50,7 @@ const AppRoutes = () => {
             <Route path="/profile" exact element={<ProfilePage/>} />
 
              {/* Protected routes */}
-            <Route element={<RequireAuth allowedRoles={ROLES.TEACHER} />}>
+            <Route element={<RequireAuth allowedRoles={ROLES.ADMIN} />}>
               <Route path="/admin" exact element={<AdminPage/>} />
               <Route path="/admin/tutorial" exact element={<TutorialPage/>} />
               <Route path="/admin/tutorial/topic/new/:or" exact element={<NewTutorialTopicPage/>} />

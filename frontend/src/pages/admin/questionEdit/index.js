@@ -1,5 +1,5 @@
 import {React, useEffect, useState} from 'react'
-import {useParams, useNavigate} from 'react-router-dom'
+import {useParams, useNavigate, useLocation} from 'react-router-dom'
 import {Container, Row, Col, OverlayTrigger, Tooltip} from 'react-bootstrap'
 import './style.css'
 import {normalAxios} from '../../../api/axios'
@@ -8,6 +8,7 @@ import ExerciseComponent from '../../../components/exerciseComponent'
 const QuestionEditPage = () => {
 
     const navigate = useNavigate();
+    const location = useLocation();
 
     let [data, setData] = useState("");
 
@@ -21,6 +22,7 @@ const QuestionEditPage = () => {
     let [levels, setLevels] = useState([]);
 
     const [isTeacher,setIsTeacher] = useState(false);
+    const [isValid,setIsValid] = useState(false);
 
     const { questionId } = useParams();
 
@@ -41,6 +43,15 @@ const QuestionEditPage = () => {
             setIsTeacher(false);
         }
      },[role])
+
+     useEffect(()=> {
+        console.log(location.pathname)
+        if(location.pathname.includes("valid")){
+            setIsValid(true);
+        }else{
+            setIsValid(false);
+        }
+     },[])
 
     const getLevels = async () => {
         try {
@@ -200,7 +211,7 @@ const QuestionEditPage = () => {
                             id="valid"
                             value={valid}
                             required
-                            disabled = {isTeacher}
+                            disabled = {isTeacher && !isValid}
                             onChange={(e) => setValid(e.target.value)}
                             >
                                 <option value="true">True</option>
