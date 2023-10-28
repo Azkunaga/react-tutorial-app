@@ -50,8 +50,6 @@ const TutorialExercise = (props) => {
     const sendAnswer = async (answer) =>{
         try {
             setPending(true);
-            console.log("sending answer:",answer);
-            console.log("help: ",help);
             const durationMs = Date.now() - start;
             const duration = Math.floor((durationMs/1000) % 60);
             const response = await normalAxios.post("/api/chatgpt/evaluate",

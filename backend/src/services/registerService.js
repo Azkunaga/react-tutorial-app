@@ -18,7 +18,6 @@ const registerUser = async (username, password, firstName, lastName, email, role
             code: codeObj,
             refreshToken:refreshToken
           })
-        console.log(newUser);
         return newUser;
     }catch(error){
         console.log(error.message)

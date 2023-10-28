@@ -22,7 +22,6 @@ checkDuplicateUsernameOrEmail = async(req, res, next) => {
         next();
       });
 
-      
       if(req.body.code){
         const codeObj = await codeService.getCode(req.body.code);
         if(!codeObj){

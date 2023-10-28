@@ -123,7 +123,7 @@ const calculateType = async(username,partId) =>{
         types.forEach(async function(element){
             if(typeResponse.text.includes(element.name)){
                 t = element.name;
-            } 
+            }
         })
         return t;
     })
@@ -193,7 +193,6 @@ let calculateLevel = async(username, partId, calculatedType) =>{
 const createExercise = async (username,partId,type=null,level=null) => {
     try{
         let question = null;
-        console.log(username,partId,type,level);
         const calculatedType = type || await calculateType(username,partId);
         const typeObj = await exTypeService.getExType(calculatedType);
         console.log(calculatedType);

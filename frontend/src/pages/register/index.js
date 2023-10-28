@@ -93,7 +93,7 @@ const Register = () => {
         try {
             if(validUsername && validPwd && validMatch && validFirstName && validLastName && validEmail && role){
 
-                await normalAxios.post('/api/auth/register',
+                const response = await normalAxios.post('/api/auth/register',
                     JSON.stringify({ firstName, lastName, username, email, pwd, role, code }),
                     {
                         headers: { 'Content-Type': 'application/json' },
@@ -103,13 +103,17 @@ const Register = () => {
 
                 setPwd('');
                 setMatchPwd('');
-                setUsername('');
-                setFirstName('');
-                setLastName('');
-                setEmail('');
-                setCode('');
 
-                navigate('/login');
+                if(response.status===200){
+                    setUsername('');
+                    setFirstName('');
+                    setLastName('');
+                    setEmail('');
+                    setCode('');
+    
+                    navigate('/login');
+                }
+ 
             }
 
         } catch (err) {
