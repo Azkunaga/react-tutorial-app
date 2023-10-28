@@ -1,7 +1,7 @@
 import {normalAxios} from '../api/axios';
 
 const refresh = async() => {
-    let user = localStorage.getItem('userData');
+    let user = JSON.parse(localStorage.getItem('userData'));
 
     const response = await normalAxios.post('/api/auth/refresh', {
         withCredentials: true

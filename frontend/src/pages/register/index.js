@@ -113,7 +113,6 @@ const Register = () => {
     
                     navigate('/login');
                 }
- 
             }
 
         } catch (err) {

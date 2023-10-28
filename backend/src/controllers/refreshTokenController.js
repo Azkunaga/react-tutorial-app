@@ -8,6 +8,7 @@ const refresh = async (req,res) => {
     const refToken = req.cookie?.jwt
     try{
         if(!refToken){
+            console.log("token falta");
             res.sendStatus(401);
         }else{
             const user = searchUserWithToken(refToken);
@@ -16,14 +17,14 @@ const refresh = async (req,res) => {
             }else{
                 jwt.verify(
                     refToken,
-                    process.env.REFRESH_TOKEN_SECRET,
+                    process.env.JWT_R_SECRET,
                     (err, token) => {
                         if (err || user.username !== token.username){
                             return res.sendStatus(403);
                         } 
                         const accessToken = jwt.sign(
                             { username: token.username, role: token.role },
-                            process.env.ACCESS_TOKEN_SECRET,
+                            process.env.JWT_SECRET,
                             { expiresIn: '30min' }
                         );
                         res.json({ accessToken });

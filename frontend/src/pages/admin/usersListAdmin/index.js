@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Container } from 'react-bootstrap'
-import { normalAxios, SERVER_URL } from '../../../api/axios';
+import { normalAxios, SERVER_URL, authAxios } from '../../../api/axios';
 import { MDBBadge, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import profile from '../../../img/profile.jpg';
 import NewRow from '../../../components/newRow'
@@ -15,7 +15,7 @@ const UsersListPage = () => {
     const getUsersData = async() =>{
         try {
             const role = localStorage.getItem('userData')?.role || null;
-            const response = await normalAxios.post("/api/users/",
+            const response = await authAxios.post("/api/users/",
                 JSON.stringify({"role":role}),
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -37,7 +37,7 @@ const UsersListPage = () => {
 
     const deleteUser = async(id) => {
         try {
-            const response = await normalAxios.delete("/api/users/"+id,
+            const response = await authAxios.delete("/api/users/"+id,
             {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true

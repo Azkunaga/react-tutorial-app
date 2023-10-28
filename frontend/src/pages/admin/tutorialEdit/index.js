@@ -3,7 +3,7 @@ import {useNavigate, useParams} from 'react-router-dom'
 import {Container, Row, Col} from 'react-bootstrap'
 import {MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import './style.css'
-import {normalAxios} from '../../../api/axios'
+import {normalAxios,authAxios} from '../../../api/axios'
 import NewRow from '../../../components/newRow';
 
 const TutorialEditPage = () => {
@@ -33,7 +33,7 @@ const TutorialEditPage = () => {
         try {
             const role = localStorage.getItem('userData')?.role || null;
             const path = String("/api/tutorial/topic/" + id);
-            const response = await normalAxios.post(path,
+            const response = await authAxios.post(path,
                 JSON.stringify({"role":role}),
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -57,7 +57,7 @@ const TutorialEditPage = () => {
     const getPartData = async (id) => {
         try {
             const role = localStorage.getItem('userData')?.role || null;
-            const response = await normalAxios.post("/api/tutorial/topic/parts",
+            const response = await authAxios.post("/api/tutorial/topic/parts",
                 JSON.stringify({"topicId":id, "role": role}),
                 {   
                     headers: { 'Content-Type': 'application/json' },
@@ -80,7 +80,7 @@ const TutorialEditPage = () => {
     const saveTopic = async () =>{
         try {
             const role = localStorage.getItem('userData')?.role || null;
-            const response = await normalAxios.post("/api/tutorial/topic/edit/"+id,
+            const response = await authAxios.post("/api/tutorial/topic/edit/"+id,
             JSON.stringify({"order":order, "name":name, "role": role}),
             {
                 headers: { 'Content-Type': 'application/json' },
@@ -102,7 +102,7 @@ const TutorialEditPage = () => {
 
     const deletePart = async(partId)=>{
         try {
-            const response = await normalAxios.delete("/api/tutorial/"+partId,
+            const response = await authAxios.delete("/api/tutorial/"+partId,
             {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true

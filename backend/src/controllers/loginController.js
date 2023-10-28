@@ -24,14 +24,14 @@ const login = async (req,res) => {
                 });
               }
 
-            const token = jwt.sign(
+            const token = await jwt.sign(
                 { username: user.username, role: user.role },
                 process.env.JWT_SECRET,
                 {
                   expiresIn: '30min', 
                 }
               );
-            const refreshToken = jwt.sign(
+            const refreshToken = await jwt.sign(
                 { username: user.username, role: user.role },
                 process.env.JWT_R_SECRET,
                 {

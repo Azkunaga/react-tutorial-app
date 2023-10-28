@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {normalAxios} from '../api/axios'
+import {normalAxios, authAxios} from '../api/axios'
 import { Button, Col, Row , Modal} from 'react-bootstrap';
 import {useNavigate, useLocation} from 'react-router-dom'
 import Markdown from 'react-markdown';
@@ -31,7 +31,7 @@ const TutorialExercise = (props) => {
     const getExercise = async() =>{
         try {
             const role = user?.role || null;
-            const response = await normalAxios.post("/api/tutorial/question/"+props.exId,
+            const response = await authAxios.post("/api/tutorial/question/"+props.exId,
             JSON.stringify({role}),
             {
                 headers: { 'Content-Type': 'application/json' },
@@ -52,7 +52,7 @@ const TutorialExercise = (props) => {
             setPending(true);
             const durationMs = Date.now() - start;
             const duration = Math.floor((durationMs/1000) % 60);
-            const response = await normalAxios.post("/api/chatgpt/evaluate",
+            const response = await authAxios.post("/api/chatgpt/evaluate",
             JSON.stringify({user:user?.username, questionId:props.exId, answer:JSON.stringify(answer), help:help, duration}),
             {
                 headers: { 'Content-Type': 'application/json' },
@@ -74,7 +74,7 @@ const TutorialExercise = (props) => {
 
     const nextEx = async () =>{
         try {
-            const response = await normalAxios.post("/api/tutorial/question/next",
+            const response = await authAxios.post("/api/tutorial/question/next",
             JSON.stringify({user:user?.username, partId: props.partId, questId:props.exId}),
             {
                 headers: { 'Content-Type': 'application/json' },
@@ -99,7 +99,7 @@ const TutorialExercise = (props) => {
 
     const nextPart = async () =>{
         try {
-            const response = await normalAxios.post("/api/tutorial/topic/next",
+            const response = await authAxios.post("/api/tutorial/topic/next",
             JSON.stringify({partId:props.partId}),
             {
                 headers: { 'Content-Type': 'application/json' },
@@ -121,7 +121,7 @@ const TutorialExercise = (props) => {
         try {
             console.log("new exercise");
             setPending(true);
-            const response = await normalAxios.post("/api/chatgpt/create",
+            const response = await authAxios.post("/api/chatgpt/create",
                 JSON.stringify({username:user?.username,partId:props.partId}),
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -148,7 +148,7 @@ const TutorialExercise = (props) => {
             setHelpShow(true);
 
             if(!help){
-                const response = await normalAxios.post("/api/chatgpt/help",
+                const response = await authAxios.post("/api/chatgpt/help",
                 JSON.stringify({questionId:props.exId}),
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -171,7 +171,7 @@ const TutorialExercise = (props) => {
     const evaluateExercise = async (answer, comment) => {
         try {
             const role = localStorage.getItem('userData')?.role || null;
-            const response = await normalAxios.post("/api/tutorial/question/valueQuestion",
+            const response = await authAxios.post("/api/tutorial/question/valueQuestion",
             JSON.stringify({user:user?.username, questionId:props.exId, answer, comment, role}),
             {
                 headers: { 'Content-Type': 'application/json' },

@@ -10,7 +10,7 @@ const corsOptions = require('./config/corsOptions');
 
 const tokenValidator = require('./validators/tokenValidator');
 
-//const roleValidator = require('../src/validators/roleValidator');
+// const roleValidator = require('../src/validators/roleValidator');
 
 const loginRoute = require("./routes/loginRoute");
 const registerRoute = require("./routes/registerRoute");
@@ -28,23 +28,19 @@ const codeRoute = require('./routes/codeRoute')
 
 //Cross Origin Resource Sharing
 server.use(cors(corsOptions));
-
 //middleware for json
 server.use(express.json())
-
 //middleware for coockies
 server.use(cookieParser());
-
 //Static folder
 server.use(express.static('public'));
-
 //public routes
 server.use('/api/auth/login', loginRoute);
 server.use('/api/auth/register', registerRoute);
 server.use('/api/auth/logout', logoutRoute);
 server.use('/api/auth/refresh', refreshRoute);
 
-//server.use(tokenValidator);
+server.use(tokenValidator);
 //private routes JWT-Roles
 server.use('/api/tutorial/question', questionRoute);
 server.use('/api/tutorial/topic', topicRoute);

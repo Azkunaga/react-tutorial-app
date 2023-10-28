@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Container } from 'react-bootstrap';
-import {normalAxios} from '../../../../api/axios'
+import {normalAxios, authAxios} from '../../../../api/axios'
 import {useNavigate, useParams} from 'react-router-dom'
 import {MDBTable, MDBTableHead, MDBTableBody} from  'mdb-react-ui-kit'
 import DetailModal from '../../../../components/detailModal';
@@ -18,7 +18,7 @@ const UserMonitoringPage = () => {
 
     const getUsersMoves = async () =>{
         try {
-            const response = await normalAxios.post('/api/users/user/moves',
+            const response = await authAxios.post('/api/users/user/moves',
                 JSON.stringify({username:user?.username, userId}),
                 {
                     headers: { 'Content-Type': 'application/json' },

@@ -34,10 +34,12 @@ const Login = () => {
                 }
             );
 
-            const role = response?.data?.role;
-            const accesToken = response?.data?.accesToken;
+            console.log(response)
 
-            localStorage.setItem('userData',JSON.stringify({username,role,accesToken}));
+            const role = response?.data?.role;
+            const accessToken = response?.data?.accessToken;
+
+            localStorage.setItem('userData',JSON.stringify({username,role,accessToken}));
             localStorage.setItem("menuState",JSON.stringify([]));
 
             console.log(JSON.parse(localStorage.getItem('userData')).role);

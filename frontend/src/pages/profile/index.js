@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom';
-import { normalAxios, SERVER_URL } from '../../api/axios';
+import { normalAxios, SERVER_URL, authAxios } from '../../api/axios';
 import regex from '../../utils/regex';
 import profile from '../../img/profile.jpg';
 
@@ -49,7 +49,7 @@ const ProfilePage = () => {
 
     async function getUser(){
         try {
-            const response = await normalAxios.post("/api/users/user",
+            const response = await authAxios.post("/api/users/user",
                 JSON.stringify({user:user?.username}),
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -88,7 +88,7 @@ const ProfilePage = () => {
                 if(image){
                     const formData = new FormData();
                     formData.append("file",image);
-                    const response = await normalAxios.post("/api/upload-image", formData,  
+                    const response = await authAxios.post("/api/upload-image", formData,  
                     {
                         headers: { 'Content-Type': 'multipart/form-data' },
                         withCredentials: true
@@ -100,7 +100,7 @@ const ProfilePage = () => {
                 
                 const logedRole = localStorage.getItem('userData')?.role || null;
     
-                const response2 = await normalAxios.post("/api/users/user/edit",
+                const response2 = await authAxios.post("/api/users/user/edit",
                 JSON.stringify({user:user?.username, imgName, firstName, lastName, username, email, code , "role":logedRole}),
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -131,7 +131,7 @@ const ProfilePage = () => {
     const changePassword = async()=>{
         try {
             if(validPwd && validMatch){
-                const response2 = await normalAxios.post("/api/users/edit/password",
+                const response2 = await authAxios.post("/api/users/edit/password",
                 JSON.stringify({user:user.username,pwd}),
                 {
                     headers: { 'Content-Type': 'application/json' },

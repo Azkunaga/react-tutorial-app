@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { Container } from 'react-bootstrap';
 import { MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
-import { normalAxios } from '../../../api/axios';
+import { normalAxios, authAxios } from '../../../api/axios';
 import { useNavigate } from 'react-router-dom';
 import NewRow from '../../../components/newRow';
 
@@ -15,7 +15,7 @@ const TeacherQuestionsPage = () => {
     const getData = async () => {
         try {
             const role = localStorage.getItem('userData')?.role;
-            const response = await normalAxios.post('/api/tutorial/question/teacher',
+            const response = await authAxios.post('/api/tutorial/question/teacher',
                 JSON.stringify({role, "valid":true}),
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -36,7 +36,9 @@ const TeacherQuestionsPage = () => {
     }
 
     useEffect(() => {
-        getData();
+        if(!data){
+            getData();
+        }
       }, []);
 
     return (

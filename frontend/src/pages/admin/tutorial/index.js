@@ -2,7 +2,7 @@ import {React, useEffect, useState} from 'react'
 import {Container} from 'react-bootstrap'
 import { MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import './style.css'
-import {normalAxios} from '../../../api/axios'
+import {normalAxios, authAxios} from '../../../api/axios'
 import NewRow from '../../../components/newRow';
 import { useNavigate } from 'react-router-dom';
 
@@ -20,7 +20,7 @@ const TutorialPage = () => {
     const getData = async () => {
         try {
             const role = localStorage.getItem('userData')?.role;
-            const response = await normalAxios.post('/api/tutorial/topic/all',
+            const response = await authAxios.post('/api/tutorial/topic/all',
                 JSON.stringify({role}),
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -43,7 +43,7 @@ const TutorialPage = () => {
 
     const deleteTopic = async (id)=>{
         try {
-            const response = await normalAxios.delete("/api/tutorial/topic/"+id,
+            const response = await authAxios.delete("/api/tutorial/topic/"+id,
             {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true

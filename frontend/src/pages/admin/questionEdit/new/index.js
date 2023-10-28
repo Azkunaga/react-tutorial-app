@@ -2,7 +2,7 @@ import {React, useEffect, useState} from 'react'
 import {useParams, useNavigate} from 'react-router-dom'
 import {Container, Row, Col, OverlayTrigger, Tooltip, Spinner} from 'react-bootstrap'
 import './style.css'
-import {normalAxios} from '../../../../api/axios'
+import {normalAxios, authAxios} from '../../../../api/axios'
 import ExerciseComponent from '../../../../components/exerciseComponent'
 import SpinnerComponent from '../../../../components/spinnerComponent'
 
@@ -33,7 +33,7 @@ const CreateQuestionPage = () => {
 
     const getLevels = async () => {
         try {
-            const response = await normalAxios.post("/api/tutorial/exLevel/all",
+            const response = await authAxios.post("/api/tutorial/exLevel/all",
                 JSON.stringify({"role":role}),
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -55,7 +55,7 @@ const CreateQuestionPage = () => {
     const getTypes = async () => {
         try {
             const role = localStorage.getItem('userData')?.role || null;
-            const response = await normalAxios.post("/api/tutorial/exType/all",
+            const response = await authAxios.post("/api/tutorial/exType/all",
                 JSON.stringify({"role":role}),
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -80,7 +80,7 @@ const CreateQuestionPage = () => {
             const exercise = JSON.parse(localStorage.getItem('exerciseJSON')); 
             const id = partId || part; 
             console.log("partID:",id)
-            const response = await normalAxios.post("/api/tutorial/question/",
+            const response = await authAxios.post("/api/tutorial/question/",
             JSON.stringify({"question":exercise, level, type, pAnswer, valid, partId:id ,role}),
             {
                 headers: { 'Content-Type': 'application/json' },
@@ -105,7 +105,7 @@ const CreateQuestionPage = () => {
 
     const getParts = async () =>{
         try {         
-            const response = await normalAxios.post("/api/tutorial/parts",
+            const response = await authAxios.post("/api/tutorial/parts",
             JSON.stringify(),
             {
                 headers: { 'Content-Type': 'application/json' },
@@ -131,7 +131,7 @@ const CreateQuestionPage = () => {
     const newExercise = async () => {
         try {         
             const id = partId || part; 
-            const response = await normalAxios.post("/api/chatgpt/create2",
+            const response = await authAxios.post("/api/chatgpt/create2",
             JSON.stringify({level, type, partId:id ,role}),
             {
                 headers: { 'Content-Type': 'application/json' },

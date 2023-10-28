@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import {normalAxios} from '../api/axios'
+import {normalAxios, authAxios} from '../api/axios'
 import {useNavigate} from 'react-router-dom'
 import * as Survey from "survey-react";
 import "survey-core/defaultV2.min.css";
@@ -59,8 +59,8 @@ const StartEx = () => {
 
     const saveInitialLevel = async (answer) => {
         try {
-            const role = localStorage.getItem('userData')?.role || null;
-            await normalAxios.post("/api/users/start",
+            const role = JSON.parse(localStorage.getItem('userData'))?.role || null;
+            await authAxios.post("/api/users/start",
             JSON.stringify({username:user?.username,initialLevel:answer,role}),
             {
                 headers: { 'Content-Type': 'application/json' },

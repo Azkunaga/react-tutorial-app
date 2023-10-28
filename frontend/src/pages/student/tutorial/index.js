@@ -6,7 +6,7 @@ import './style.css'
 import { useParams } from 'react-router-dom';
 import StartEx from '../../../components/startEx';
 import TutorialExercise from '../../../components/tutorialExercise'
-import { normalAxios } from '../../../api/axios';
+import { normalAxios, authAxios } from '../../../api/axios';
 import {useNavigate} from 'react-router-dom'
 
 const StudentTutorial = () => {
@@ -26,7 +26,7 @@ const StudentTutorial = () => {
     const getMenuInfo = async () => {
         try {
             const role = user?.role || null;
-            await normalAxios.post("/api/tutorial/topic/menu",
+            await authAxios.post("/api/tutorial/topic/menu",
             JSON.stringify({username:user?.username,role}),
             {
                 headers: { 'Content-Type': 'application/json' },
@@ -49,7 +49,7 @@ const StudentTutorial = () => {
     const getPartInfo = async (partId) => {
         try {
             const role = user?.role || null;
-            const response = await normalAxios.post("/api/tutorial/"+partId,
+            const response = await authAxios.post("/api/tutorial/"+partId,
             JSON.stringify({role:user?.role}),
             {
                 headers: { 'Content-Type': 'application/json' },
@@ -75,7 +75,7 @@ const StudentTutorial = () => {
             const role = user?.role || null;
             const durationMs = Date.now() - time;
             const duration = Math.floor((durationMs/1000) % 60);
-            const response = await normalAxios.post("/api/tutorial/complete",
+            const response = await authAxios.post("/api/tutorial/complete",
             JSON.stringify({username:user?.username, part:id, duration, role}),
             {
                 headers: { 'Content-Type': 'application/json' },

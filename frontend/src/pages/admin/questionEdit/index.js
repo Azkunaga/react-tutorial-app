@@ -2,7 +2,7 @@ import {React, useEffect, useState} from 'react'
 import {useParams, useNavigate, useLocation} from 'react-router-dom'
 import {Container, Row, Col, OverlayTrigger, Tooltip} from 'react-bootstrap'
 import './style.css'
-import {normalAxios} from '../../../api/axios'
+import {normalAxios,authAxios} from '../../../api/axios'
 import ExerciseComponent from '../../../components/exerciseComponent'
 
 const QuestionEditPage = () => {
@@ -55,7 +55,7 @@ const QuestionEditPage = () => {
 
     const getLevels = async () => {
         try {
-            const response = await normalAxios.post("/api/tutorial/exLevel/all",
+            const response = await authAxios.post("/api/tutorial/exLevel/all",
                 JSON.stringify({"role":role}),
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -77,7 +77,7 @@ const QuestionEditPage = () => {
     const getTypes = async () => {
         try {
             const role = localStorage.getItem('userData')?.role || null;
-            const response = await normalAxios.post("/api/tutorial/exType/all",
+            const response = await authAxios.post("/api/tutorial/exType/all",
                 JSON.stringify({"role":role}),
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -99,7 +99,7 @@ const QuestionEditPage = () => {
     const getData = async () => {
         try {
             const role = localStorage.getItem('userData')?.role || null;
-            const response = await normalAxios.post("/api/tutorial/question/" + questionId,
+            const response = await authAxios.post("/api/tutorial/question/" + questionId,
                 JSON.stringify({"role":role}),
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -131,7 +131,7 @@ const QuestionEditPage = () => {
         try {
             const role = localStorage.getItem('userData')?.role || null;
             const exercise = JSON.parse(localStorage.getItem('exerciseJSON'));  
-            const response = await normalAxios.post("/api/tutorial/question/edit/"+questionId,
+            const response = await authAxios.post("/api/tutorial/question/edit/"+questionId,
             JSON.stringify({"question":exercise, level, type, pAnswer, valid ,role}),
             {
                 headers: { 'Content-Type': 'application/json' },

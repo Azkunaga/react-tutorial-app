@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {Row, Col} from 'react-bootstrap';
 import './style.css'
-import { normalAxios } from '../../../api/axios';
+import { normalAxios,authAxios } from '../../../api/axios';
 import {useNavigate} from 'react-router-dom';
 import SpinnerComponent from '../../../components/spinnerComponent';
 import Markdown from 'react-markdown';
@@ -23,7 +23,7 @@ const RecommendPage = () => {
     const getRecommendations = async () => {
         try {
             const role = user?.role || null;
-            await normalAxios.post("/api/chatgpt/recommend",
+            await authAxios.post("/api/chatgpt/recommend",
             JSON.stringify({username:user?.username,role}),
             {
                 headers: { 'Content-Type': 'application/json' },
@@ -49,7 +49,7 @@ const RecommendPage = () => {
             setPending(true);
             setQuestion(quest);
             const role = user?.role || null;
-            await normalAxios.post("/api/chatgpt/ask",
+            await authAxios.post("/api/chatgpt/ask",
             JSON.stringify({username:user?.username, question:quest, role}),
             {
                 headers: { 'Content-Type': 'application/json' },

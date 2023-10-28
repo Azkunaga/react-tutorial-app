@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Container } from 'react-bootstrap';
-import {normalAxios,SERVER_URL} from '../../../api/axios'
+import {normalAxios,SERVER_URL , authAxios} from '../../../api/axios'
 import {Row,Col} from 'react-bootstrap'
 import {useNavigate} from 'react-router-dom'
 import {MDBTable, MDBTableHead, MDBTableBody} from  'mdb-react-ui-kit'
@@ -20,7 +20,7 @@ const MonitoringPage = () => {
 
     const getMyUsers = async () =>{
         try {
-            const response = await normalAxios.post('/api/users/code',
+            const response = await authAxios.post('/api/users/code',
                 JSON.stringify({username:user?.username, code:code}),
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -44,7 +44,7 @@ const MonitoringPage = () => {
     const createCode = async () =>{
         try {
             if(newCode){
-                const response = await normalAxios.post('/api/code/create',
+                const response = await authAxios.post('/api/code/create',
                 JSON.stringify({username:user?.username, code:newCode}),
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -75,7 +75,7 @@ const MonitoringPage = () => {
 
     const getCodes = async()=>{
         try {
-            const response = await normalAxios.post('/api/code/teacher',
+            const response = await authAxios.post('/api/code/teacher',
                 JSON.stringify({username:user?.username}),
                 {
                     headers: { 'Content-Type': 'application/json' },

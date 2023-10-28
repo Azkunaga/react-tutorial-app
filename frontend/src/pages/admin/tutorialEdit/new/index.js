@@ -1,6 +1,6 @@
 import {React, useState} from 'react'
 import {Container, Row, Col} from 'react-bootstrap'
-import { normalAxios } from '../../../../api/axios';
+import { normalAxios, authAxios } from '../../../../api/axios';
 import { useNavigate, useParams } from "react-router-dom";
 
 const NewTutorialTopicPage = () => {
@@ -15,7 +15,7 @@ const NewTutorialTopicPage = () => {
     const createTopic = async () =>{
         try {
             const role = localStorage.getItem('userData')?.role || null;
-            const response = await normalAxios.post("/api/tutorial/topic/",
+            const response = await authAxios.post("/api/tutorial/topic/",
             JSON.stringify({"order":order, "topic":name, "role": role}),
             {
                 headers: { 'Content-Type': 'application/json' },

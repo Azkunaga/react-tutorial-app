@@ -6,7 +6,7 @@ const normalAxios = axios.create({
   baseURL: SERVER_URL,
 });
 
-const authAxios = axios.create({
+const authAxios = await axios.create({
   baseURL: SERVER_URL,
   headers: { 'Content-Type': 'application/json' },
   withCredentials: true
@@ -14,7 +14,8 @@ const authAxios = axios.create({
 
 authAxios.interceptors.request.use(
   config => {
-      const accessToken = localStorage.getItem('userData').accessToken;
+      const accessToken = JSON.parse(localStorage.getItem('userData')).accessToken;
+      console.log("aT",accessToken);
       if (!config.headers['Authorization']) {
           config.headers['Authorization'] = `Bearer ${accessToken}`;
       }

@@ -3,7 +3,7 @@ import {useNavigate, useParams} from 'react-router-dom';
 import {Container, Row, Col} from 'react-bootstrap';
 import { MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import './style.css';
-import {normalAxios} from '../../../api/axios'
+import {normalAxios, authAxios} from '../../../api/axios'
 import NewRow from '../../../components/newRow'
 
 const PartEditPage = () => {
@@ -33,7 +33,7 @@ const PartEditPage = () => {
     const getData = async () => {
         try {
             const role = localStorage.getItem('userData')?.role || null;
-            const response = await normalAxios.post("/api/tutorial/" + partId,
+            const response = await authAxios.post("/api/tutorial/" + partId,
                 JSON.stringify({"role":role}),
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -58,7 +58,7 @@ const PartEditPage = () => {
     const getExercises = async (id) => {
         try {
             const role = localStorage.getItem('userData')?.role || null;
-            const response = await normalAxios.post("/api/tutorial/question/part",
+            const response = await authAxios.post("/api/tutorial/question/part",
                 JSON.stringify({"partId":partId, "role": role}),
                 {   
                     headers: { 'Content-Type': 'application/json' },
@@ -80,7 +80,7 @@ const PartEditPage = () => {
     const savePart = async () =>{
         try {
             const role = localStorage.getItem('userData')?.role || null;
-            const response = await normalAxios.post("/api/tutorial/edit/"+partId,
+            const response = await authAxios.post("/api/tutorial/edit/"+partId,
             JSON.stringify({"part":part, "name":name, "text":text, "role": role}),
             {
                 headers: { 'Content-Type': 'application/json' },
@@ -100,7 +100,7 @@ const PartEditPage = () => {
 
     const deleteQuestion = async(questId) => {
         try {
-            const response = await normalAxios.delete("/api/tutorial/question/"+questId,
+            const response = await authAxios.delete("/api/tutorial/question/"+questId,
             {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true

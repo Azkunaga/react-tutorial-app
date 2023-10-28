@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import { normalAxios } from '../../../api/axios';
+import { normalAxios , authAxios} from '../../../api/axios';
 
 const UsersEditPage = () => {
 
@@ -29,7 +29,7 @@ const UsersEditPage = () => {
     async function getUser(){
         try {
             const role = localStorage.getItem('userData')?.role || null;
-            const response = await normalAxios.post("/api/users/"+id,
+            const response = await authAxios.post("/api/users/"+id,
                 JSON.stringify({"role":role}),
                 {
                     headers: { 'Content-Type': 'application/json' },
@@ -62,7 +62,7 @@ const UsersEditPage = () => {
             if(image){
                 const formData = new FormData();
                 formData.append("file",image);
-                const response = await normalAxios.post("/api/upload-image", formData,  
+                const response = await authAxios.post("/api/upload-image", formData,  
                 {
                     headers: { 'Content-Type': 'multipart/form-data' },
                     withCredentials: true
@@ -74,7 +74,7 @@ const UsersEditPage = () => {
             
             const logedRole = localStorage.getItem('userData')?.role || null;
 
-            const response2 = await normalAxios.post("/api/users/edit/"+id,
+            const response2 = await authAxios.post("/api/users/edit/"+id,
             JSON.stringify({imgName, firstName, lastName, username, state, email, code, userRole , "role":logedRole}),
             {
                 headers: { 'Content-Type': 'application/json' },

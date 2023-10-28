@@ -4,7 +4,7 @@ import MenuCard from '../../components/card';
 import OL from '../../img/online-learning.png'
 import R from '../../img/recommended.png'
 import './style.css'
-import { normalAxios } from '../../api/axios';
+import { normalAxios, authAxios } from '../../api/axios';
 
 const StudentPage = () => {
 
@@ -13,7 +13,8 @@ const StudentPage = () => {
     const [lastPartId, setLastPartId] = useState();
 
     const getLastPartId = async() => {
-        const response = await normalAxios.post("/api/tutorial/last",
+        console.log("Get last part")
+        const response = await authAxios.post("/api/tutorial/last",
             JSON.stringify({user:user?.username, role:user?.role}),
             {
                 headers: { 'Content-Type': 'application/json' },
@@ -25,7 +26,9 @@ const StudentPage = () => {
     }
 
     useEffect(()=>{
-        getLastPartId();
+        if(!lastPartId){
+            getLastPartId();
+        }
     },[])
 
         const cardsInfo = 
