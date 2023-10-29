@@ -228,6 +228,7 @@ const createExercise = async (username,partId,type=null,level=null) => {
                 console.log("no existe el type");
                 break;
         }
+        console.log("question done");
         console.log("All text", question.text);
         const split1 = question.text.split("Exercise:");
         const split2 = split1[1].split("{");

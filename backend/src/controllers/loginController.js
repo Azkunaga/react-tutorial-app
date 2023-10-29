@@ -11,6 +11,8 @@ const login = async (req,res) => {
         const user = await searchUser(req.body.username);
         if(!user){
             res.status(400).send({ message: "User Not found." });
+        }else if(user?.state=="disabled"){
+            res.status(400).send({ message: "Bloqued user." });
         }else{
             //compare password
             var validPassword = bcrypt.compareSync(
@@ -28,7 +30,7 @@ const login = async (req,res) => {
                 { username: user.username, role: user.role },
                 process.env.JWT_SECRET,
                 {
-                  expiresIn: '30min', 
+                  expiresIn: '10s', 
                 }
               );
             const refreshToken = await jwt.sign(
@@ -41,10 +43,9 @@ const login = async (req,res) => {
 
               await updateTokenFromUser(user.username,refreshToken);
 
-            res.cookie("jwt", refreshToken, {
-              httpOnly: true,
-              maxAge: 24 * 60 * 60 * 1000, // 24h
-              });
+            res.cookie("jwt", refreshToken, 
+            { httpOnly: true, 
+              maxAge: 24 * 60 * 60 * 1000 });
 
             res.status(200).send({
               username:user.username,

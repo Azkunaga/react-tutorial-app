@@ -9,6 +9,8 @@ const Home = () => {
 
     const user = localStorage.getItem('userData');
 
+    console.log(JSON.parse(user));
+
     const navigate = useNavigate();
 
     useEffect(()=>{

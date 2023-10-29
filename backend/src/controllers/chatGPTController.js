@@ -49,6 +49,7 @@ const createExerciseChatGPT = async (req,res) => {
 
 const createExerciseChatGPT2 = async (req,res) => {
     try{
+        console.log("create")
         const newExercise = await chatGPTService.createExercise(req.body.username, req.body.partId, req.body.type, req.body.level);
         return res.status(200).send({
             question:newExercise || null,

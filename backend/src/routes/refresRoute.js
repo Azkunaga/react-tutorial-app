@@ -1,9 +1,9 @@
 const express = require('express');
 
-const refresh = require('../controllers/refreshTokenController');
+const refreshTokenController = require('../controllers/refreshTokenController');
 
 const router = express.Router();
 
-router.get("/", refresh);
+router.post("/", refreshTokenController.refresh);
 
 module.exports = router;

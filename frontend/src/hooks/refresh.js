@@ -1,4 +1,4 @@
-import {normalAxios} from '../api/axios';
+import {normalAxios,authAxios} from '../api/axios';
 
 const refresh = async() => {
     let user = JSON.parse(localStorage.getItem('userData'));
@@ -8,7 +8,7 @@ const refresh = async() => {
     });
 
     user.accessToken = response.data.accessToken;
-    localStorage.setItem('userData',user);
+    localStorage.setItem('userData',JSON.stringify(user));
 
     return response.data.accessToken;
 

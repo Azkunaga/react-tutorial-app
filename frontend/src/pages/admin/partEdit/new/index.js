@@ -41,7 +41,7 @@ const NewTutorialPartPage = () => {
 
     return (
         <Container>
-           <h2>Edit Tutorial Part</h2>
+           <h2>Create Tutorial Part</h2>
 
            <div>
             <div className='edit'>

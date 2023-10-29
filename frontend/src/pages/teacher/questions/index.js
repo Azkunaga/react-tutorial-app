@@ -36,7 +36,7 @@ const TeacherQuestionsPage = () => {
     }
 
     useEffect(() => {
-        if(!data){
+        if(data.length===0){
             getData();
         }
       }, []);

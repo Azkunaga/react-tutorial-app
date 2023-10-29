@@ -143,8 +143,6 @@ const ProfilePage = () => {
                     setMsgPwd("Password changed");
                 }
             }
-           
-
         }catch(err){
             if (!err?.response) {
                 setErrMsgPwd('No Server Response');

@@ -8,7 +8,7 @@ const recommendPrompt = PromptTemplate.fromTemplate(
 
   The user has problems in the following parts of the React tutorial:
 
-  [{component}]
+  {component}
 
   Which are the common 5 questions you are made about those topics that can help a user in their learning progress? 
   

@@ -4,6 +4,7 @@ const SERVER_URL = "http://localhost:3001"
 
 const normalAxios = axios.create({
   baseURL: SERVER_URL,
+  withCredentials: true
 });
 
 const authAxios = await axios.create({
@@ -31,6 +32,7 @@ authAxios.interceptors.response.use(
       const previousReq = error?.config;
       if (error?.response?.status === 403 && !previousReq?.sent) {
           previousReq.sent = true;
+          console.log("refresh")
           const accessToken = await refresh();
           previousReq.headers['Authorization'] = `Bearer ${accessToken}`;
           return authAxios(previousReq);

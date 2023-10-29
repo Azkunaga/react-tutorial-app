@@ -1,5 +1,3 @@
-//require("./config/mongodb");
-
 const express = require('express');
 const server = express();
 
@@ -9,8 +7,6 @@ const cors = require('cors');
 const corsOptions = require('./config/corsOptions');
 
 const tokenValidator = require('./validators/tokenValidator');
-
-// const roleValidator = require('../src/validators/roleValidator');
 
 const loginRoute = require("./routes/loginRoute");
 const registerRoute = require("./routes/registerRoute");
