@@ -1,6 +1,3 @@
-//tutorial parte bakoitzean erabiltzaileak
-//daraman denbora eta errepikapenak
-
 let mongoose = require('mongoose');
 
 let partStatsSchema = new mongoose.Schema({
