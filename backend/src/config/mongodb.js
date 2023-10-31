@@ -1,5 +1,3 @@
-require("dotenv").config({path: "env/.env.local"});
-
 const mongoose = require("mongoose");
 
 const connection = async () => {

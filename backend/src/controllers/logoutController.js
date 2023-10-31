@@ -1,5 +1,3 @@
-require('dotenv').config({path: "env/.env.local"})
-
 const { searchUserWithToken, updateTokenFromUser } = require('../services/userService');
 
 const logout = async (req,res) => {

@@ -1,4 +1,3 @@
-require('dotenv').config({path: "env/.env.local"})
 const { OpenAI } = require("langchain/llms/openai");
 
 const model = new OpenAI({

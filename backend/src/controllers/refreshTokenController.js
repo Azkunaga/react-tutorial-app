@@ -1,5 +1,3 @@
-require('dotenv').config({path: "env/.env.local"})
-
 const jwt = require("jsonwebtoken");
 
 const { searchUserWithToken } = require('../services/userService');
