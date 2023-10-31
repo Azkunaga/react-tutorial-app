@@ -4,6 +4,7 @@ const Topic = require('../models/topic');
 const TutorialPart = require('../models/topic');
 const Question = require('../models/question');
 const User = require('../models/user');
+const fs = require('fs')
 
 const populateExLevels = async () => {
     try{
