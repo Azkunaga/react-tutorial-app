@@ -1,14 +1,17 @@
+const fs = require('fs');
+const path = require('path');
+
 const ExLevel = require('../models/exLevel');
 const ExType = require('../models/exType');
 const Topic = require('../models/topic');
 const TutorialPart = require('../models/topic');
 const Question = require('../models/question');
 const User = require('../models/user');
-const fs = require('fs')
+
 
 const populateExLevels = async () => {
     try{
-        const data = JSON.parse(fs.readFileSync('../data/initial/exlevels.json', 'utf-8'))
+        const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/initial/exlevels.json'), 'utf-8'))
         await ExLevel.create(data);
     }catch(err){
         console.log(err);
@@ -17,7 +20,7 @@ const populateExLevels = async () => {
 
 const populateExTypes = async () => {
     try{
-        const data = JSON.parse(fs.readFileSync('../data/initial/extypes.json', 'utf-8'))
+        const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/initial/extypes.json'), 'utf-8'))
         await ExType.create(data);
     }catch(err){
         console.log(err);
@@ -26,7 +29,7 @@ const populateExTypes = async () => {
 
 const populateTopics = async () => {
     try{
-        const data = JSON.parse(fs.readFileSync('../data/initial/topics.json', 'utf-8'))
+        const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/initial/topics.json'), 'utf-8'))
         await Topic.create(data);
     }catch(err){
         console.log(err);
@@ -35,7 +38,7 @@ const populateTopics = async () => {
 
 const populateParts = async () => {
     try{
-        const data = JSON.parse(fs.readFileSync('../data/initial/tutorialparts.json', 'utf-8'))
+        const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/initial/tutorialparts.json'), 'utf-8'))
         await TutorialPart.create(data);
     }catch(err){
         console.log(err);
@@ -44,7 +47,7 @@ const populateParts = async () => {
 
 const populateQuestions = async () => {
     try{
-        const data = JSON.parse(fs.readFileSync('../data/initial/questions.json', 'utf-8'))
+        const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/initial/questions.json'), 'utf-8'))
         await Question.create(data);
     }catch(err){
         console.log(err);
@@ -53,7 +56,7 @@ const populateQuestions = async () => {
 
 const populateUsers = async () => {
     try{
-        const data = JSON.parse(fs.readFileSync('../data/initial/users.json', 'utf-8'))
+        const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/initial/users.json'), 'utf-8'))
         await User.create(data);
     }catch(err){
         console.log(err);
