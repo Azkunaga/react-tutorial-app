@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 let exTypeSchema = new mongoose.Schema({
-  name: String,
+  name: {type: String, unique: true},
   description: String,
   structure:String,
 });

@@ -4,7 +4,7 @@ let tutorialPartSchema = new mongoose.Schema({
   topic:{
     type: mongoose.Types.ObjectId, ref: "Topic"
   },
-  name: String,
+  name: {type: String, unique: true},
   part: Number,
   text: String,
 });

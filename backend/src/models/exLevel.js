@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 let exLevelSchema = new mongoose.Schema({
-  name: String,
+  name: {type: String, unique: true}
 });
 
 module.exports = mongoose.model('ExLevel', exLevelSchema);

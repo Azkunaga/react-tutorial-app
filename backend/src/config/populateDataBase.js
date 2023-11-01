@@ -1,18 +1,23 @@
-const fs = require('fs');
-const path = require('path');
+const mongodbconnection = require('../config/mongodb');
 
 const ExLevel = require('../models/exLevel');
 const ExType = require('../models/exType');
 const Topic = require('../models/topic');
-const TutorialPart = require('../models/topic');
+const TutorialPart = require('../models/tutorialPart');
 const Question = require('../models/question');
 const User = require('../models/user');
+
+const exLevelsData = require('../data/initial/exLevels');
+const exTypesData = require('../data/initial/exType');
+const topicsData = require('../data/initial/topics');
+const tutorialPartsData = require('../data/initial/tutorialParts');
+const questionsData = require('../data/initial/questions');
+const usersData = require('../data/initial/users');
 
 
 const populateExLevels = async () => {
     try{
-        const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/initial/exlevels.json'), 'utf-8'))
-        await ExLevel.create(data);
+        await ExLevel.create(exLevelsData);
     }catch(err){
         console.log(err);
     }
@@ -20,8 +25,7 @@ const populateExLevels = async () => {
 
 const populateExTypes = async () => {
     try{
-        const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/initial/extypes.json'), 'utf-8'))
-        await ExType.create(data);
+        await ExType.create(exTypesData);
     }catch(err){
         console.log(err);
     }
@@ -29,8 +33,7 @@ const populateExTypes = async () => {
 
 const populateTopics = async () => {
     try{
-        const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/initial/topics.json'), 'utf-8'))
-        await Topic.create(data);
+        await Topic.create(topicsData);
     }catch(err){
         console.log(err);
     }
@@ -38,8 +41,7 @@ const populateTopics = async () => {
 
 const populateParts = async () => {
     try{
-        const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/initial/tutorialparts.json'), 'utf-8'))
-        await TutorialPart.create(data);
+        await TutorialPart.create(tutorialPartsData);
     }catch(err){
         console.log(err);
     }
@@ -47,8 +49,7 @@ const populateParts = async () => {
 
 const populateQuestions = async () => {
     try{
-        const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/initial/questions.json'), 'utf-8'))
-        await Question.create(data);
+        await Question.create(questionsData);
     }catch(err){
         console.log(err);
     }
@@ -56,8 +57,7 @@ const populateQuestions = async () => {
 
 const populateUsers = async () => {
     try{
-        const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/initial/users.json'), 'utf-8'))
-        await User.create(data);
+        await User.insertMany(usersData);
     }catch(err){
         console.log(err);
     }
@@ -65,12 +65,14 @@ const populateUsers = async () => {
 
 const populateDataBase = async () => {
     try{
+        await mongodbconnection();
         await populateExLevels();
         await populateExTypes();
         await populateTopics();
-        // await populateParts();
-        // await populateQuestions();
+        await populateParts();
+        await populateQuestions();
         await populateUsers();
+        return;
     }catch(err){
         console.log(err);
     }
