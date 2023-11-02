@@ -80,7 +80,7 @@ const populateDataBase = async () => {
         await populateParts();
         await populateQuestions();
         await populateUsers();
-        return;
+        process.exit(0);
     }catch(err){
         console.log(err);
     }
