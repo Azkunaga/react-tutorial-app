@@ -2,6 +2,7 @@ import {React, useState} from 'react';
 import {useParams, useNavigate} from 'react-router-dom';
 import {Container, Row, Col} from 'react-bootstrap';
 import {normalAxios, authAxios} from '../../../../api/axios'
+import AlertComponent from '../../../../components/alert';
 
 const NewTutorialPartPage = () => {
 
@@ -10,6 +11,9 @@ const NewTutorialPartPage = () => {
     let [name,setName] = useState("");
     let [part,setPart] = useState(or);
     let [text,setText] = useState("");
+
+    let [alertShow, setAlertShow] = useState(false);
+    let [alert, setAlert] = useState("");
 
     const navigate = useNavigate();
     
@@ -29,11 +33,12 @@ const NewTutorialPartPage = () => {
             }
             
         }catch(err){
-            if (!err?.response) {
-                console.log("not response")
-                console.log(err);
+            if (!err?.response.data.message) {
+                setAlert("Something went wrong");
+                setAlertShow(true);
             }else{
-                console.log(err);
+                setAlert(err?.response.data.message);
+                setAlertShow(true);
             }
         }
     }
@@ -42,7 +47,7 @@ const NewTutorialPartPage = () => {
     return (
         <Container>
            <h2>Create Tutorial Part</h2>
-
+           <AlertComponent show={alertShow} variant={"danger"} text={alert} action={setAlertShow}></AlertComponent>
            <div>
             <div className='edit'>
                 <Row>

@@ -5,6 +5,7 @@ import {MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import './style.css'
 import {normalAxios,authAxios} from '../../../api/axios'
 import NewRow from '../../../components/newRow';
+import AlertComponent from '../../../components/alert';
 
 const TutorialEditPage = () => {
 
@@ -15,6 +16,10 @@ const TutorialEditPage = () => {
 
     let [name,setName] = useState("");
     let [order,setOrder] = useState("");
+
+    let [alertShow, setAlertShow] = useState(false);
+    let [alert, setAlert] = useState("");
+    let [variant, setVariant] = useState("");
 
     let [newRow, setNewRow] = useState();
 
@@ -88,14 +93,23 @@ const TutorialEditPage = () => {
             }
             );
 
+            if(response.status===200){
+                setAlert("Saved correctly");
+                setAlertShow(true);
+                setVariant("success");
+            }
+
             console.log(response);
 
         }catch(err){
-            if (!err?.response) {
-                console.log("not response")
-                console.log(err);
+            if (!err?.response.data.message) {
+                setAlert("Something went wrong");
+                setAlertShow(true);
+                setVariant("danger")
             }else{
-                console.log(err);
+                setAlert(err?.response.data.message);
+                setAlertShow(true);
+                setVariant("danger")
             }
         }
     }
@@ -126,6 +140,7 @@ const TutorialEditPage = () => {
     return (
         <Container>
            <h2>Edit Tutorial Topic</h2>
+           <AlertComponent show={alertShow} variant={variant} text={alert} action={setAlertShow}></AlertComponent>
            { data &&
            <div>
             <div className='edit'>

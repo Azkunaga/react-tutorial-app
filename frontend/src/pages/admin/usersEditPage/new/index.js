@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { normalAxios, authAxios } from '../../../../api/axios';
+import AlertComponent from '../../../../components/alert';
 
 const NewUserPage = () => {
 
@@ -9,6 +10,9 @@ const NewUserPage = () => {
 
     const [username, setUsername] = useState();
     const [userRole, setUserRole] = useState("teacher");
+
+    let [alertShow, setAlertShow] = useState(false);
+    let [alert, setAlert] = useState("");
 
     const createUser = async(event)=>{
         try {
@@ -29,11 +33,12 @@ const NewUserPage = () => {
             }
 
         }catch(err){
-            if (!err?.response) {
-                console.log("not response")
-                console.log(err);
+            if (!err?.response.data.message) {
+                setAlert("Something went wrong");
+                setAlertShow(true);
             }else{
-                console.log(err);
+                setAlert(err?.response.data.message);
+                setAlertShow(true);
             }
         }
     };
@@ -41,6 +46,7 @@ const NewUserPage = () => {
     return (
         <Container>
             <h2>Create User</h2>
+            <AlertComponent show={alertShow} variant={"danger"} text={alert} action={setAlertShow}></AlertComponent>
                 <Row>
                     <Col>
                         <div className='input-container'>

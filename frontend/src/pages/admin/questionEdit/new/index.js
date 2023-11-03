@@ -5,6 +5,7 @@ import './style.css'
 import {normalAxios, authAxios} from '../../../../api/axios'
 import ExerciseComponent from '../../../../components/exerciseComponent'
 import SpinnerComponent from '../../../../components/spinnerComponent'
+import AlertComponent from '../../../../components/alert'
 
 const CreateQuestionPage = () => {
 
@@ -26,6 +27,9 @@ const CreateQuestionPage = () => {
     const [isGPT,setIsGPT] = useState(false);
     const [gptData, setGptData] = useState();
     const [gptResponse,setGptResponse] = useState(false);
+
+    let [alertShow, setAlertShow] = useState(false);
+    let [alert, setAlert] = useState("");
 
     const {partId} = useParams();
 
@@ -94,11 +98,12 @@ const CreateQuestionPage = () => {
             }
            
         }catch(err){
-            if (!err?.response) {
-                console.log("not response")
-                console.log(err);
+            if (!err?.response.data.message) {
+                setAlert("Something went wrong");
+                setAlertShow(true);
             }else{
-                console.log(err);
+                setAlert(err?.response.data.message);
+                setAlertShow(true);
             }
         }
     }
@@ -147,11 +152,12 @@ const CreateQuestionPage = () => {
             }
            
         }catch(err){
-            if (!err?.response) {
-                console.log("not response")
-                console.log(err);
+            if (!err?.response.data.message) {
+                setAlert("Something went wrong");
+                setAlertShow(true);
             }else{
-                console.log(err);
+                setAlert(err?.response.data.message);
+                setAlertShow(true);
             }
         }
     }
@@ -181,6 +187,7 @@ const CreateQuestionPage = () => {
     return (
         <Container>
            <h2>Create Question</h2>
+           <AlertComponent show={alertShow} variant={"danger"} text={alert} action={setAlertShow}></AlertComponent>
             <div className='edit'>
                 <Row>
                     {isTeacher &&

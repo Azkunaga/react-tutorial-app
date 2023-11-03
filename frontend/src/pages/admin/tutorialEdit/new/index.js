@@ -2,6 +2,7 @@ import {React, useState} from 'react'
 import {Container, Row, Col} from 'react-bootstrap'
 import { normalAxios, authAxios } from '../../../../api/axios';
 import { useNavigate, useParams } from "react-router-dom";
+import AlertComponent from '../../../../components/alert';
 
 const NewTutorialTopicPage = () => {
 
@@ -11,12 +12,14 @@ const NewTutorialTopicPage = () => {
 
     let [name,setName] = useState("");
     let [order,setOrder] = useState(or);
+
+    let [alertShow, setAlertShow] = useState(false);
+    let [alert, setAlert] = useState("");
   
     const createTopic = async () =>{
         try {
-            const role = localStorage.getItem('userData')?.role || null;
             const response = await authAxios.post("/api/tutorial/topic/",
-            JSON.stringify({"order":order, "topic":name, "role": role}),
+            JSON.stringify({"order":order, "topic":name}),
             {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true
@@ -30,11 +33,13 @@ const NewTutorialTopicPage = () => {
             setName("");
             setOrder("");
         }catch(err){
-            if (!err?.response) {
-                console.log("not response")
-                console.log(err);
+            console.log("Error", err)
+            if (err.response?.data?.message) {
+                setAlertShow(true);
+                setAlert(err.response?.data?.message);
             }else{
-                console.log(err);
+                setAlertShow(true);
+                setAlert("Something went wrong")
             }
         }
     }
@@ -42,6 +47,7 @@ const NewTutorialTopicPage = () => {
     return (
         <Container>
            <h2>Add a Tutorial Topic</h2>
+           <AlertComponent show={alertShow} variant={"danger"} text={alert} action={setAlertShow}></AlertComponent>
            <div>
             <div className='edit'>
                 <Row>

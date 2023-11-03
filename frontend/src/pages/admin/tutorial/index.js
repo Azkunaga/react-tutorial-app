@@ -4,12 +4,13 @@ import { MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import './style.css'
 import {normalAxios, authAxios} from '../../../api/axios'
 import NewRow from '../../../components/newRow';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import AlertComponent from '../../../components/alert';
 
 const TutorialPage = () => {
 
     const navigate = useNavigate();
-
+    
     let [data, setData] = useState([]);
     let [newRow, setNewRow] = useState();
 
