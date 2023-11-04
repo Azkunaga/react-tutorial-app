@@ -52,7 +52,7 @@ const getAll = async (req,res) => {
 
 const deleteExType = async (req,res) => {
     try{
-        extypeService.deleteExType(req.body.extype)
+        await extypeService.deleteExType(req.body.extype)
         res.status(200).send({
             message: "Deleted Correctly",
           })

@@ -44,6 +44,7 @@ const ProfilePage = () => {
     const [image, setImage] = useState("");
 
     const getFileInfo = (e) => {
+        console.log("img added");
         setImage(e.target.files[0]);
     }
 
@@ -84,7 +85,6 @@ const ProfilePage = () => {
             setErrMsg("");
             setMsg("");
             if(validUsername && validFirstName && validLastName && validEmail){
-                console.log(image);
                 if(image){
                     const formData = new FormData();
                     formData.append("file",image);
@@ -95,18 +95,37 @@ const ProfilePage = () => {
                     }
                     );
                     setImage(null);
+                    console.log(response);
                     setImgName(response?.data?.image);
+                    await saveUser2(response?.data?.image);
+                }else{
+                    await saveUser2("");
                 }
-                
-                const logedRole = localStorage.getItem('userData')?.role || null;
-    
+      
+            }
+
+        }catch(err){
+            if (!err?.response) {
+                setErrMsg('No server response');
+                console.log(err);
+            }else{
+                setErrMsg(err.response.data.message);
+            }
+        }
+    };
+
+    const saveUser2 = async(nameimg)=>{
+        try {
+            if(validUsername && validFirstName && validLastName && validEmail){
                 const response2 = await authAxios.post("/api/users/user/edit",
-                JSON.stringify({user:user?.username, imgName, firstName, lastName, username, email, code , "role":logedRole}),
+                JSON.stringify({user:user?.username, nameimg, firstName, lastName, username, email, code}),
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true,
                 }
                 );
+
+                console.log(response2);
 
                 if(response2.status===200){
                     setMsg("Changes have been made correctly");
@@ -126,7 +145,7 @@ const ProfilePage = () => {
                 setErrMsg(err.response.data.message);
             }
         }
-    };
+    }
 
     const changePassword = async()=>{
         try {

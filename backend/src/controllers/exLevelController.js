@@ -52,7 +52,7 @@ const getAll = async (req,res) => {
 
 const deleteExLevel = async (req,res) => {
     try{
-        exLevelService.deleteExLevel(req.body.exlevel)
+        await exLevelService.deleteExLevel(req.body.exlevel)
         res.status(200).send({
             message: "Deleted Correctly",
           })

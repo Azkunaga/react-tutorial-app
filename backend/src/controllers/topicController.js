@@ -58,7 +58,6 @@ const getTopic = async (req,res) => {
 
 const deleteTopic = async (req,res) => {
     try{
-        console.log('del contr')
         await topicService.deleteTopic(req.params.id)
         res.status(200).send({
             message: "Deleted Correctly",
@@ -112,7 +111,6 @@ const editTopic = async(req,res) => {
  
 const getNextPartId = async (req,res)=>{
     try{
-        console.log(req.body.partId);
         const next = await topicService.getNextPartId(req.body.partId);
         console.log("Next",next);
         res.status(200).send({

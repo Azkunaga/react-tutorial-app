@@ -6,15 +6,12 @@ const refresh = async (req,res) => {
     const refToken = req.cookies?.jwt;
     try{
         if(!refToken){
-            console.log("token falta");
             res.sendStatus(401);
         }else{
             const user = await searchUserWithToken(refToken);
             if(!user){
-                console.log("user token no");
                 res.sendStatus(403);
             }else{
-                console.log("verifyng...");
                 jwt.verify(
                     refToken,
                     process.env.JWT_R_SECRET,
@@ -27,7 +24,6 @@ const refresh = async (req,res) => {
                             process.env.JWT_SECRET,
                             { expiresIn: '30min' }
                         );
-                        console.log("Dena ondo", accessToken);
                         res.json({accessToken});
                     }
                 );

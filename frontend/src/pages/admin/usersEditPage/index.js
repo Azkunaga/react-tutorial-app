@@ -42,14 +42,14 @@ const UsersEditPage = () => {
             );
 
             console.log(response);
-            setUsername(response?.data?.user.username);
-            setFirstName(response?.data?.user.firstName);
-            setLastName(response?.data?.user.lastName);
-            setEmail(response?.data?.user.email);
-            setUserRole(response?.data?.user.role);
-            setCode(response?.data?.user.code.code); 
-            setState(response?.data?.user.state);
-            setImgName(response?.data?.user.profileImage);
+            setUsername(response?.data?.user?.username);
+            setFirstName(response?.data?.user?.firstName);
+            setLastName(response?.data?.user?.lastName);
+            setEmail(response?.data?.user?.email);
+            setUserRole(response?.data?.user?.role);
+            setCode(response?.data?.user?.code?.code); 
+            setState(response?.data?.user?.state);
+            setImgName(response?.data?.user?.profileImage);
 
         } catch (err) {
             if (!err?.response) {
@@ -142,7 +142,8 @@ const UsersEditPage = () => {
                             name="state"
                             value={state}
                             required
-                            onChange={(e) => setState(e.target.value)}>
+                            onChange={(e) => setState(e.target.value)}
+                            >
                                 <option value="active">Active</option>
                                 <option value="disabled">Disabled</option>
                         </select>

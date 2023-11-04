@@ -7,7 +7,6 @@ const user = require('../models/user');
 const searchUser = async (name) => {
     //find in db
     try{
-        mongodbConnection();
         const oneUser = await user.findOne({username:name}).populate('code');
         return oneUser;
     }catch(e){
@@ -17,7 +16,6 @@ const searchUser = async (name) => {
 
 const searchUserWithToken = async(rToken) => {
     try{
-        mongodbConnection();
         const oneUser = await user.findOne({refreshToken:rToken});
         return oneUser;
     }catch(e){
@@ -28,7 +26,6 @@ const searchUserWithToken = async(rToken) => {
 
 const updateTokenFromUser = async(username,token) => {
     try{
-        mongodbConnection();
         const oneUser = await user.findOneAndUpdate({username:username},{refreshToken:token},{new:true});
         return oneUser;
     }catch(e){
@@ -38,7 +35,6 @@ const updateTokenFromUser = async(username,token) => {
 
 const getUser = async (id) => {
     try{
-        mongodbConnection();
         const u = await user.findOne({_id:id}).populate('code');
         return u;
     }catch(e){
@@ -48,7 +44,6 @@ const getUser = async (id) => {
 
 const getAllUsers = async () => {
     try{
-        mongodbConnection();
         const u = await user.find();
         return u;
     }catch(e){
@@ -58,7 +53,6 @@ const getAllUsers = async () => {
 
 const getAllUsersByCode = async (codeId) => {
     try{
-        mongodbConnection();
         const u = await user.find({code:codeId});
         return u;
     }catch(e){
@@ -68,7 +62,6 @@ const getAllUsersByCode = async (codeId) => {
 
 const deleteUser = async (id) => {
     try{
-        mongodbConnection();
         const u = await user.findByIdAndDelete({_id:id});
         return u;
     }catch(e){
@@ -78,7 +71,6 @@ const deleteUser = async (id) => {
 
 const editUser = async (id, firstName, lastName, username, email, state, code, img, role) => {
     try{
-        mongodbConnection();
         const codeO = await codeService.getCode(code);
         const u = await user.findOneAndUpdate({_id:id},
             {
@@ -100,10 +92,7 @@ const editUser = async (id, firstName, lastName, username, email, state, code, i
 
 const editUserByName = async (username, newusername, firstname, lastname, email, code, img) => {
     try{
-        mongodbConnection();
-        console.log(code);
         const codeO = await codeService.getCode(code);
-        console.log(codeO)
         const u = await user.findOneAndUpdate({username:username},
             {
                 firstName: firstname,
@@ -123,7 +112,6 @@ const editUserByName = async (username, newusername, firstname, lastname, email,
 const addUser = async(username,userRole)=>{
     try{
         const encodePass = bcrypt.hashSync(username,8);
-        mongodbConnection();
         const newUser = await user.create({
             username: username, 
             password: encodePass,
@@ -141,7 +129,6 @@ const addUser = async(username,userRole)=>{
 const editPassword = async(username,pwd)=>{
     try{
         const encodePass = bcrypt.hashSync(pwd,8);
-        mongodbConnection();
         const u = await user.findOneAndUpdate({username:username},{
             password: encodePass,
           },
@@ -154,7 +141,6 @@ const editPassword = async(username,pwd)=>{
 
 const setInitialLevel = async(username,initialLevel)=>{
     try{
-        mongodbConnection();
         const u = await user.findOneAndUpdate({username:username},{
             initialLevel: initialLevel,
           },

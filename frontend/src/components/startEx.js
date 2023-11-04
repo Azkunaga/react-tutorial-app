@@ -67,8 +67,8 @@ const StartEx = () => {
                 withCredentials: true
             }
             ).then(response => {
-                console.log(response);
-                navigate("/student/tutorial/"+response.data.first);
+                console.log("Start response",response);
+                navigate("/student/tutorial/"+response?.data?.first, {new:true});
             })
 
         }catch(err){

@@ -6,8 +6,6 @@ import SpinnerComponent from './spinnerComponent';
 
 const TutorialPart = (params) => {
 
-    const navigate = useNavigate();
-
     return(
             <Col>
                 <div className='tutorial-div'>

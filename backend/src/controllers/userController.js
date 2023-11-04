@@ -136,16 +136,14 @@ const editUserByName = async(req,res) => {
     try{
         if(req.body.code){
             const c = await codeService.getCode(req.body.code);
-            console.log("user",c);
             if(!c){
                 return res.status(409).send({
                     message: "Code doesn't exist",
                   })
             }
         }
-
         const updatedUser = await userService.editUserByName(req.body.user, req.body.username, req.body.firstName, 
-            req.body.lastName, req.body.email, req.body.code, req.body.imgName);
+            req.body.lastName, req.body.email, req.body.code, req.body.nameimg);
         if(updatedUser){
             return res.status(200).send({
                 message: "Edited Correctly",

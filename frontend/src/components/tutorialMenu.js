@@ -60,7 +60,7 @@ const TutorialMenu = (params) => {
                             </div>
                             <div className={activeArray.filter(tid => tid===t.id).length === 0 ? "hide" : "active parts"}>
                                 {t.partsInfo.sort((a,b) => a.part - b.part).map((p)=>
-                                     <div className='pBar' key={p.id} onClick={()=>navigate("/student/tutorial/"+p.id)}>
+                                     <div className='pBar' key={p.id} onClick={()=>{ if(!params.start){navigate("/student/tutorial/"+p.id);} }}>
                                         <div>{p.name}</div>
                                         <ProgressBar variant="warning" now={p.progress} label={`${p.progress}%`} visuallyHidden />
                                     </div>

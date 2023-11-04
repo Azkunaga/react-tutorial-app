@@ -49,7 +49,6 @@ const createExerciseChatGPT = async (req,res) => {
 
 const createExerciseChatGPT2 = async (req,res) => {
     try{
-        console.log("create")
         const newExercise = await chatGPTService.createExercise(req.body.username, req.body.partId, req.body.type, req.body.level);
         return res.status(200).send({
             question:newExercise || null,
@@ -77,7 +76,7 @@ const helpWithQuestion = async(req,res)=>{
 const evaluateAnswer = async (req,res) => {
     try{
         const eval = await chatGPTService.evaluate(req.body.questionId, req.body.answer);
-        const feedback = await answerService.createAnswer(req.body.user, req.body.questionId,req.body.answer, req.body.help, req.body.duration, eval);
+        const feedback = await answerService.createAnswer(req.body.user, req.body.questionId, req.body.answer, req.body.help, req.body.duration, eval);
         return res.status(200).send({
             feedback
           });
