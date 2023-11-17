@@ -1,4 +1,3 @@
-require('dotenv').config({path: "env/.env.local"})
 const server = require("./server");
 const mongodbConnection = require('./config/mongodb');
 

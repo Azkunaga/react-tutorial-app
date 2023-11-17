@@ -1,0 +1,19 @@
+#1
+FROM node:latest
+
+#2
+RUN mkdir -p /srv/app/reactlearn-server
+WORKDIR /srv/app/reactlearn-server
+
+#3
+COPY package.json /srv/app/reactlearn-server
+COPY package-lock.json /srv-app/reactlearn-server
+
+#4
+RUN npm install --silent
+
+#5
+COPY . /srv/app/reactlearn-server
+
+#6
+CMD [ "npm", "run", "dev" ]

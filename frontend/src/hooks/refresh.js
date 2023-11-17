@@ -1,4 +1,4 @@
-import {normalAxios,authAxios} from '../api/axios';
+import {normalAxios} from '../api/axios';
 
 const refresh = async() => {
     let user = JSON.parse(localStorage.getItem('userData'));

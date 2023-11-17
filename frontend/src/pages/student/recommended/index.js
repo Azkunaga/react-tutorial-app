@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {Row, Col} from 'react-bootstrap';
 import './style.css'
-import { normalAxios,authAxios } from '../../../api/axios';
+import { authAxios } from '../../../api/axios';
 import {useNavigate} from 'react-router-dom';
 import SpinnerComponent from '../../../components/spinnerComponent';
 import Markdown from 'react-markdown';

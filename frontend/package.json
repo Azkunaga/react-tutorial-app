@@ -50,5 +50,6 @@
   },
   "devDependencies": {
     "react-router-dom": "^6.14.1"
-  }
+  },
+  "proxy":"http://server:3000"
 }

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import {Row, Col} from 'react-bootstrap';
+import {Row} from 'react-bootstrap';
 import TutorialMenu from '../../../components/tutorialMenu';
 import TutorialPart from '../../../components/tutorialPart';
 import './style.css'
 import { useParams } from 'react-router-dom';
 import StartEx from '../../../components/startEx';
 import TutorialExercise from '../../../components/tutorialExercise'
-import { normalAxios, authAxios } from '../../../api/axios';
+import { authAxios } from '../../../api/axios';
 import {useNavigate} from 'react-router-dom'
 
 const StudentTutorial = () => {

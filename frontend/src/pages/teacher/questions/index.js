@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { Container } from 'react-bootstrap';
 import { MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
-import { normalAxios, authAxios } from '../../../api/axios';
+import { authAxios } from '../../../api/axios';
 import { useNavigate } from 'react-router-dom';
 import NewRow from '../../../components/newRow';
 

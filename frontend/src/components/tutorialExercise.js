@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import {normalAxios, authAxios} from '../api/axios'
-import { Button, Col, Row , Modal} from 'react-bootstrap';
+import {authAxios} from '../api/axios'
+import { Button, Col} from 'react-bootstrap';
 import {useNavigate, useLocation} from 'react-router-dom'
 import Markdown from 'react-markdown';
 import SurveyExComponent from './surveyExComponent';

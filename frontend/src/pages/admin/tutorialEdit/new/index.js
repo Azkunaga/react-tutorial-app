@@ -1,6 +1,6 @@
 import {React, useState} from 'react'
 import {Container, Row, Col} from 'react-bootstrap'
-import { normalAxios, authAxios } from '../../../../api/axios';
+import { authAxios } from '../../../../api/axios';
 import { useNavigate, useParams } from "react-router-dom";
 import AlertComponent from '../../../../components/alert';
 

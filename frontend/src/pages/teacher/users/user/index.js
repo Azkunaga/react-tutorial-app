@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Container } from 'react-bootstrap';
-import {normalAxios, authAxios} from '../../../../api/axios'
+import { authAxios} from '../../../../api/axios'
 import {useNavigate, useParams} from 'react-router-dom'
 import {MDBTable, MDBTableHead, MDBTableBody} from  'mdb-react-ui-kit'
 import DetailModal from '../../../../components/detailModal';

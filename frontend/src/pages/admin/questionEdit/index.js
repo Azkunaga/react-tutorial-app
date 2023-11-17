@@ -2,7 +2,7 @@ import {React, useEffect, useState} from 'react'
 import {useParams, useNavigate, useLocation} from 'react-router-dom'
 import {Container, Row, Col, OverlayTrigger, Tooltip} from 'react-bootstrap'
 import './style.css'
-import {normalAxios,authAxios} from '../../../api/axios'
+import {authAxios} from '../../../api/axios'
 import ExerciseComponent from '../../../components/exerciseComponent'
 
 const QuestionEditPage = () => {

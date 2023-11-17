@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Container } from 'react-bootstrap';
-import {normalAxios,SERVER_URL , authAxios} from '../../../api/axios'
+import { SERVER_URL , authAxios} from '../../../api/axios'
 import {Row,Col} from 'react-bootstrap'
 import {useNavigate} from 'react-router-dom'
 import {MDBTable, MDBTableHead, MDBTableBody} from  'mdb-react-ui-kit'

@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
-import {normalAxios} from '../api/axios'
+import React, { useEffect, useState } from 'react'
 import { Col, ProgressBar, Row  } from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom'
 

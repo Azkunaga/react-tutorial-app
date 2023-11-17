@@ -1,7 +1,7 @@
 import {React, useState} from 'react';
 import {useParams, useNavigate} from 'react-router-dom';
 import {Container, Row, Col} from 'react-bootstrap';
-import {normalAxios, authAxios} from '../../../../api/axios'
+import {authAxios} from '../../../../api/axios'
 import AlertComponent from '../../../../components/alert';
 
 const NewTutorialPartPage = () => {

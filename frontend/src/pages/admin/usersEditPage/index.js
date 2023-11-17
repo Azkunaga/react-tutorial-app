@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import { normalAxios , authAxios} from '../../../api/axios';
+import { authAxios} from '../../../api/axios';
 import AlertComponent from '../../../components/alert';
 
 const UsersEditPage = () => {

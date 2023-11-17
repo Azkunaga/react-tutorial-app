@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom';
-import { normalAxios, SERVER_URL, authAxios } from '../../api/axios';
+import { SERVER_URL, authAxios } from '../../api/axios';
 import regex from '../../utils/regex';
 import profile from '../../img/profile.jpg';
 

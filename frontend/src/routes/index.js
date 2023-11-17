@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 import RequireAuth from '../components/requireAuth';
 import ROLES from '../utils/roles';

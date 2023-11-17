@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useCallback } from 'react'
-import {normalAxios, authAxios} from '../api/axios'
+import React, { useCallback } from 'react'
+import {authAxios} from '../api/axios'
 import {useNavigate} from 'react-router-dom'
 import * as Survey from "survey-react";
 import "survey-core/defaultV2.min.css";

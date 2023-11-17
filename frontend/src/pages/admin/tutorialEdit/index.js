@@ -3,7 +3,7 @@ import {useNavigate, useParams} from 'react-router-dom'
 import {Container, Row, Col} from 'react-bootstrap'
 import {MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import './style.css'
-import {normalAxios,authAxios} from '../../../api/axios'
+import {authAxios} from '../../../api/axios'
 import NewRow from '../../../components/newRow';
 import AlertComponent from '../../../components/alert';
 

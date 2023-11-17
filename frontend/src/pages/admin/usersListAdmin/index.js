@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Container } from 'react-bootstrap'
-import { normalAxios, SERVER_URL, authAxios } from '../../../api/axios';
+import { SERVER_URL, authAxios } from '../../../api/axios';
 import { MDBBadge, MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import profile from '../../../img/profile.jpg';
 import NewRow from '../../../components/newRow'

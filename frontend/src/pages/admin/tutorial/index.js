@@ -2,10 +2,9 @@ import {React, useEffect, useState} from 'react'
 import {Container} from 'react-bootstrap'
 import { MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 import './style.css'
-import {normalAxios, authAxios} from '../../../api/axios'
+import { authAxios} from '../../../api/axios'
 import NewRow from '../../../components/newRow';
-import { useLocation, useNavigate } from 'react-router-dom';
-import AlertComponent from '../../../components/alert';
+import { useNavigate } from 'react-router-dom';
 
 const TutorialPage = () => {
 

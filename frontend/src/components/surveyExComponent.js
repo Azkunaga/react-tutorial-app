@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React, { useCallback } from "react";
 import * as Survey from "survey-react";
 // import { Model } from "survey-core";
 // import { Survey } from "survey-react-ui";
