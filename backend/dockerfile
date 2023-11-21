@@ -1,5 +1,5 @@
 #1
-FROM node:latest
+FROM node:alpine
 
 #2
 RUN mkdir -p /srv/app/reactlearn-server

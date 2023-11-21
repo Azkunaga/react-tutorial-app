@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:alpine
 
 RUN mkdir -p /srv/app/reactlearn-client
 WORKDIR /srv/app/reactlearn-client
