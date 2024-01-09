@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react'
-import {useNavigate} from 'react-router-dom'
 import * as Survey from "survey-react";
 // import { Model } from "survey-core";
 // import { Survey } from "survey-react-ui";
@@ -8,10 +7,6 @@ import {Converter} from 'showdown'
 import { Col } from 'react-bootstrap';
 
 const EvaluateExComponent = (props) => {
-
-    const navigate = useNavigate();
-
-    const user = JSON.parse(localStorage.getItem('userData'));
 
     const json = {
         "pages": [

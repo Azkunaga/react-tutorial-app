@@ -1,24 +1,31 @@
 version: '3'
 
 services:
-    server:
-        build: ./backend
-        expose:
-            - 8000
-        ports:
-            - 8000:8000
-        volumes:
-            - ./backend/src:/srv/app/reactlearn-server/src
-        command: npm run dev
+    # server:
+    #     build: ./backend
+    #     expose:
+    #         - 8000
+    #     ports:
+    #         - 8000:8000
+    #     volumes:
+    #         - ./backend/src:/srv/app/reactlearn-server/src
+    #     # depends_on:
+    #     #     - mongo 
+    #     command: npm run dev
     client:
         build: ./frontend
         expose:
             - 4000
         ports:
-            - 80:4000
+            - 4000:4000
         volumes:
             - ./frontend/src:/srv/app/reactlearn-client/src
             - ./frontend/public:/srv/app/reactlearn-client/public
         stdin_open: true
         command: npm start
+    # mongo:
+    #     image: mongo
+    #     ports:
+    #         - "27017:27017"
+        
       

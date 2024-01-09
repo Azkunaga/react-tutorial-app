@@ -11,34 +11,26 @@ const Register = () => {
 
     const [username, setUsername] = useState("");
     const [validUsername, setValidUsername] = useState(false);
-    const [usernameFocus, setUsernameFocus] = useState(false);
 
     const [pwd, setPwd] = useState("");
     const [validPwd, setValidPwd] = useState(false);
-    const [pwdFocus, setPwdFocus] = useState(false);
 
     const [matchPwd, setMatchPwd] = useState("");
     const [validMatch, setValidMatch] = useState(false);
-    const [matchFocus, setMatchFocus] = useState(false);
 
     const [firstName, setFirstName] = useState("");
     const [validFirstName, setValidFirstName] = useState(false);
-    const [firstNameFocus, setFirstNameFocus] = useState(false);
 
     const [lastName, setLastName] = useState("");
     const [validLastName, setValidLastName] = useState(false);
-    const [lastNameFocus, setLastNameFocus] = useState(false);
 
     const [email, setEmail] = useState("");
     const [validEmail, setValidEmail] = useState(false);
-    const [emailFocus, setEmailFocus] = useState(false);
 
     const [role, setRole] = useState("");
     const [validRole, setValidRole] = useState(false);
-    const [roleFocus, setRoleFocus] = useState(false);
 
     const [code, setCode] = useState("");
-    const [codeFocus, setCodeFocus] = useState(false);
 
     const [errMsg, setErrMsg] = useState('');
 
@@ -147,8 +139,6 @@ const Register = () => {
                                 aria-invalid={validUsername ? "false" : "true"}
                                 aria-describedby="nameNote"
                                 onChange={(e) => setUsername(e.target.value)}
-                                onFocus={() => setUsernameFocus(true)}
-                                onBlur={() => setUsernameFocus(false)} 
                             />
                             { username && !validUsername ? <p id="nameNote" className="instructions">
                             <i className="fa-solid fa-circle-info"></i>&nbsp;
@@ -174,8 +164,6 @@ const Register = () => {
                             required
                             aria-invalid={validFirstName ? "false" : "true"}
                             aria-describedby="firstNote"
-                            onFocus={() => setFirstNameFocus(true)}
-                            onBlur={() => setFirstNameFocus(false)}
                         />
                         { firstName && !validFirstName ? <p id="firstNote" className="instructions">
                         <i className="fa-solid fa-circle-info"></i>&nbsp;
@@ -197,8 +185,6 @@ const Register = () => {
                         required
                         aria-invalid={validLastName ? "false" : "true"}
                         aria-describedby="lastNote"
-                        onFocus={() => setLastNameFocus(true)}
-                        onBlur={() => setLastNameFocus(false)}
                     />
                     { lastName && !validLastName ? <p id="lastNote" className="instructions">
                     <i className="fa-solid fa-circle-info"></i>&nbsp;
@@ -223,8 +209,6 @@ const Register = () => {
                                 required
                                 aria-invalid={validEmail ? "false" : "true"}
                                 onChange={(e) => setEmail(e.target.value)}
-                                onFocus={() => setEmailFocus(true)}
-                                onBlur={() => setEmailFocus(false)}
                             />
                         </div>
                     </Col>
@@ -243,8 +227,6 @@ const Register = () => {
                                 required
                                 aria-invalid={validPwd ? "false" : "true"}
                                 aria-describedby="pwdnote"
-                                onFocus={() => setPwdFocus(true)}
-                                onBlur={() => setPwdFocus(false)}
                             />
                             { pwd && !validPwd  ? <p id="pwdnote" className="instructions">
                             <i className="fa-solid fa-circle-info"></i>&nbsp;
@@ -265,8 +247,6 @@ const Register = () => {
                                 required
                                 aria-invalid={validMatch ? "false" : "true"}
                                 aria-describedby="confirmnote"
-                                onFocus={() => setMatchFocus(true)}
-                                onBlur={() => setMatchFocus(false)}
                         />
                          { matchPwd && !validMatch ? <p id="confirmnote" className="instructions">
                          <i className="fa-solid fa-circle-info"></i>&nbsp;
@@ -283,8 +263,6 @@ const Register = () => {
                         <label htmlFor="classRole">Role*</label>
                         <select 
                             name="role"
-                            onFocus={() => setRoleFocus(true)}
-                            onBlur={() => setRoleFocus(false)}
                             value={role}
                             required
                             onChange={(e) => setRole(e.target.value)}>
@@ -304,8 +282,6 @@ const Register = () => {
                             onChange={(e) => setCode(e.target.value)}
                             value={code}
                             aria-describedby="codeNote"
-                            onFocus={() => setCodeFocus(true)}
-                            onBlur={() => setCodeFocus(false)}
                         />
                         <p id="codeNote" className="notRequired">
                         <i className="fa-solid fa-circle-info"></i>&nbsp;

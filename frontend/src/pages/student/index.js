@@ -4,7 +4,7 @@ import MenuCard from '../../components/card';
 import OL from '../../img/online-learning.png'
 import R from '../../img/recommended.png'
 import './style.css'
-import { normalAxios, authAxios } from '../../api/axios';
+import { authAxios } from '../../api/axios';
 
 const StudentPage = () => {
 

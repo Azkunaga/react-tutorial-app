@@ -2,14 +2,10 @@ import React, { useEffect, useState } from 'react'
 import {Row, Col} from 'react-bootstrap';
 import './style.css'
 import { authAxios } from '../../../api/axios';
-import {useNavigate} from 'react-router-dom';
 import SpinnerComponent from '../../../components/spinnerComponent';
 import Markdown from 'react-markdown';
 
 const RecommendPage = () => {
-
-    const navigate = useNavigate();
-
     const [questions, setQuestions] = useState([]);
 
     const [question, setQuestion] = useState();

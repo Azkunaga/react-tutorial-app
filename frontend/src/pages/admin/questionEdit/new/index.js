@@ -1,6 +1,6 @@
 import {React, useEffect, useState} from 'react'
 import {useParams, useNavigate} from 'react-router-dom'
-import {Container, Row, Col, OverlayTrigger, Tooltip, Spinner} from 'react-bootstrap'
+import {Container, Row, Col, OverlayTrigger, Tooltip} from 'react-bootstrap'
 import './style.css'
 import {authAxios} from '../../../../api/axios'
 import ExerciseComponent from '../../../../components/exerciseComponent'

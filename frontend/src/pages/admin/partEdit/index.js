@@ -22,18 +22,12 @@ const PartEditPage = () => {
     let [alert, setAlert] = useState("");
     let [variant, setVariant] = useState("");
 
-    let [newRow, setNewRow] = useState();
-
     const { topicId, partId } = useParams();
   
     useEffect(() => {
         getData();
         getExercises();
     }, [partId]);
-
-    useEffect(() => {
-        setNewRow(data[data.length-1]?.part+1)
-    }, [data]);
 
     const getData = async () => {
         try {
@@ -46,7 +40,6 @@ const PartEditPage = () => {
                 }
             );   
             setData(response?.data?.part);
-
             setName(response?.data?.part.name);
             setPart(response?.data?.part.part);
             setText(response?.data?.part.text);

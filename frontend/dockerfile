@@ -1,14 +1,20 @@
+#1
 FROM node:alpine
 
+#2
 RUN mkdir -p /srv/app/reactlearn-client
 WORKDIR /srv/app/reactlearn-client
 
+#3
 COPY package.json /srv/app/reactlearn-client
 COPY package-lock.json /srv-app/reactlearn-client
 
+#4
 RUN npm install --silent
 RUN npm install react-scripts -g --silent
 
+#5
 COPY . /srv/app/reactlearn-client
 
+#6
 CMD [ "npm", "start" ]

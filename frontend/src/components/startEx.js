@@ -98,7 +98,7 @@ const StartEx = () => {
 
     const surveyComplete = useCallback((sender) => {
         saveInitialLevel(sender.data.answer)
-      }, []);
+      }); //,[]
     
     survey.onComplete.add(surveyComplete);
  

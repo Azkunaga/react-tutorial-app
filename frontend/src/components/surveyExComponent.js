@@ -37,7 +37,7 @@ function SurveyExComponent(props) {
     const surveyComplete = useCallback((sender) => {
       console.log("complete");
       props.action(sender.data.answer);
-    }, []);
+    });
   
     survey.onComplete.add(surveyComplete);
   

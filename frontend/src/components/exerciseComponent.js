@@ -57,7 +57,6 @@ const ExerciseComponent = (props) => {
 
     let trueFalse = {
         "type": "boolean",
-        "name": question,
         "name": question || "Example Title",
         "description": description || "Example Description",
         "valueName": "answer",
@@ -68,7 +67,6 @@ const ExerciseComponent = (props) => {
 
     let fill1 = {
         "type": "ranking",
-        "name": question,
         "name": question || "Example Title",
         "description": description || "Example Description",
         "valueName": "answer",
@@ -83,7 +81,6 @@ const ExerciseComponent = (props) => {
 
     let fill2 = {
         "type": "tagbox",
-        "name": question ,
         "title": question || "Example Title",
         "description": description || "Example Description",
         "valueName": "answer",
